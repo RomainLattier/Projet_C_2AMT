@@ -14,7 +14,7 @@ private:
   int nb_of_entry;
   int nb_entry_rdy;
   list<boolean> input;
-  list<GATE> output;
+  list<GATE*> output;
 
 public:
 
