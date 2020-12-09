@@ -31,13 +31,13 @@ int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_
   //VARIABLES
   ////////////////////////////////////////////////////////////////////////////////
 
-  int taille_input =0;
-  int taille_output =0;
-  int taille_gate = 0;
-  int i_input = 0;
-  int i_output = 0;
-  int i_gate = 0;
-  int nb_carac = 0;
+  // int taille_input =0;
+  // int taille_output =0;
+  // int taille_gate = 0;
+  // int i_input = 0;
+  // int i_output = 0;
+  // int i_gate = 0;
+  // int nb_carac = 0;
   string ligne; //lecture ligne par ligne
 
   ////////////////////////////////////////////////////////////////////////////////
