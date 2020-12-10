@@ -8,7 +8,7 @@
 #include <list>
 #include <vector>
 
-#include "Gate.h"
+#include "../Porte/And.h"
 
 int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<bool> > *m_output,list<Gate *> *l_gate, vector<string> *l_gate_avaible);
 

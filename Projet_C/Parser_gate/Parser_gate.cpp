@@ -5,7 +5,7 @@
 #include <list>
 #include <vector>
 
-#include "Gate.h"
+#include "../Porte/And.h"
 
 using namespace std;
 
@@ -60,8 +60,10 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<bool> > *m_
     }
     else{
       for(int i_v = 0; i_v < v_gate_avaible->size();i_v++){
-        if(ligne.find(v_gate_avaible->at(i_v)) != string::npos){
-          cout << ligne.substr(0,ligne.find(" ")) << endl;
+        string type_gate = v_gate_avaible->at(i_v);
+        if(ligne.find("\"" + type_gate) != string::npos){
+          string nom_gate = ligne.substr(0,ligne.find(" "));
+          type_gate nom_gate(i_v)(nom_gate,2);
 
           cout << "ok_gate" << endl;
         }

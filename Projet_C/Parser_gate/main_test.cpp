@@ -8,7 +8,7 @@
 
 
 #include "Parser_gate.h"
-#include "Gate.h" // A MODIFIER avec le bon nom de la classe
+#include "../Porte/And.h"
 
 using namespace std;
 
@@ -19,12 +19,12 @@ int main(int argc, char const *argv[]) {
 //////////////////////////////////////////////////////////////////////////////
 
   vector<string> v_gate_avaible;
-  v_gate_avaible.push_back("\"AND");
-  v_gate_avaible.push_back("\"OR2");
-  v_gate_avaible.push_back("\"XOR");
-  v_gate_avaible.push_back("\"NAND");
-  v_gate_avaible.push_back("\"NOR");
-  v_gate_avaible.push_back("\"NXOR");
+  v_gate_avaible.push_back("AND");
+  v_gate_avaible.push_back("OR2");
+  v_gate_avaible.push_back("XOR");
+  v_gate_avaible.push_back("NAND");
+  v_gate_avaible.push_back("NOR");
+  v_gate_avaible.push_back("NXOR");
 
   /////////////////////////////////////////////////////////////////////////////
   //Déclaration des structure de données général
