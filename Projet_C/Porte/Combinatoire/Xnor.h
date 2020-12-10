@@ -5,8 +5,8 @@
 #include <string.h>
 #include <vector>
 
-#include "Gate.h"
-#include "Gate_comb.h"
+#include "../Gate.h"
+#include "../Gate_comb.h"
 
 using namespace std;
 
