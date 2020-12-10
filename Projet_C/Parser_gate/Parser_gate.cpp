@@ -50,8 +50,10 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
       cout << "ok_input" << endl;
     }
     else if(ligne.find("\"OUTPUT\"") != string::npos){
-      v_out->push_back(ligne.substr(0,ligne.find(" ")));
-
+      string nom = ligne.substr(0,ligne.find(" "));
+      v_out->push_back(nom);
+      // vector<int> *ptr_v;
+      // m_output[nom] = ptr_v;
       cout << "ok_output" << endl;
     }
 

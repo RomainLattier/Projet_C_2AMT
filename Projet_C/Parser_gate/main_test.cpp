@@ -4,8 +4,7 @@
 #include <map>
 #include <list>
 #include <vector>
-#include <cstdlib>
-
+#include <stdlib.h>
 
 #include "Parser_gate.h"
 #include "../Porte/Combinatoire/And.h"
@@ -31,16 +30,25 @@ int main(int argc, char const *argv[]) {
   map<string, list<Gate*> > m_input;
   map<string, vector<int> > m_output;
 
-  char path[] = "Test_lecture.dot";
+  char path_stru[] = "Test_lecture.dot";
+  // char path_stru[];
+  // char path_stimu[];
+
+  /////////////////////////////////////////////////////////////////////////////
+  //Demande des path des deux fichiers
+  /////////////////////////////////////////////////////////////////////////////
+  // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
+  // cin >> path_stru;
+  // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom)"<<endl;
+  // cin >> path_stimu;
 
   //Appel du parser de lecture du fichier .dot
   //Et detection d'erreur de sortie
-
   /////////////////////////////////////////////////////////////////////////////
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_gate(&m_input,&m_output,&v_gate,&v_tamp_output,&v_int,&v_out,path)!=0){
+  if(parser_gate(&m_input,&m_output,&v_gate,&v_tamp_output,&v_int,&v_out,path_stru)!=0){
     cout<<"Erreur de lecture du fichier .dot"<< endl;
     exit(EXIT_FAILURE);
   }

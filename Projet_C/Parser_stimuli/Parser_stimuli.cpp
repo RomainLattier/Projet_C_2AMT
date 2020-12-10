@@ -1,0 +1,56 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
+#include <list>
+#include <vector>
+
+#include "Parser_stimuli.h"
+
+using namespace std;
+
+int parser_stimuli(vector<string> *v_int,vector<int> *v_delta,map<string,vector<int> > *m_stimuli, char * path){
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //OUVERTURE FICHIER
+  ////////////////////////////////////////////////////////////////////////////////
+
+  string ligne;
+  ifstream infile;
+  infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //RECHERCHE DES NOMS ENTREES
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+  // while(getline(infile, ligne)){
+  //   cout << ligne << endl;
+  //   if(ligne.find("\"INPUT\"") != string::npos){
+  //     v_int->push_back(ligne.substr(0,ligne.find(" ")));
+  //
+  //     cout << "ok_input" << endl;
+  //   }
+  //   else if(ligne.find("\"OUTPUT\"") != string::npos){
+  //     string nom = ligne.substr(0,ligne.find(" "));
+  //     v_out->push_back(nom);
+  //     // vector<int> *ptr_v;
+  //     // m_output[nom] = ptr_v;
+  //     cout << "ok_output" << endl;
+  //   }
+  // }
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //CONTROLE
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //FIN PROGRAMME
+  ////////////////////////////////////////////////////////////////////////////////
+
+  infile.close(); //fermeture fichier .dot
+
+  return 0;
+}
