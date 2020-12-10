@@ -52,7 +52,7 @@ public:
 
   void print_input_value();
 
-  void update_input(int res); //fonction qui permet d'update la liste d'input lors de calc_and_affect
+  void update_input(int res); //fonction qui permet d'update la liste d'input 
 
   virtual void calc_and_affect() = 0;
 
