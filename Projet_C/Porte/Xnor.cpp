@@ -4,10 +4,10 @@
 
 #include "Gate.h"
 #include "Gate_comb.h"
-#include "And.h"
+#include "Xnor.h"
 
 using namespace std;
 
-int And::operation(const int & a, const int & b){
-  return a && b;
+int Xnor::operation(const int & a, const int & b){
+  return !(a ^ b);
 }

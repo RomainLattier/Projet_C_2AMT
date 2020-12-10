@@ -28,7 +28,7 @@ int main(){
 
   A1.setNbRdy(3);
 
-  A1.calc_and_affect();
+  //A1.calc_and_affect();
 
   A2.print_input_value();
 

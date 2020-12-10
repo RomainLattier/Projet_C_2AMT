@@ -4,10 +4,10 @@
 
 #include "Gate.h"
 #include "Gate_comb.h"
-#include "And.h"
+#include "Nand.h"
 
 using namespace std;
 
-int And::operation(const int & a, const int & b){
-  return a && b;
+int Nand::operation(const int & a, const int & b){
+  return !(a && b);
 }
