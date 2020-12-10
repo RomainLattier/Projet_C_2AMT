@@ -26,8 +26,8 @@ public:
 
   void calc_and_affect();
 
+  int getValueAndReset();
   
-
 };
 
 #endif
