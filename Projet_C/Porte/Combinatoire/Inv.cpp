@@ -8,6 +8,6 @@
 
 using namespace std;
 
-int Inv::operation(const int & a, const int & b = 0){
+int Inv::operation(const int & a, const int & b){
   return !a;
 }

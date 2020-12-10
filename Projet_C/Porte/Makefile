@@ -2,12 +2,12 @@ CFLAGS=-g -Wall
 
 all: test
 
-test: test_gate.o And.o Gate_comb.o Gate.o
-	g++ -o test $^
+test: test_gate.o Gate_comb.o Gate.o ./Combinatoire/And.o
+	g++ -o test $^ $(LDFLAGS)
 
 
-%.o	:%.cpp
-	g++ -c  $< $(CFLAGS)
+%.o:%.cc
+	g++ $(CFLAGS) -c -g $^
 
 clean :
-	rm -f *.o  *~ test
+	rm -f *.o ./Combinatoire/*.o  *~ test
