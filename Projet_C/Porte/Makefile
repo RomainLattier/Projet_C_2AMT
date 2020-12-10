@@ -1,8 +1,8 @@
 CFLAGS=-g -Wall
 
-all: testParser.o
+all: test
 
-test: AND.o
+test: test_gate.o And.o Gate_comb.o Gate.o
 	g++ -o test $^
 
 
