@@ -4,7 +4,7 @@
 
 #include "Gate.h"
 #include "Gate_comb.h"
-#include "And.h"
+#include "/Combinatoire/And.h"
 
 using namespace std;
 
