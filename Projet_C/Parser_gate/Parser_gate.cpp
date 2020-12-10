@@ -19,7 +19,7 @@ int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_
   //
   // int nb_gate = sizeof(tab_test)/sizeof(tab_test[0]);
   //  cout << nb_gate<<endl;
-
+edtcrfyvgbuhjinkl
   ////////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER
   ////////////////////////////////////////////////////////////////////////////////
@@ -112,7 +112,7 @@ int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_
       //      cout << "ok_output" << endl;
     }
     else{
-      for(string *ptr = tab_test; ptr<tab_test + nb_gate; ptr++){ //recherche parmi les gate dispo 
+      for(string *ptr = tab_test; ptr<tab_test + nb_gate; ptr++){ //recherche parmi les gate dispo
         if(ligne.find(*ptr) != string::npos){
           tab_GATE[i_gate] = ligne.substr(0,ligne.find(" "));
 
