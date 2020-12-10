@@ -8,4 +8,4 @@ test_basic :  Parser_gate.o main_test.o
 	g++ $(CFLAGS) -c -g $^
 
 clean:
-	rm -f *.o *~ test_basic test?
+	rm -f *.o *~ test test?
