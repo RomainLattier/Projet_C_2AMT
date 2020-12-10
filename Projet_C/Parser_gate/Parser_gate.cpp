@@ -6,25 +6,25 @@
 #include <vector>
 
 #include "../Porte/Combinatoire/And.h"
+#include "../Porte/Combinatoire/Inv.h"
+#include "../Porte/Combinatoire/Nand.h"
+#include "../Porte/Combinatoire/Nor.h"
+#include "../Porte/Combinatoire/Or.h"
+#include "../Porte/Combinatoire/Xnor.h"
+#include "../Porte/Combinatoire/Xor.h"
+
 
 using namespace std;
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output) {
-
-  ////////////////////////////////////////////////////////////////////////////////
-  //VARIABLES
-  ////////////////////////////////////////////////////////////////////////////////
-
-  string ligne; //lecture ligne par ligne
-  vector<string> v_tamp_int;
-  vector<string> v_tamp_out;
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output,vector<string> *v_int,vector<string> *v_out, char * path) {
 
   ////////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER
   ////////////////////////////////////////////////////////////////////////////////
 
+  string ligne;
   ifstream infile;
-  infile.open("Test_lecture.dot", fstream::in); //ouverture du fichier .dot en mode lecture
+  infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
 
   ////////////////////////////////////////////////////////////////////////////////
   //RECHERCHE DES NOMS ET CREATION DES OBJETS
@@ -42,17 +42,15 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
   //Recherc input
   //Nom dans une liste tanpon
 
-  //Remplissage map_input avec les gates
-
   while(getline(infile, ligne)){
     cout << ligne << endl;
     if(ligne.find("\"INPUT\"") != string::npos){
-      v_tamp_int.push_back(ligne.substr(0,ligne.find(" ")));
+      v_int->push_back(ligne.substr(0,ligne.find(" ")));
 
       cout << "ok_input" << endl;
     }
     else if(ligne.find("\"OUTPUT\"") != string::npos){
-      v_tamp_out.push_back(ligne.substr(0,ligne.find(" ")));
+      v_out->push_back(ligne.substr(0,ligne.find(" ")));
 
       cout << "ok_output" << endl;
     }
@@ -71,12 +69,12 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"INV") != string::npos){
-      Inv * ptr_obj = new Inv(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"Inv") + 4,1).at(0)-'0');
+      Inv * ptr_obj = new Inv(ligne.substr(0,ligne.find(" ")),1);
       v_gate->push_back(ptr_obj);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"NAND") != string::npos){
-      NAND * ptr_obj = new NAND(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
+      Nand * ptr_obj = new Nand(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
       cout << "ok_gate" << endl;
     }
@@ -134,7 +132,6 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
 
   infile.close(); //fermeture fichier .dot
 
-  //  cout << "FIN PRG"<<endl;
   return 0;
 }
 
