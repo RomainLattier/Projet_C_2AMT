@@ -1,7 +1,7 @@
 CFLAGS=-g
 LDFLAGS=
 
-test_basic :  Parser_gate.o main_test.o
+test_basic :  Parser_gate.o Gate.o main_test.o
 	g++ -o test $^ $(LDFLAGS)
 
 %.o:%.cc

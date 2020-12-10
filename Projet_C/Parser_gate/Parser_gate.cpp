@@ -5,6 +5,8 @@
 #include <list>
 #include <vector>
 
+#include "Gate.h"
+
 using namespace std;
 
 int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_m_output,list<string> *ptr_l_gate) {
