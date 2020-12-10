@@ -1,11 +1,12 @@
-CFLAGS=-g
-LDFLAGS=
+CFLAGS=-g -Wall
 
-test_basic :  Parser_gate.o Gate.o main_test.o
+all : test
+
+test : main_test.o Parser_gate.o Gate.o
 	g++ -o test $^ $(LDFLAGS)
 
 %.o:%.cc
 	g++ $(CFLAGS) -c -g $^
 
 clean:
-	rm -f *.o *~ test test?
+	rm -f *.o *~ test

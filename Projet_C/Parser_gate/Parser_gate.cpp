@@ -9,14 +9,7 @@
 
 using namespace std;
 
-int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_m_output,list<string> *ptr_l_gate) {
-
-  ////////////////////////////////////////////////////////////////////////////////
-  //OUVERTURE FICHIER
-  ////////////////////////////////////////////////////////////////////////////////
-
-  ifstream infile;
-  infile.open("Test_lecture.dot", fstream::in); //ouverture du fichier .dot en mode lecture
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<bool> > *m_output,list<Gate *> *l_gate, vector<string> *v_gate_avaible) {
 
   ////////////////////////////////////////////////////////////////////////////////
   //VARIABLES
@@ -26,47 +19,51 @@ int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_
   list<string> l_tamp_int;
   list<string> l_tamp_out;
 
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //OUVERTURE FICHIER
+  ////////////////////////////////////////////////////////////////////////////////
+
+  ifstream infile;
+  infile.open("Test_lecture.dot", fstream::in); //ouverture du fichier .dot en mode lecture
+
+
   ////////////////////////////////////////////////////////////////////////////////
   //RECHERCHE DES NOMS ET CREATION DES OBJETS
   ////////////////////////////////////////////////////////////////////////////////
 
-//Recherche Gate
+  //Recherche Gate
   //nom dans la liste gate
   //détection du nb d'entré
   //création de la classe
 
-//Recherche OUTPUT
+  //Recherche OUTPUT
   //nom dans la map avec le vector
   //nom dans la liste tampon
 
-//Recherc input
+  //Recherc input
   //Nom dans une liste tanpon
 
-//Remplissage map
+  //Remplissage map_input avec les gates
 
   while(getline(infile, ligne)){
-    //    cout << ligne << endl;
+    cout << ligne << endl;
     if(ligne.find("\"INPUT\"") != string::npos){
-      tab_INPUT[i_input] = ligne.substr(0,ligne.find(" "));
+      l_tamp_int.push_back(ligne.substr(0,ligne.find(" ")));
 
-      nb_carac = infile.tellg();
-      //      cout << "ok_input" << endl;
+      cout << "ok_input" << endl;
     }
     else if(ligne.find("\"OUTPUT\"") != string::npos){
-      tab_OUTPUT[i_output] = ligne.substr(0,ligne.find(" "));
+      l_tamp_out.push_back(ligne.substr(0,ligne.find(" ")));
 
-      nb_carac = infile.tellg();
-      //      cout << "ok_output" << endl;
+      cout << "ok_output" << endl;
     }
     else{
-      for(string *ptr = tab_test; ptr<tab_test + nb_gate; ptr++){ //recherche parmi les gate dispo
-        if(ligne.find(*ptr) != string::npos){
-          tab_GATE[i_gate] = ligne.substr(0,ligne.find(" "));
+      for(int i_v = 0; i_v < v_gate_avaible->size();i_v++){
+        if(ligne.find(v_gate_avaible->at(i_v)) != string::npos){
+          cout << ligne.substr(0,ligne.find(" ")) << endl;
 
-
-
-          nb_carac = infile.tellg();
-          //        cout << "ok_gate" << endl;
+          cout << "ok_gate" << endl;
         }
       }
     }
@@ -77,37 +74,39 @@ int parser_gate(map<string,Gate *> *ptr_m_input,map<string,vector<bool> *> *ptr_
   //CREATION DES ENTRES SORTIE DES GATES
   ////////////////////////////////////////////////////////////////////////////////
 
-  // infile.clear();
-  // infile.seekg(nb_carac);
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //CONTROLE
+  ////////////////////////////////////////////////////////////////////////////////
+
+
+  //List tampon des noms des entrees
+  // list<string>::iterator p =l_tamp_int.begin();
+  // while(p != l_tamp_int.end()) {
+  //   cout << *p << " "<<endl;
+  //   p++;
+  // }
   //
-  // while(getline(infile, ligne)){
-  //   //    cout << ligne << endl;
-  //   if(ligne.find("\"INPUT\"") != string::npos){
-  //
-  //
-  //   }
-  //   else if(ligne.find("\"OUTPUT\"") != string::npos){
-  //
-  //
-  //   }
-  //   else{
-  //     for(string *ptr = tab_test; ptr<tab_test + nb_gate; ptr++){
-  //       if(ligne.find(*ptr) != string::npos){
-  //       }
-  //     }
-  //   }
+
+  //List tampon des noms des sortie
+  // list<string>::iterator o =l_tamp_out.begin();
+  // while(o != l_tamp_out.end()) {
+  //   cout << *o << " "<<endl;
+  //   o++;
+  // }
+
+
+  //  List des nom de portes disponible
+  // for(int i_v = 0; i_v<v_gate_avaible->size();i_v++){
+  //   cout << v_gate_avaible->at(i_v)<< endl;
   // }
 
   ////////////////////////////////////////////////////////////////////////////////
-  //FIN PROGRAMME LECTURE, A MODIFIER
+  //FIN PROGRAMME
   ////////////////////////////////////////////////////////////////////////////////
 
   infile.close(); //fermeture fichier .dot
-
-  //A DEPLACER DANS LE PRG MAIN
-  // delete [] tab_INPUT;
-  // delete [] tab_OUTPUT;
-  // delete [] tab_GATE;
 
 
   //  cout << "FIN PRG"<<endl;
