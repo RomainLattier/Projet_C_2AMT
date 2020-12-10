@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<bool> > *m_output,list<Gate *> *l_gate, vector<string> *v_gate_avaible) {
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate) {
 
   ////////////////////////////////////////////////////////////////////////////////
   //VARIABLES
