@@ -25,7 +25,7 @@ public:
     cout << "Destruction de la porte Inv " << nom << endl;
   }
 
-  int operation(const int & a, const int & b = 0);
+  int operation(const int & a, const int & b);
 
 };
 
