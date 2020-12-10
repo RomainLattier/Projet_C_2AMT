@@ -10,6 +10,6 @@
 
 #include "../Porte/Combinatoire/And.h"
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate);
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output);
 
 #endif

@@ -9,15 +9,15 @@
 
 using namespace std;
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate) {
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output) {
 
   ////////////////////////////////////////////////////////////////////////////////
   //VARIABLES
   ////////////////////////////////////////////////////////////////////////////////
 
   string ligne; //lecture ligne par ligne
-  list<string> l_tamp_int;
-  list<string> l_tamp_out;
+  vector<string> v_tamp_int;
+  vector<string> v_tamp_out;
 
   ////////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER
@@ -47,65 +47,95 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
   while(getline(infile, ligne)){
     cout << ligne << endl;
     if(ligne.find("\"INPUT\"") != string::npos){
-      l_tamp_int.push_back(ligne.substr(0,ligne.find(" ")));
+      v_tamp_int.push_back(ligne.substr(0,ligne.find(" ")));
 
       cout << "ok_input" << endl;
     }
     else if(ligne.find("\"OUTPUT\"") != string::npos){
-      l_tamp_out.push_back(ligne.substr(0,ligne.find(" ")));
+      v_tamp_out.push_back(ligne.substr(0,ligne.find(" ")));
 
       cout << "ok_output" << endl;
     }
+
+    //Detection du type des portes
+    //Pour ajout de porte, il faut modifier les noms dans les find() avec le
+    // nom a rechercher dans le fichier .dot, changer le type de l'objet a creer
+    // avec le type de la porte ajoute et changer la taille dans
+    // (int)ligne.substr(ligne.find("\"AND") + x,1)
+    // ou x est le nombre de caractere da,s la recherche find()
+
+
     else if(ligne.find("\"AND") != string::npos){
-      string nom = ligne.substr(0,ligne.find(" "));
-      int nb_carac = ligne.find("\"AND");
-      cout << stoi(ligne.substr(nb_carac + 4,1))<<endl;
-  //    And * ptr_obj = new And(nom,(int)ligne.substr(nb_carac + 4,1));
-  //    cout << ptr_obj->getName()<<endl;
+      And * ptr_obj = new And(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"INV") != string::npos){
+      Inv * ptr_obj = new Inv(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"Inv") + 4,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"NAND") != string::npos){
+      NAND * ptr_obj = new NAND(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"NOR") != string::npos){
+      Nor * ptr_obj = new Nor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"Or") != string::npos){
+      Or * ptr_obj = new Or(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"XNOR") != string::npos){
+      Xnor * ptr_obj = new Xnor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
+      cout << "ok_gate" << endl;
+    }
+    else if(ligne.find("\"XOR") != string::npos){
+      Xor * ptr_obj = new Xor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
+      v_gate->push_back(ptr_obj);
       cout << "ok_gate" << endl;
     }
   }
 
-////////////////////////////////////////////////////////////////////////////////
-//CREATION DES ENTRES SORTIE DES GATES
-////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  //CREATION DES ENTRES SORTIE DES GATES
+  ////////////////////////////////////////////////////////////////////////////////
 
 
 
-////////////////////////////////////////////////////////////////////////////////
-//CONTROLE
-////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  //CONTROLE
+  ////////////////////////////////////////////////////////////////////////////////
 
 
-//List tampon des noms des entrees
-// list<string>::iterator p =l_tamp_int.begin();
-// while(p != l_tamp_int.end()) {
-//   cout << *p << " "<<endl;
-//   p++;
-// }
-//
+  //List tampon des noms des entrees
+  // list<string>::iterator p =l_tamp_int.begin();
+  // while(p != l_tamp_int.end()) {
+  //   cout << *p << " "<<endl;
+  //   p++;
+  // }
+  //
 
-//List tampon des noms des sortie
-// list<string>::iterator o =l_tamp_out.begin();
-// while(o != l_tamp_out.end()) {
-//   cout << *o << " "<<endl;
-//   o++;
-// }
+  //List tampon des noms des sortie
+  // list<string>::iterator o =l_tamp_out.begin();
+  // while(o != l_tamp_out.end()) {
+  //   cout << *o << " "<<endl;
+  //   o++;
+  // }
 
+  ////////////////////////////////////////////////////////////////////////////////
+  //FIN PROGRAMME
+  ////////////////////////////////////////////////////////////////////////////////
 
-//  List des nom de portes disponible
-// for(int i_v = 0; i_v<v_gate_avaible->size();i_v++){
-//   cout << v_gate_avaible->at(i_v)<< endl;
-// }
+  infile.close(); //fermeture fichier .dot
 
-////////////////////////////////////////////////////////////////////////////////
-//FIN PROGRAMME
-////////////////////////////////////////////////////////////////////////////////
-
-infile.close(); //fermeture fichier .dot
-
-//  cout << "FIN PRG"<<endl;
-return 0;
+  //  cout << "FIN PRG"<<endl;
+  return 0;
 }
 
 

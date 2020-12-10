@@ -19,6 +19,7 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
   vector<Gate*> v_gate;
+  vector<Gate*> v_tamp_output;
   map<string, list<Gate*> > m_input;
   map<string, vector<int> > m_output;
 
@@ -29,14 +30,28 @@ int main(int argc, char const *argv[]) {
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_gate(&m_input,&m_output,&v_gate)!=0){
+  if(parser_gate(&m_input,&m_output,&v_gate,&v_tamp_output)!=0){
     cout<<"Erreur de lecture du fichier .dot"<< endl;
     exit(EXIT_FAILURE);
   }
 
   /////////////////////////////////////////////////////////////////////////////
-  //
+  //Controle vetor gate
   /////////////////////////////////////////////////////////////////////////////
 
-  //cout << "FIN PRG"<<endl;
+  // for(int i = 0; i<v_gate.size();i++){
+  //   cout << v_gate.at(i)->getName()<<endl;
+  // }
+
+  /////////////////////////////////////////////////////////////////////////////
+  //FIN PROGRAMME + DELETE
+  /////////////////////////////////////////////////////////////////////////////
+
+  for(int i = 0; i<v_gate.size();i++){
+    delete v_gate.at(i);
+  }
+
+
+
+  cout << "FIN PRG"<<endl;
 }

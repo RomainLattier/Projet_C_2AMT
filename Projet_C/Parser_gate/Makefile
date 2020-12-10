@@ -9,4 +9,4 @@ test : main_test.o Parser_gate.o ../Porte/Combinatoire/And.o ../Porte/Gate_comb.
 	g++ $(CFLAGS) -c -g $^
 
 clean:
-	rm -f *.o *~ test ../Porte/Combinatoire/*o ../Porte/*o
+	rm -f *.o *~ test ../Porte/Combinatoire/*.o ../Porte/*o
