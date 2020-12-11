@@ -26,8 +26,10 @@ public:
 
   void calc_and_affect();
 
+  int is_stable();
+
   int getValueAndReset();
-  
+
 };
 
 #endif

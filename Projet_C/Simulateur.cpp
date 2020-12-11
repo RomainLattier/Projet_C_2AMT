@@ -23,7 +23,7 @@
 int main(){
   map<string,list<Gate *>> m_input; //map des entres du circuit
   map<string,vector<int>> m_output; //map des sorties du circuit
-  map<string,vector<Gate *>> m_output_tampon; //map des gate tampon de sortie
+  vector<Gate *> v_output_tampon; //map des gate tampon de sortie
   vector<Gate *> v_gate_all; //vector des gates du ciruit
   vector<string> v_input; //vector des clé entrés
   vector<string> v_output; //vector des clé sorties
@@ -48,6 +48,33 @@ int main(){
 
   //Boucle de simu
 
+  while (it_delta_cycle < v_duree_delta.size()) {
+    int stab = 1;
+    for(unsigned i = 0; i<v_output_tampon.size(); i++){ //recherche si la simu pour ce delta est fini
+      if(!v_output_tampon.at(i)->is_stable()){
+        stab = 0;
+      }
+    }
+
+    if(stab){
+      //Recuperation des valeurs de sortie
+      for(unsigned i = 0; v_output_tampon.size(); i++){
+        m_output[v_output_tampon.at(i)->getName()].at(it_delta_cycle) = v_output_tampon.at(i)->getValueAndReset();
+      }
+      it_delta_cycle++;
+      //Mise à jour des nouvelle valeur d'entrée
+      for(unsigned i = 0; i<v_input.size(); i++){
+        for(unsigned j = 0; j<m_input[v_input.size()].size(); j++){
+          m_input[v_input.at(i)].at(j)->update_input(m_stimulis[v_input.at(i)].at(it_delta_cycle));
+        }
+      }
+    }
+
+    //Simu des portes à faire.
+
+    //for(unsigned i = 0; )
+
+  }
 
   //Appel du parser de sortie
 
