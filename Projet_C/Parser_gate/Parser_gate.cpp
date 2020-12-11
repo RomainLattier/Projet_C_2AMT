@@ -5,6 +5,8 @@
 #include <list>
 #include <vector>
 
+
+#include "Parser_gate.h"
 #include "../Porte/Combinatoire/And.h"
 #include "../Porte/Combinatoire/Inv.h"
 #include "../Porte/Combinatoire/Nand.h"
@@ -16,12 +18,73 @@
 
 using namespace std;
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_output,vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output,vector<string> *v_int,vector<string> *v_out, char * path) {
+//Recherche d'une valeur dans un vecteur
+
+bool recherche_v(const string *nom_r,const vector<string> *v_base){
+  for(int i = 0;i<v_base->size();i++){
+    if(*nom_r == v_base->at(i)){
+      return 1;
+    }
+  }
+  return 0;
+}
+
+//Identifie le type entre sortie ou Gate
+//entre type = 1;
+//sorti type = 2;
+//gate type = 3;
+//return 1 si pas trouvé et 0 si trouvé
+
+int recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate){
+  if( recherche_v(nom_r,v_in) == 1){
+    *type = 1;
+    return 0;
+  }
+  else if( recherche_v(nom_r,v_out)==1){
+    *type = 2;
+    return 0;
+  }
+  else if( recherche_v(nom_r,v_gate)==1){
+    *type = 3;
+    return 0;
+  }
+  return 1;
+}
+
+//Recherche de l'index max de l element apres la fleche
+//retourne l'index
+
+bool recherche_index(bool * eol,const string * ligne,const int * index_min,const int * index_max){
+  if(ligne->find(" ;") == string::npos){
+    string ligne_post = ligne->substr(*index_min + 4,string::npos);
+    cout << ligne_post <<endl;
+    int index_1 = ligne_post.find(" ");
+    int index_2 = ligne_post.find(";");
+    cout << index_1<<endl;
+    cout << ligne_post.substr(0,index_1)<<endl;
+    cout << index_2<<endl;
+    cout << ligne_post.substr(0,index_2)<<endl;
+    if(index_1 == -1 && index_1 < index_2){
+      *eol = 1;
+      return index_2;
+    }
+    // else if(index)
+  }
+  else{
+    cout << "Erreur de syntaxe à la fin de ligne"<<endl;
+  }
+  return 1;
+}
+
+//Parser main
+
+int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int>* > *m_output,vector<Gate *> *v_gate, map<string, Gate*> *m_tamp_output,vector<string> *v_in,vector<string> *v_out, char * path) {
 
   ////////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER
   ////////////////////////////////////////////////////////////////////////////////
 
+  vector<string> v_name_gate;
   string ligne;
   ifstream infile;
   infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
@@ -44,16 +107,16 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
 
   while(getline(infile, ligne)){
     cout << ligne << endl;
+    string nom = ligne.substr(0,ligne.find(" "));
     if(ligne.find("\"INPUT\"") != string::npos){
-      v_int->push_back(ligne.substr(0,ligne.find(" ")));
+      v_in->push_back(nom);
 
       cout << "ok_input" << endl;
     }
     else if(ligne.find("\"OUTPUT\"") != string::npos){
-      string nom = ligne.substr(0,ligne.find(" "));
       v_out->push_back(nom);
-      // vector<int> *ptr_v;
-      // m_output[nom] = ptr_v;
+      vector<int> * ptr_v = new vector<int>();
+      m_output->insert(pair<string,vector<int>* >(nom,ptr_v) );
       cout << "ok_output" << endl;
     }
 
@@ -64,69 +127,80 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
     // (int)ligne.substr(ligne.find("\"AND") + x,1)
     // ou x est le nombre de caractere da,s la recherche find()
 
-
     else if(ligne.find("\"AND") != string::npos){
-      And * ptr_obj = new And(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
+      And * ptr_obj = new And(nom,(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"INV") != string::npos){
-      Inv * ptr_obj = new Inv(ligne.substr(0,ligne.find(" ")),1);
+      Inv * ptr_obj = new Inv(nom,1);
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"NAND") != string::npos){
-      Nand * ptr_obj = new Nand(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
+      Nand * ptr_obj = new Nand(nom,(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"NOR") != string::npos){
-      Nor * ptr_obj = new Nor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
+      Nor * ptr_obj = new Nor(nom,(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"Or") != string::npos){
-      Or * ptr_obj = new Or(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
+      Or * ptr_obj = new Or(nom,(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"XNOR") != string::npos){
-      Xnor * ptr_obj = new Xnor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
+      Xnor * ptr_obj = new Xnor(nom,(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
     else if(ligne.find("\"XOR") != string::npos){
-      Xor * ptr_obj = new Xor(ligne.substr(0,ligne.find(" ")),(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
+      Xor * ptr_obj = new Xor(nom,(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
       v_gate->push_back(ptr_obj);
+      v_name_gate.push_back(nom);
       cout << "ok_gate" << endl;
     }
   }
+
+  infile.clear();
+  infile.seekg(0);
 
   ////////////////////////////////////////////////////////////////////////////////
   //CREATION DES ENTRES SORTIE DES GATES
   ////////////////////////////////////////////////////////////////////////////////
 
+  while(getline(infile, ligne)){
+    cout << ligne << endl;
+    if(ligne.find("->") != string::npos){
+      bool eol = 0;
 
+      int index = ligne.find(" ");
+      string nom_r_b = ligne.substr(0,index); //nom a gauche de la fleche
+      int type_b = 0;
+      if(recherche_type(&type_b,&nom_r_b,v_in,v_out,&v_name_gate)!=0){
+        cout<<"Erreur de lecture du fichier .dot, nom non reconnu caractère : "<< infile.tellg() << endl;
+        return 1;
+      }
+      recherche_index(&eol,&ligne,&index);
+      // string nom_r_a = ligne.substr(index + 4,); //nom a droite de la fleche
+      // cout << nom_r_a << endl;
+      // int type_a = 0;
+      // if(recherche_type(&type_b,&nom_r_b,v_in,v_out,&v_name_gate)!=0){
+      //   cout<<"Erreur de lecture du fichier .dot, nom non reconnu caractère : "<< infile.tellg() << endl;
+      //   return 1;
+      // }
+    }
+  }
 
-  ////////////////////////////////////////////////////////////////////////////////
-  //CONTROLE
-  ////////////////////////////////////////////////////////////////////////////////
-
-
-  //List tampon des noms des entrees
-  // list<string>::iterator p =l_tamp_int.begin();
-  // while(p != l_tamp_int.end()) {
-  //   cout << *p << " "<<endl;
-  //   p++;
-  // }
-  //
-
-  //List tampon des noms des sortie
-  // list<string>::iterator o =l_tamp_out.begin();
-  // while(o != l_tamp_out.end()) {
-  //   cout << *o << " "<<endl;
-  //   o++;
-  // }
 
   ////////////////////////////////////////////////////////////////////////////////
   //FIN PROGRAMME
@@ -136,7 +210,6 @@ int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int> > *m_o
 
   return 0;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 //TEST

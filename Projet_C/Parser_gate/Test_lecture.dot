@@ -18,7 +18,7 @@ B -> XOR_in;
 C_in -> XOR_out -> SUM;
 
 XOR_in -> AND_C_in;
-C_in -> AND_C_in;
+C_in -> AND_C_in
 
 A -> AND_AB;
 B -> AND_AB;

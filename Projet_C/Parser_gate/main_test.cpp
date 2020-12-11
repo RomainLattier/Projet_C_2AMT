@@ -24,11 +24,11 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
   vector<Gate*> v_gate;
-  vector<Gate*> v_tamp_output;
   vector<string> v_int;
   vector<string> v_out;
+  map<string, Gate*> v_tamp_output;
   map<string, list<Gate*> > m_input;
-  map<string, vector<int> > m_output;
+  map<string, vector<int>* > m_output;
 
   char path_stru[] = "Test_lecture.dot";
   // char path_stru[];
