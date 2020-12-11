@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
   vector<string> v_int;
   vector<string> v_out;
   map<string, Gate*> v_tamp_output;
-  map<string, list<Gate*> > m_input;
+  map<string, vector<Gate*>* > m_input;
   map<string, vector<int>* > m_output;
 
   char path_stru[] = "Test_lecture.dot";
@@ -42,8 +42,7 @@ int main(int argc, char const *argv[]) {
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom)"<<endl;
   // cin >> path_stimu;
 
-  //Appel du parser de lecture du fichier .dot
-  //Et detection d'erreur de sortie
+
   /////////////////////////////////////////////////////////////////////////////
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
@@ -61,6 +60,12 @@ int main(int argc, char const *argv[]) {
   //   cout << v_gate.at(i)->getName()<<endl;
   // }
 
+  // for(int i = 0; i<v_gate.size();i++){
+  //   v_gate.at(i)->print_output_name();
+  // }
+
+
+
   /////////////////////////////////////////////////////////////////////////////
   //FIN PROGRAMME + DELETE
   /////////////////////////////////////////////////////////////////////////////
@@ -68,6 +73,7 @@ int main(int argc, char const *argv[]) {
   for(int i = 0; i<v_gate.size();i++){
     delete v_gate.at(i);
   }
+
 
   cout << "FIN PRG"<<endl;
 }

@@ -17,9 +17,9 @@
 #include "../Porte/Combinatoire/Xor.h"
 
 
-int recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);
+bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);
 bool recherche_v(const string *nom_r,const vector<string> *v_base);
-bool recherche_index(bool * eol,const string * ligne,const int * index_min,const int * index_max);
+bool recherche_nom_suivant(bool * eol,const string * ligne,int * index_min, string *nom);
 
-int parser_gate(map<string,list<Gate *> > *m_input,map<string,vector<int>* > *m_output,vector<Gate *> *v_gate, map<string, Gate*> *m_tamp_output,vector<string> *v_int,vector<string> *v_out, char * path);
+int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > *m_output,vector<Gate *> *v_gate, map<string, Gate*> *m_tamp_output,vector<string> *v_int,vector<string> *v_out, char * path);
 #endif
