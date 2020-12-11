@@ -7,6 +7,7 @@
 using namespace std;
 
 void Gate::update_input(int res){
+  cout << "entree ready" <<this->get_nb_entry_rdy();
   this->input[this->get_nb_entry_rdy()] = res;
   this->add_nb_entry_rdy();
 }

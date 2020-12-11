@@ -13,12 +13,12 @@
 
 #include "../Porte/Gate_comb.h"
 #include "../Porte/Combinatoire/And.h"
-/*#include "/Porte/Combinatoire/Inv.h"
-#include "/Porte/Combinatoire/Or.h"
-#include "/Porte/Combinatoire/Nand.h"
-#include "/Porte/Combinatoire/Nor.h"
-#include "/Porte/Combinatoire/Xor.h"
-#include "/Porte/Combinatoire/Xnor.h"*/
+#include "../Porte/Combinatoire/Inv.h"
+#include "../Porte/Combinatoire/Or.h"
+#include "../Porte/Combinatoire/Nand.h"
+#include "../Porte/Combinatoire/Nor.h"
+#include "../Porte/Combinatoire/Xor.h"
+#include "../Porte/Combinatoire/Xnor.h"
 
 #include "../Porte/Gate_out.h"
 
@@ -42,29 +42,45 @@ int main(){
   //Variable de test
   v_input.push_back("A");
   v_input.push_back("B");
+  v_input.push_back("C");
 
   v_output.push_back("S");
 
   And A1("And_1_2", 2);
+  Or O1("Or_1_2", 2);
   Gate_out S("S",1);
 
   A1.add_input(0);
   A1.add_input(0);
 
-  A1.add_output(&S);
+  O1.add_input(0);
+  O1.add_input(0);
+
+  A1.add_output(&O1);
+
+  O1.add_output(&S);
 
   S.add_input(0);
 
   v_output_tampon.push_back(&S);
   v_gate_all.push_back(&A1);
+  v_gate_all.push_back(&O1);
 
-  vector<Gate*> v_g;
-  v_g.push_back(&A1);
 
+  vector<Gate *> v_g;
+  v_g.push_back(&O1);
   m_input.insert(pair<string,vector<Gate *> >("A",v_g) );
-  m_input.insert(pair<string,vector<Gate *> >("B",v_g) );
+
+  vector<Gate*> v_a;
+  v_a.push_back(&A1);
+  m_input.insert(pair<string,vector<Gate *> >("B",v_a) );
+  m_input.insert(pair<string,vector<Gate *> >("C",v_a) );
 
   vector<int> v_o;
+  v_o.push_back(0);
+  v_o.push_back(7);
+  v_o.push_back(0);
+  v_o.push_back(0);
   v_o.push_back(0);
   v_o.push_back(7);
   v_o.push_back(0);
@@ -77,6 +93,10 @@ int main(){
   v_stimulisA.push_back(0);
   v_stimulisA.push_back(1);
   v_stimulisA.push_back(1);
+  v_stimulisA.push_back(0);
+  v_stimulisA.push_back(0);
+  v_stimulisA.push_back(1);
+  v_stimulisA.push_back(1);
 
   m_stimulis.insert(pair<string,vector<int> >("A",v_stimulisA) );
 
@@ -85,9 +105,29 @@ int main(){
   v_stimulisB.push_back(1);
   v_stimulisB.push_back(0);
   v_stimulisB.push_back(1);
+  v_stimulisB.push_back(0);
+  v_stimulisB.push_back(1);
+  v_stimulisB.push_back(0);
+  v_stimulisB.push_back(1);
 
   m_stimulis.insert(pair<string,vector<int> >("B",v_stimulisB) );
 
+  vector<int> v_stimulisC;
+  v_stimulisC.push_back(0);
+  v_stimulisC.push_back(0);
+  v_stimulisC.push_back(0);
+  v_stimulisC.push_back(0);
+  v_stimulisC.push_back(1);
+  v_stimulisC.push_back(1);
+  v_stimulisC.push_back(1);
+  v_stimulisC.push_back(1);
+
+  m_stimulis.insert(pair<string,vector<int> >("C",v_stimulisC) );
+
+  v_duree_delta.push_back(2);
+  v_duree_delta.push_back(2);
+  v_duree_delta.push_back(2);
+  v_duree_delta.push_back(2);
   v_duree_delta.push_back(2);
   v_duree_delta.push_back(2);
   v_duree_delta.push_back(2);
@@ -106,12 +146,15 @@ int main(){
   unsigned it_delta_cycle = 0; //indice du delta_cycle
   for(unsigned i = 0; i<v_input.size(); i++){ //on parcourt la liste v_input pour recuper les clés d'input
     for(unsigned j = 0; j<m_input[v_input.at(i)].size(); j++){ //on parcourt le vecteur correspondant à la clé
-      // cout << "i " << i << endl;
-      // cout << "j " << j << endl;
-      // cout << v_input.at(i) << endl;
-      // cout << m_input[v_input.at(i)].at(j)->getName() << endl;
-      // cout << "valeur stimulis" << m_stimulis[v_input.at(i)].at(it_delta_cycle) << endl;
-      m_input[v_input.at(i)].at(j)->update_input(m_stimulis[v_input.at(i)].at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
+       cout << "i " << i << endl;
+       cout << "j " << j << endl;
+       cout << v_input.at(i) << endl;
+       cout << m_input[v_input.at(i)].at(j)->getName() << endl;
+       cout << it_delta_cycle << endl;
+       cout << "size stimulis " << m_stimulis[v_input.at(i)].size() << endl;
+       cout << "valeur stimulis" << m_stimulis[v_input.at(i)].at(it_delta_cycle) << endl;
+       m_input[v_input.at(i)].at(j)->update_input(m_stimulis[v_input.at(i)].at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
+       cout << endl <<endl;
     }
   }
   cout << "apres 1er update" << endl;
