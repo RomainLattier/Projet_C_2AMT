@@ -71,8 +71,9 @@ int main(){
     }
 
     //Simu des portes à faire.
-
-    //for(unsigned i = 0; )
+    for(unsigned i = 0; i<v_gate_all.size();i++){
+      v_gate_all.at(i)->calc_and_affect();
+    }
 
   }
 
