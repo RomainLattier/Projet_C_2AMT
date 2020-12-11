@@ -22,3 +22,20 @@ void Gate::print_output_name(){
     cout << this->output.at(i)->getName() << endl;
   }
 }
+
+int Gate::is_stable(){
+  // cout << "this->nb_entry_rdy " << this->nb_entry_rdy <<endl;
+  // cout << "this->nb_of_entry " << this->nb_of_entry <<endl;
+  // cout << "this->nb_entry_rdy >= this->nb_of_entry" << (this->nb_entry_rdy >= this->nb_of_entry) <<endl;
+  return this->nb_entry_rdy >= this->nb_of_entry;
+}
+
+int Gate::getValueAndReset(){
+  this->nb_entry_rdy = 0;
+  return this->input.at(0);
+}
+
+int Gate::getValueOutput(){
+  this->nb_entry_rdy == 0;
+  return this->input.at(0);
+}

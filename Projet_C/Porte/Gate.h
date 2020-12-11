@@ -52,7 +52,13 @@ public:
 
   void print_input_value();
 
-  void update_input(int res); //fonction qui permet d'update la liste d'input 
+  void update_input(int res); //fonction qui permet d'update la liste d'input
+
+  int is_stable();
+
+  int getValueAndReset();
+
+  int getValueOutput();
 
   virtual void calc_and_affect() = 0;
 
