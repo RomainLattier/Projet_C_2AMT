@@ -24,6 +24,10 @@ public:
 
   virtual ~Gate(){};
 
+  int get_nb_of_entry(){
+    return nb_of_entry;
+  }
+
   int get_nb_entry_rdy(){
     return nb_entry_rdy;
   }
