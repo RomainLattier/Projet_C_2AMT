@@ -15,6 +15,7 @@
 #include "../Porte/Combinatoire/Or.h"
 #include "../Porte/Combinatoire/Xnor.h"
 #include "../Porte/Combinatoire/Xor.h"
+#include "../Porte/Gate_out.h"
 
 
 bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);

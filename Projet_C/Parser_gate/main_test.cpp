@@ -14,6 +14,7 @@
 #include "../Porte/Combinatoire/Or.h"
 #include "../Porte/Combinatoire/Xnor.h"
 #include "../Porte/Combinatoire/Xor.h"
+#include "../Porte/Gate_out.h"
 
 using namespace std;
 

@@ -14,7 +14,7 @@
 #include "../Porte/Combinatoire/Or.h"
 #include "../Porte/Combinatoire/Xnor.h"
 #include "../Porte/Combinatoire/Xor.h"
-
+#include "../Porte/Gate_out.h"
 
 using namespace std;
 
@@ -204,11 +204,11 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //Cas ou les deux elements sont des portes
         if(type_1 == 3 && type_2 == 3){
-          for(int i = 0;i<v_gate->size();i++){
+          for(int i = 0;i<v_gate->size();i++){ //Recherche du pointeur de la gate a gauche
             if(v_gate->at(i)->getName() == nom_r_1){
-              for(int j = 0;j<v_gate->size();j++){
+              for(int j = 0;j<v_gate->size();j++){ // Recherche du pointeur de la gate a droite
                 if(v_gate->at(j)->getName() == nom_r_2){
-                  v_gate->at(i)->add_output(v_gate->at(j));
+                  v_gate->at(i)->add_output(v_gate->at(j)); //Affectation de la porte droite dans la porte gauche
                 }
               }
             }
@@ -229,19 +229,26 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
               if(v_gate->at(i)->getName() == nom_r_2){
                 ptr_v_in->push_back(v_gate->at(i));
                 m_input->insert(pair<string,vector<Gate*>* >(nom_r_1,ptr_v_in) );
-
               }
             }
           }
         }
         //cas ou element de gauche est une porte et element de droite est une sortie
         else if(type_1 == 3 && type_2 == 2){
-
+          if(m_tamp_output->count(nom_r_1) == 0){//Verification pas deja cree
+            Gate_out * ptr_obj = new Gate_out(nom_r_2,1);
+            for(int i = 0;i<v_gate->size();i++){ //Recherche du pointeur de la gate a gauche
+              if(v_gate->at(i)->getName() == nom_r_1){
+                v_gate->at(i)->add_output(ptr_obj);
+                m_tamp_output->insert(pair<string,Gate* >(nom_r_2,ptr_obj) );
+              }
+            }
+          }
         }
         //Cas ou element de gauche est une entre et element de droite une sortie
         else if(type_1 == 1 && type_2 == 2){
           cout<<"Attention, une entrée et directement connecté à une sortie."<<endl;
-          
+
         }
         //Detection erreur si sortie sur une entre ou porte sur entre
         else if(type_2 == 1){
