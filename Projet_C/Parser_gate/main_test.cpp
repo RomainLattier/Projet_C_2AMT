@@ -25,47 +25,89 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
   vector<Gate*> v_gate;
-  vector<string> v_int;
+  vector<string> v_in;
   vector<string> v_out;
   map<string, Gate*> m_tamp_output;
   map<string, vector<Gate*>* > m_input;
   map<string, vector<int>* > m_output;
 
-  char path_stru[] = "Test_lecture.dot";
-  // char path_stru[];
-  // char path_stimu[];
-
   /////////////////////////////////////////////////////////////////////////////
   //Demande des path des deux fichiers
   /////////////////////////////////////////////////////////////////////////////
+
+  char path_stru[] = "Test_lecture.dot";
+  // char path_stru[];
+  // char path_stimu[];
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom)"<<endl;
   // cin >> path_stimu;
 
-
   /////////////////////////////////////////////////////////////////////////////
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_gate(&m_input,&m_output,&v_gate,&m_tamp_output,&v_int,&v_out,path_stru)!=0){
+  if(parser_gate(&m_input,&m_output,&v_gate,&m_tamp_output,&v_in,&v_out,path_stru)!=0){
     cout<<"Erreur de lecture du fichier .dot"<< endl;
     exit(EXIT_FAILURE);
   }
 
   /////////////////////////////////////////////////////////////////////////////
-  //Controle vetor gate
+  //Controle TEST
   /////////////////////////////////////////////////////////////////////////////
 
-  // for(int i = 0; i<v_gate.size();i++){
-  //   cout << v_gate.at(i)->getName()<<endl;
-  // }
+  //test création des portes
+  cout<<"------------------------------------"<<endl;
+  cout << "\nTest de la création des portes et du vector de gate"<<endl;
+  for(int i = 0; i<v_gate.size();i++){
+    cout <<"\nLa porte "<< v_gate.at(i)->getName()<< " a pour sorties :"<<endl;
+    v_gate.at(i)->print_output_name();
+    cout << "et a "<<v_gate.at(i)->get_nb_of_entry()<<" entrées"<<endl;
+  }
 
-  // for(int i = 0; i<v_gate.size();i++){
-  //   v_gate.at(i)->print_output_name();
-  // }
+  //test vecteur in
+  cout<<"------------------------------------"<<endl;
+  cout <<"\nTest du vecteur input"<<endl;
+  for(int i = 0; i<v_in.size();i++){
+    cout << v_in.at(i)<<endl;
+  }
 
+  //test vector out
+  cout<<"------------------------------------"<<endl;
+  cout <<"\nTest du vecteur output"<<endl;
+  for(int i = 0; i<v_out.size();i++){
+    cout << v_out.at(i)<<endl;
+  }
 
+  //test creation map INPUT
+  cout<<"------------------------------------"<<endl;
+  cout <<"\nTest de la création de la map input"<<endl;
+  for(int i = 0;i<v_in.size();i++){
+    cout << "\nL'entrée " << v_in.at(i)<< " est relié à la porte "<<endl;
+    for(int j = 0; j<m_input.at(v_in.at(i))->size();j++){
+      cout << m_input.at(v_in.at(i))->at(j)->getName()<<endl;
+    }
+  }
+
+  //test creation map output
+  cout<<"------------------------------------"<<endl;
+  cout <<"\nTest de la création de la map input"<<endl;
+  for(int i = 0;i<v_out.size();i++){
+    cout << "\nLa sortie " << v_out.at(i)<< " a un vecteur avec les valeur :"<<endl;
+    for(int j = 0; j<m_output.at(v_out.at(i))->size();j++){
+      cout << m_input.at(v_out.at(i))->at(j)<<endl;
+    }
+  }
+
+  //test creation map tamp output
+  cout<<"------------------------------------"<<endl;
+  cout <<"\nTest de la création de la map tamp output"<<endl;
+  for(int i = 0;i<v_out.size();i++){
+    cout << "\nLa porte tampon " << v_out.at(i)<< " a pour nom "<<
+    m_tamp_output.at(v_out.at(i))->getName()<<" et a "<<
+    m_tamp_output.at(v_out.at(i))->get_nb_of_entry()<<" entrée"<<endl;
+
+  }
 
   /////////////////////////////////////////////////////////////////////////////
   //FIN PROGRAMME + DELETE des dynamiques

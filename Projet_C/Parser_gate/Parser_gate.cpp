@@ -93,15 +93,18 @@ bool recherche_nom_suivant(bool * eol,const string * ligne, int * index_min, str
 //pointeur vers les premières portes
 
 bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
-  const string *nom_r_1,const string *nom_r_2){
+  const string *nom_r_1,const string *nom_r_2,const map<string, Gate*> *m_tamp_output){
 
   if(m_input->count(*nom_r_1) != 0){ //Si entree deja dans la map, cas input sur plusieur portes
     for(int i = 0;i<v_gate->size();i++){
 
       if(v_gate->at(i)->getName() == *nom_r_2){
         m_input->find(*nom_r_1)->second->push_back(v_gate->at(i));
+        return 0;
       }
     }
+    m_input->find(*nom_r_1)->second->push_back(m_tamp_output->at(*nom_r_2));
+    return 0;
   }
   else{//entre pas encore cree
     vector<Gate *> * ptr_v_in = new vector<Gate *>();
@@ -111,19 +114,24 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
 
         ptr_v_in->push_back(v_gate->at(i));
         m_input->insert(pair<string,vector<Gate*>* >(*nom_r_1,ptr_v_in) );
+        return 0;
       }
     }
+    ptr_v_in->push_back(m_tamp_output->at(*nom_r_2));
+    m_input->insert(pair<string,vector<Gate*>* >(*nom_r_1,ptr_v_in) );
+    return 0;
+
   }
-  return 0;
+  return 1;
 }
 
 //Remplissage de la map tampon output avec en clé le nom de output et en valeur le
 //pointeur vers la porte tampon
 
 bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
-  const string *nom_r_1,const string *nom_r_2){
+  const string *nom_r_1,const string *nom_r_2, const vector<string> * v_in){
 
-  if(m_tamp_output->count(*nom_r_1) == 0){//Verification pas deja cree
+  if(m_tamp_output->count(*nom_r_2) == 0){//Verification pas deja cree
     Gate_out * ptr_gate_tamp = new Gate_out(*nom_r_2,1);
 
     for(int i = 0;i<v_gate->size();i++){ //Recherche du pointeur de la gate a gauche
@@ -131,9 +139,17 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
         v_gate->at(i)->add_output(ptr_gate_tamp);
         m_tamp_output->insert(pair<string,Gate* >(*nom_r_2,ptr_gate_tamp) );
+        return 0;
+      }
+    }
+    for(int i = 0; i < v_in->size(); i++){
+      if(v_in->at(i) == *nom_r_1){
+        m_tamp_output->insert(pair<string,Gate* >(*nom_r_2,ptr_gate_tamp) );
+        return 0;
       }
     }
   }
+  return 1;
 }
 
 
@@ -272,7 +288,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //Cas element de gauche est une entre et element de droite une porte
         else if(type_1 == 1 && type_2 == 3){
-          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2)!=0){
+          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,m_tamp_output)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
@@ -282,7 +298,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //cas ou element de gauche est une porte et element de droite est une sortie
         else if(type_1 == 3 && type_2 == 2){
-          if(link_m_tamp_output(m_tamp_output,v_gate,&nom_r_1,&nom_r_2)!=0){
+          if(link_m_tamp_output(m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
@@ -292,10 +308,24 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //Cas ou element de gauche est une entre et element de droite une sortie
         else if(type_1 == 1 && type_2 == 2){
-          cout<<"Attention, une entrée et directement connecté à une sortie."<<endl;
+          cout<<"Attention, l'entrée " << nom_r_1 <<
+          " est directement connecté à la sortie "<< nom_r_2 <<endl;
 
+          if(link_m_tamp_output(m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
+            cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
+             nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
+              infile.tellg() << endl;
+            return 1;
+          }
+
+          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,m_tamp_output)!=0){
+            cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
+             nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
+              infile.tellg() << endl;
+            return 1;
+          }
         }
-        
+
         //Detection erreur si sortie sur une entre ou porte sur entre
         else if(type_2 == 1){
           cout << "Erreur de d'interconnexion dans la structure du circuit: une sorti est connecté à un INPUT."<<endl;
@@ -320,24 +350,8 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//TEST &controle
+//Note a opti ou pas
 ////////////////////////////////////////////////////////////////////////////////
-//controle des std::vector
-
-// cout <<"\nv_name_gate :"<<endl;
-// for(int i = 0; i<v_name_gate.size();i++){
-//   cout << v_name_gate.at(i)<<endl;
-// }
-//
-// cout <<"\nv_in :"<<endl;
-// for(int i = 0; i<v_in->size();i++){
-//   cout << v_in->at(i)<<endl;
-// }
-//
-// cout <<"\nv_out :"<<endl;
-// for(int i = 0; i<v_out->size();i++){
-//   cout << v_out->at(i)<<endl;
-// }
 
 //Convertion de string en majuscules
 
@@ -345,9 +359,3 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 // cout << str<<endl;
 // transform(str.begin(), str.end(), str.begin(), ::toupper);
 // cout << str<<endl;
-
-
-// for(int i_v = 0; i_v < v_gate_avaible->size();i_v++){
-//   string type_gate = v_gate_avaible->at(i_v);
-//   if(ligne.find("\"" + type_gate) != string::npos){
-//     string nom_gate = ligne.substr(0,ligne.find(" "));
