@@ -3,6 +3,7 @@ CFLAGS=-g -Wall
 all : test
 
 test : main_test.o Parser_stimuli.o
+	g++ -o test $^ $(LDFLAGS)
 
 %.o:%.cc
 	g++ $(CFLAGS) -c -g $^

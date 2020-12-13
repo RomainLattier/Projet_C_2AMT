@@ -17,15 +17,15 @@ int main(int argc, char const *argv[]) {
   //Déclaration des structure de données général
   /////////////////////////////////////////////////////////////////////////////
 
-  vector<string> v_int;
+  vector<string> v_in;
   vector<int> v_delta;
-  map<string, vector<int> > m_stimuli;
+  map<string, vector<int>* > m_stimuli;
 
-  v_int.push_back("A"); // A enlever
-  v_int.push_back("B");
-  v_int.push_back("C_in");
+  v_in.push_back("A"); // A enlever
+  v_in.push_back("B");
+  v_in.push_back("C_in");
 
-  char path_stimuli[] = "Test_stimulis_wavedrom";
+  char path_stimuli[] = "Test_stimulis_wavedrom.json";
 
   //Appel du parser de lecture du fichier .dot
   //Et detection d'erreur de sortie
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_stimuli(&v_int,&v_delta,&m_stimuli,path_stimuli)!=0){
+  if(parser_stimuli(&v_in,&v_delta,&m_stimuli,path_stimuli)!=0){
     cout<<"Erreur de lecture du fichier wavedrom"<< endl;
     exit(EXIT_FAILURE);
   }
