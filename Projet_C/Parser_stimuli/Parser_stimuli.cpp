@@ -13,33 +13,52 @@ using namespace std;
 //les entrée du circuit à une valeur
 //retourne 0 si pas d'erreur détecté ou 1 si une erreur est détecté
 
-bool verif_nom_input(ifstream *infile,const vector<string> *v_in){
+
+
+//Recherche si un string est présent dans un vector de string
+//return 0 si trouvé, 1 si pas trouvé
+bool find_vector(const vector<string> * vector,const string * nom){
+  for(int i = 0; i<vector->size();i++){
+    if(vector->at(i) == *nom){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
   vector<string> v_name; //vector des noms des entrées trouvé dans le fichier
   int nb_ligne = 0; // Compteur de ligne
   string ligne;
-  string nom; //nom de l'entrée
 
   //remplissage vector name avec les nom de chaque entrée trouvé dans le fichier
   while(getline(*infile, ligne)){
+    cout<<ligne<<endl;
     if(ligne.find("name:") != string::npos){
 
       //Recherche du nom
       ligne = ligne.substr(ligne.find("'")+1,string::npos);
       v_name.push_back(ligne.substr(0,ligne.find("'")));
 
-      //Vérification si l'entrée du stimuli sont des entrées du circuits
-      for(int i = 0; i<v_in->size();i++){
-        if(v_in->at(i).find(nom) == string::npos){
-          cout << "L'entrée " << nom << " n'est pas présente dans le circuit, ligne "<<
-          nb_ligne<<endl;
-          return 1;
-        }
+      //Vérification si l'entrée du stimuli est une entrée du circuits
+      cout<<v_name.back()<<endl;
+      if(find_vector(v_in,&v_name.back())==1){
+        cout << "L'entrée " << v_name.back() << " n'est pas présente dans le circuit, ligne "<<nb_ligne<<endl;
+        return 1;
       }
     }
     nb_ligne ++;
+
   }
   infile->clear();
   infile->seekg(0);
+  //Vérification si toutes les entrées du circuits sont adressé
+  for(int i = 0; i<v_in->size();i++){
+    if(find_vector(&v_name,&(v_in->at(i)))==1){
+      cout << "L'entrée " << v_in->at(i) << " du circuit n'a pas de valeur affecté."<< endl;
+      return 1;
+    }
+  }
   return 0;
 }
 
@@ -58,7 +77,7 @@ bool verif_delta(const vector<string> *v_in, const map<string,vector<int>*> *m_t
 int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,vector<int> *> *m_stimuli,const char * path){
 
   ////////////////////////////////////////////////////////////////////////////////
-  //OUVERTURE FICHIER
+  //OUVERTURE FICHIER et définition variable
   ////////////////////////////////////////////////////////////////////////////////
 
   map<string,vector<int>*> m_tamp; //map tampon pour les valeurs des signaux avant delta_cycle
@@ -75,7 +94,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   /////////////////////////////////////////////////////////////////////////////
 
   //Verification des nom des entrees
-  if(verif_nom_input(&infile,v_in)!=0){
+  if(verif_nom_input(&infile,v_in)==1){
     return 1;
   }
 
@@ -86,7 +105,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
 
       //Recherche du nom
       ligne = ligne.substr(ligne.find("'")+1,string::npos);
-      nom = ligne.substr(0,ligne.find("'"));
+      nom = ligne.substr(0,ligne.find("'")); //Extraction du nom de l'entrée
       ligne = ligne.substr(ligne.find(",")+1,string::npos);
 
       /////////////////////////////////////////////////////////////////////////////
@@ -130,7 +149,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   for(int i = 1;i<m_tamp.size();i++){
     if(m_tamp.at(v_in->at(i-1))->size() != m_tamp.at(v_in->at(i))->size()){
       cout << "Erreur, la durée du signal de l'entrée "<<v_in->at(i)<<
-      " n'est pas de la même que la durée du signal de l'entrée "<< v_in->at(i-1)<<endl;
+      " n'est pas la même que le signal de l'entrée "<< v_in->at(i-1)<<endl;
       return 1;
     }
   }
@@ -170,12 +189,12 @@ for(int j = 0;j<v_in->size();j++){
 /////////////////////////////////////////////////////////////////////////////
 
 //Affichage de la map tampon
-for(int i = 0;i<v_in->size();i++){
-  cout <<"l'entrée "<< v_in->at(i) <<" a pour valeur :"<<endl;
-  for(int j = 0; j<m_tamp.at(v_in->at(i))->size();j++){
-    cout << m_tamp.at(v_in->at(i))->at(j) <<endl;
-  }
-}
+// for(int i = 0;i<v_in->size();i++){
+//   cout <<"l'entrée "<< v_in->at(i) <<" a pour valeur :"<<endl;
+//   for(int j = 0; j<m_tamp.at(v_in->at(i))->size();j++){
+//     cout << m_tamp.at(v_in->at(i))->at(j) <<endl;
+//   }
+// }
 
 /////////////////////////////////////////////////////////////////////////////
 //FIN PROGRAMME et delete des tampons dynamiques

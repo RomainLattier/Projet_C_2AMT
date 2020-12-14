@@ -23,8 +23,9 @@ int main(int argc, char const *argv[]) {
 
   v_in.push_back("A"); // A enlever
   v_in.push_back("B");
-//  v_in.push_back("C_in");
+  v_in.push_back("C_in");
 
+  //char path_stimuli[] = "Test_delta_cycle.json";
   char path_stimuli[] = "Test_delta_cycle.json";
 
   //Appel du parser de lecture du fichier .dot
@@ -43,20 +44,21 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
   //Controle vector des durée de delta cycle
-
-  cout<<"v_delta :"<<endl;
-  for(int i = 0;i<v_delta.size();i++){
-    cout<<v_delta.at(i)<<endl;
-  }
-
-  //Test map stimuli
-  cout <<"\nTest de la création de la map input"<<endl;
-  for(int i = 0;i<v_in.size();i++){
-    cout << "\nLa sortie " << v_in.at(i)<< " a un vecteur avec les valeurs :"<<endl;
-    for(int j = 0; j<m_stimuli.at(v_in.at(i))->size();j++){
-      cout << m_stimuli.at(v_in.at(i))->at(j)<<endl;
-    }
-  }
+  // cout<<"\n------------------------------------"<<endl;
+  // cout<<"v_delta :"<<endl;
+  // for(int i = 0;i<v_delta.size();i++){
+  //   cout<<v_delta.at(i)<<endl;
+  // }
+  //
+  // //Test map stimuli
+  // cout<<"\n------------------------------------"<<endl;
+  // cout <<"Test de la création de la map input"<<endl;
+  // for(int i = 0;i<v_in.size();i++){
+  //   cout << "\nLa sortie " << v_in.at(i)<< " a un vecteur avec les valeurs :"<<endl;
+  //   for(int j = 0; j<m_stimuli.at(v_in.at(i))->size();j++){
+  //     cout << m_stimuli.at(v_in.at(i))->at(j)<<endl;
+  //   }
+  // }
 
 
 

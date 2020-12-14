@@ -57,8 +57,8 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
   //test création des portes
-  cout<<"------------------------------------"<<endl;
-  cout << "\nTest de la création des portes et du vector de gate"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout << "Test de la création des portes et du vector de gate"<<endl;
   for(int i = 0; i<v_gate.size();i++){
     cout <<"\nLa porte "<< v_gate.at(i)->getName()<< " a pour sorties :"<<endl;
     v_gate.at(i)->print_output_name();
@@ -66,22 +66,22 @@ int main(int argc, char const *argv[]) {
   }
 
   //test vecteur in
-  cout<<"------------------------------------"<<endl;
-  cout <<"\nTest du vecteur input"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test du vecteur input"<<endl;
   for(int i = 0; i<v_in.size();i++){
     cout << v_in.at(i)<<endl;
   }
 
   //test vector out
-  cout<<"------------------------------------"<<endl;
-  cout <<"\nTest du vecteur output"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test du vecteur output"<<endl;
   for(int i = 0; i<v_out.size();i++){
     cout << v_out.at(i)<<endl;
   }
 
   //test creation map INPUT
-  cout<<"------------------------------------"<<endl;
-  cout <<"\nTest de la création de la map input"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test de la création de la map input"<<endl;
   for(int i = 0;i<v_in.size();i++){
     cout << "\nL'entrée " << v_in.at(i)<< " est relié à la porte "<<endl;
     for(int j = 0; j<m_input.at(v_in.at(i))->size();j++){
@@ -90,8 +90,8 @@ int main(int argc, char const *argv[]) {
   }
 
   //test creation map output
-  cout<<"------------------------------------"<<endl;
-  cout <<"\nTest de la création de la map input"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test de la création de la map input"<<endl;
   for(int i = 0;i<v_out.size();i++){
     cout << "\nLa sortie " << v_out.at(i)<< " a un vecteur avec les valeurs :"<<endl;
     for(int j = 0; j<m_output.at(v_out.at(i))->size();j++){
@@ -100,8 +100,8 @@ int main(int argc, char const *argv[]) {
   }
 
   //test creation map tamp output
-  cout<<"------------------------------------"<<endl;
-  cout <<"\nTest de la création de la map tamp output"<<endl;
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test de la création de la map tamp output"<<endl;
   for(int i = 0;i<v_out.size();i++){
     cout << "\nLa porte tampon " << v_out.at(i)<< " a pour nom "<<
     m_tamp_output.at(v_out.at(i))->getName()<<" et a "<<
