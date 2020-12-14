@@ -25,8 +25,11 @@ void Gate_comb::calc_and_affect(){
     }
     //Affectation du resulat aux portes suivantes
     for(unsigned i = 0; i < this->output.size(); i++){
-      cout << "res " << res << endl << endl;
-      cout << "output.at(i).getName() " << output.at(i)->getName() << endl << endl;
+      // cout << "res " << res << endl << endl;
+      // cout << "output.at(i).getName() " << output.at(i)->getName() << endl << endl;
+      /*if(this->output.at(i)->get_is_a_mux()){ //cas special des mux
+        if (this->getName() == this->output.at(i)->get
+      }*/
       this->output.at(i)->update_input(res);
     }
     this->nb_entry_rdy = 0; //Reset du nombre d'entrée actualisé

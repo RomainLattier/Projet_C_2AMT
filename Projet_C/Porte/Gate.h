@@ -15,14 +15,24 @@ protected:
   int nb_entry_rdy;
   vector<int> input;
   vector<Gate*> output;
+  int is_a_mux;
 
 public:
 
   Gate(string G_name, int G_nb_of_entry):nom(G_name),nb_of_entry(G_nb_of_entry){
     nb_entry_rdy = 0;
+    is_a_mux = 0;
   };
 
   virtual ~Gate(){};
+
+  int get_is_a_mux(){
+    return is_a_mux;
+  }
+
+  void set_is_a_mux(const int &val){
+    is_a_mux = val;
+  }
 
   int get_nb_of_entry(){
     return nb_of_entry;
