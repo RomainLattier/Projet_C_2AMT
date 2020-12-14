@@ -93,7 +93,7 @@ int main(int argc, char const *argv[]) {
   cout<<"------------------------------------"<<endl;
   cout <<"\nTest de la création de la map input"<<endl;
   for(int i = 0;i<v_out.size();i++){
-    cout << "\nLa sortie " << v_out.at(i)<< " a un vecteur avec les valeur :"<<endl;
+    cout << "\nLa sortie " << v_out.at(i)<< " a un vecteur avec les valeurs :"<<endl;
     for(int j = 0; j<m_output.at(v_out.at(i))->size();j++){
       cout << m_input.at(v_out.at(i))->at(j)<<endl;
     }
@@ -106,7 +106,6 @@ int main(int argc, char const *argv[]) {
     cout << "\nLa porte tampon " << v_out.at(i)<< " a pour nom "<<
     m_tamp_output.at(v_out.at(i))->getName()<<" et a "<<
     m_tamp_output.at(v_out.at(i))->get_nb_of_entry()<<" entrée"<<endl;
-
   }
 
   /////////////////////////////////////////////////////////////////////////////

@@ -13,7 +13,7 @@ XOR_out [label = "XOR2" ];
 
 AND_AB [label = "AND2" ];
 AND_C_in [label = "AND2" ];
-OR_C_out [label = "ORR2" ];
+OR_C_out [label = "OR2" ];
 
 A -> XOR_in -> XOR_out;
 B -> XOR_in;
