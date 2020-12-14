@@ -64,6 +64,11 @@ int main(int argc, char const *argv[]) {
   //FIN PROGRAMME + DELETE
   /////////////////////////////////////////////////////////////////////////////
 
+  for(int i = 0;i<v_in.size();i++){
+    cout << "Destruction du stimuli d'entrée "<<v_in.at(i)<<endl;
+    delete m_stimuli.at(v_in.at(i));
+  }
+
 
   cout << "FIN PRG"<<endl;
 }
