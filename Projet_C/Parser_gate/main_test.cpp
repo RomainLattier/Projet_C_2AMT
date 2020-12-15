@@ -35,7 +35,7 @@ int main(int argc, char const *argv[]) {
   //Demande des path des deux fichiers
   /////////////////////////////////////////////////////////////////////////////
 
-  string path_stru = "Test_lecture.dot";
+  string path_stru = "test_AND100.dot";
   // char path_stru[];
   // char path_stimu[];
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;

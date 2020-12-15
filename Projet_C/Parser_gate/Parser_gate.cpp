@@ -19,9 +19,22 @@ bool check_open_file(const ifstream * infile){
   return 1;
 }
 
+//converti un nombre au format string en int
+int conv_int(string a){
+  cout<<a<<endl;
+  int b = 0;
+  int size = a.size();
+
+  for(int i = size; i > 0;i--){
+    b = b + ((int)a.at(i-1) - '0')*pow(10,size-i);
+  }
+  return b;
+}
+
+
+
 //Recherche d'une valeur dans un vecteur
 bool recherche_v(const string *nom_r,const vector<string> *v_base){
-
   for(int i = 0;i<v_base->size();i++){
     if(*nom_r == v_base->at(i)){
       return 1;
@@ -218,12 +231,12 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
           //Detection du type des portes
           //Pour ajout de porte, il faut modifier les noms dans les find() avec le
           // nom a rechercher dans le fichier .dot, changer le type de l'objet a creer
-          // avec le type de la porte ajoute et changer la taille dans
-          // (int)ligne.substr(ligne.find("\"AND") + x,1)
-          // ou x est le nombre de caractere da,s la recherche find()
+          // avec le type de la porte ajouté et changer la taille dans
+          // ligne.substr(ligne.find("\"AND") + X,ligne.find("\"];")-ligne.find("\"AND")-X)
+          // ou X est le nombre de caractere da,s la recherche find()
 
           else if(ligne.find("\"AND") != string::npos){
-            And * ptr_obj = new And(nom,(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
+            And * ptr_obj = new And(nom,conv_int(ligne.substr(ligne.find("\"AND") + 4,ligne.find("\"];")-ligne.find("\"AND")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
@@ -235,37 +248,37 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
           }
 
           else if(ligne.find("\"NAND") != string::npos){
-            Nand * ptr_obj = new Nand(nom,(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
+            Nand * ptr_obj = new Nand(nom,conv_int(ligne.substr(ligne.find("\"NAND") + 5,ligne.find("\"];")-ligne.find("\"NAND")-5)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"NOR") != string::npos){
-            Nor * ptr_obj = new Nor(nom,(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
+            Nor * ptr_obj = new Nor(nom,conv_int(ligne.substr(ligne.find("\"NOR") + 4,ligne.find("\"];")-ligne.find("\"NOR")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"OR") != string::npos){
-            Or * ptr_obj = new Or(nom,(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
+            Or * ptr_obj = new Or(nom,conv_int(ligne.substr(ligne.find("\"OR") + 3,ligne.find("\"];")-ligne.find("\"OR")-3)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"XNOR") != string::npos){
-            Xnor * ptr_obj = new Xnor(nom,(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
+            Xnor * ptr_obj = new Xnor(nom,conv_int(ligne.substr(ligne.find("\"XNOR") + 5,ligne.find("\"];")-ligne.find("\"XNOR")-5)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"XOR") != string::npos){
-            Xor * ptr_obj = new Xor(nom,(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
+            Xor * ptr_obj = new Xor(nom,conv_int(ligne.substr(ligne.find("\"XOR") + 4,ligne.find("\"];")-ligne.find("\"XOR")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"MUX") != string::npos){
-            int nb_entry = (int)ligne.substr(ligne.find("\"MUX") + 4,1).at(0)-'0';
+            int nb_entry = conv_int(ligne.substr(ligne.find("\"MUX") + 4,ligne.find("\"];")-ligne.find("\"MUX")-4));
             int nb_sel = ceil(log2(nb_entry));
             ligne = ligne.substr(ligne.find("sel = \"")+7,string::npos);
             string sel_name = ligne.substr(0,ligne.find("\""));
