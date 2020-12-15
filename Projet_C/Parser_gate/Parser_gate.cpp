@@ -4,6 +4,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <stdlib.h>
 
 
 #include "Parser_gate.h"
@@ -19,6 +20,21 @@
 using namespace std;
 
 //initialisation des valeurs des input
+
+bool check_ext_path_dot(const string * s_path){
+  if(s_path->find(".dot") == string::npos){
+    return 1;
+  }
+  return 0;
+}
+
+bool check_open_file(const ifstream * infile){
+  if(infile){  //On teste si tout est OK après création du fichier
+    return 0;
+  }
+  else cout << "Erreur, impossible d'ouvrir le fichier structure."<< endl;
+  return 1;
+}
 
 bool fill_gate_input(Gate * gate){
   for(int i = 0; i<gate->get_nb_of_entry();i++){
@@ -178,7 +194,7 @@ bool change_map_to_vector(map<string,Gate*>* m_gate,vector<Gate*>* v_gate){
 
 int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > *m_output,
   vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output,vector<string> *v_in,
-  vector<string> *v_out, char * path) {
+  vector<string> *v_out,const string * s_path) {
 
   /////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER
@@ -189,11 +205,25 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
   int nb_ligne = 0;
   string ligne;
   ifstream infile;
+
+  if(check_ext_path_dot(s_path)){
+    cout <<"Erreur, le fichier structure n'as pas l'extansion .dot"<<endl;
+    return 1;
+  }
+
+  char path[s_path->length()+1];
+  strcpy(path,s_path->c_str());
+
   infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
 
   /////////////////////////////////////////////////////////////////////////////
   //RECHERCHE DES NOMS ET CREATION DES OBJETS
   /////////////////////////////////////////////////////////////////////////////
+
+  if(check_open_file(&infile)){
+    return 1;
+  }
+
 
   while(getline(infile, ligne)){
     //    cout << ligne << endl;

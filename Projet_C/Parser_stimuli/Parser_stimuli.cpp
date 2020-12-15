@@ -1,19 +1,32 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string.h>
 #include <map>
 #include <list>
 #include <vector>
+#include <stdlib.h>
 
 #include "Parser_stimuli.h"
+#include "../Parser_gate/Parser_gate.h"
+
 
 using namespace std;
 
-//Vérification si l'entrée du stimulis est une entrée du circuit et si toutes
-//les entrée du circuit à une valeur
-//retourne 0 si pas d'erreur détecté ou 1 si une erreur est détecté
+bool check_ext_path_json(const string * s_path){
+  if(s_path->find(".json") == string::npos){
+    return 1;
+  }
+  return 0;
+}
 
-
+//Vérification de la syntaxe du fichier
+// bool verif_syntaxe(ifstream * infile){
+//
+//
+//
+//   return 0;
+// }
 
 //Recherche si un string est présent dans un vector de string
 //return 0 si trouvé, 1 si pas trouvé
@@ -26,6 +39,10 @@ bool find_vector(const vector<string> * vector,const string * nom){
   return 1;
 }
 
+//Vérification si l'entrée du stimulis est une entrée du circuit et si toutes
+//les entrée du circuit à une valeur
+//retourne 0 si pas d'erreur détecté ou 1 si une erreur est détecté
+
 bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
   vector<string> v_name; //vector des noms des entrées trouvé dans le fichier
   int nb_ligne = 0; // Compteur de ligne
@@ -33,7 +50,7 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
 
   //remplissage vector name avec les nom de chaque entrée trouvé dans le fichier
   while(getline(*infile, ligne)){
-    cout<<ligne<<endl;
+//    cout<<ligne<<endl;
     if(ligne.find("name:") != string::npos){
 
       //Recherche du nom
@@ -41,7 +58,6 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
       v_name.push_back(ligne.substr(0,ligne.find("'")));
 
       //Vérification si l'entrée du stimuli est une entrée du circuits
-      cout<<v_name.back()<<endl;
       if(find_vector(v_in,&v_name.back())==1){
         cout << "L'entrée " << v_name.back() << " n'est pas présente dans le circuit, ligne "<<nb_ligne<<endl;
         return 1;
@@ -72,9 +88,8 @@ bool verif_delta(const vector<string> *v_in, const map<string,vector<int>*> *m_t
   return 0;
 }
 
-
 //Parser main
-int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,vector<int> *> *m_stimuli,const char * path){
+int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,vector<int> *> *m_stimuli,const string * s_path){
 
   ////////////////////////////////////////////////////////////////////////////////
   //OUVERTURE FICHIER et définition variable
@@ -87,11 +102,33 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
 
   string ligne;
   ifstream infile;
+
+  //Check de la bonne extansion
+  if(check_ext_path_json(s_path)){
+    cout <<"Erreur, le fichier stimulis n'as pas l'extansion .json"<<endl;
+    return 1;
+  }
+
+  //conversion du path de string à char pour fonction ouverture fichier
+  char path[s_path->length()+1];
+  strcpy(path,s_path->c_str());
+
   infile.open(path, fstream::in); //ouverture du fichier en mode lecture
+
+  //Check de la bonne ouverture du fichier
+  if(check_open_file(&infile)){
+    return 1;
+  }
 
   /////////////////////////////////////////////////////////////////////////////
   //RECHERCHE DES NOMS ENTREES
   /////////////////////////////////////////////////////////////////////////////
+
+  //Verification de la syntaxe du fichier
+  // if(verif_syntaxe(&infile)==1){
+  //   cout<<"Erreur de syntaxe du fichier."<<endl;
+  //   return 1;
+  // }
 
   //Verification des nom des entrees
   if(verif_nom_input(&infile,v_in)==1){

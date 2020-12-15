@@ -35,7 +35,7 @@ int main(int argc, char const *argv[]) {
   //Demande des path des deux fichiers
   /////////////////////////////////////////////////////////////////////////////
 
-  char path_stru[] = "Test_lecture.dot";
+  string path_stru = "Test_lecture.dot";
   // char path_stru[];
   // char path_stimu[];
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[]) {
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_gate(&m_input,&m_output,&v_gate,&v_tamp_output,&v_in,&v_out,path_stru)!=0){
+  if(parser_gate(&m_input,&m_output,&v_gate,&v_tamp_output,&v_in,&v_out,&path_stru)!=0){
     cout<<"Erreur de lecture du fichier .dot"<< endl;
     exit(EXIT_FAILURE);
   }

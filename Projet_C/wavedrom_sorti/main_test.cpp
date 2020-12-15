@@ -36,14 +36,14 @@ int main(){
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
   //Appel du parser gate
-  char path_stru[] = "../test_simu/test1.dot";
-  if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output, path_stru)){
+  string path_stru = "../test_simu/test1.dot";
+  if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output,&path_stru)){
     return 1;
   }
 
   //Appel du parser simu
-  char path_stimuli[] = "../test_simu/test1_stimulis.json";
-  if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, path_stimuli)){
+  string path_stimuli = "../test_simu/test1_stimulis.json";
+  if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, &path_stimuli)){
     return 1;
   }
 
@@ -148,8 +148,8 @@ int main(){
 
 
   //Appel du parser de sortie
-  char path_output_file[] = "test_output.json";
-  if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,path_output_file)){
+  string path_output_file = "test_output.json";
+  if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,&path_output_file)){
     return 1;
   }
 

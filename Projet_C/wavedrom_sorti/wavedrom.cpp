@@ -4,18 +4,19 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <string.h>
 
 #include "wavedrom.h"
+#include "../Parser_stimuli/Parser_stimuli.h"
 
 using namespace std;
 
 //Vérifie si le fichier de sortie est bien créé et que l'on peut l'utiliser
 //return 0 si pas de problème sinon 1
-bool verif_open_file(const ofstream * infile){
+bool check_open_file(const ofstream * infile){
   if(infile){  //On teste si tout est OK après création du fichier
     return 0;
   }
-  else cout << "ERREUR: Impossible d'ouvrir le fichier de sortie "<< endl;
   return 1;
 }
 
@@ -70,14 +71,26 @@ bool fill_wave(const vector<int> *v_duree_delta,const vector<string> *v_name,
 }
 
 
-
 //Main
 int wavedrom_output(const vector<string> *v_input,const vector<string> * v_output,
   const vector<int> *v_duree_delta,const map<string,vector<int>* > *m_stimulis,
-  const map<string,vector<int>* > *m_output,const char * path){
+  const map<string,vector<int>* > *m_output,const string * s_path){
+
+    //Check de la bonne extansion
+    if(check_ext_path_json(s_path)){
+        cout <<"Erreur, le fichier stimulis n'as pas l'extansion .json"<<endl;
+      return 1;
+    }
+
+    //conversion du path de string à char pour fonction ouverture fichier
+    char path[s_path->length()+1];
+    strcpy(path,s_path->c_str());
 
     ofstream infile(path);
-    if(verif_open_file(&infile)){
+
+    //check ouverture fichier
+    if(check_open_file(&infile)){
+      cout << "Erreur: Impossible d'ouvrir le fichier de sortie "<< endl;
       return 1;
     }
 

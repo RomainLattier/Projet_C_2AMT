@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
   v_in.push_back("C_in");
 
   //char path_stimuli[] = "Test_delta_cycle.json";
-  char path_stimuli[] = "Test_delta_cycle.json";
+  string path_stimuli = "Test_delta_cycle.json";
 
   //Appel du parser de lecture du fichier .dot
   //Et detection d'erreur de sortie
@@ -34,7 +34,7 @@ int main(int argc, char const *argv[]) {
   //Appel du parser du .dot
   /////////////////////////////////////////////////////////////////////////////
 
-  if(parser_stimuli(&v_in,&v_delta,&m_stimuli,path_stimuli)!=0){
+  if(parser_stimuli(&v_in,&v_delta,&m_stimuli,&path_stimuli)!=0){
     cout<<"Erreur de lecture du fichier wavedrom"<< endl;
     exit(EXIT_FAILURE);
   }

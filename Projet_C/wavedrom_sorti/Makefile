@@ -9,4 +9,4 @@ test:  main_test.o wavedrom.o ../Porte/Gate.o ../Porte/Gate_comb.o ../Porte/Gate
 	g++ $(CFLAGS) -c -g $^
 
 clean :
-	rm -f *.o  ../Porte/*.o ../Porte/Combinatoire/*.o ../Parser_gate/*.o ../Parser_stimuli/*.o  *~ test
+	rm -f *.o  ../Porte/*.o ../Porte/Combinatoire/*.o ../Parser_gate/*.o ../Parser_stimuli/*.o  *~ test *.json
