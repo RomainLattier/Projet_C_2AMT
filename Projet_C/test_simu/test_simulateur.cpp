@@ -23,6 +23,8 @@
 
 #include "../Porte/Gate_out.h"
 
+//#include "../Porte/Gate_mux.h"
+
 int main(){
   map<string,vector<Gate *>* > m_input; //map des entres du circuit
   map<string,vector<int>* > m_output; //map des sorties du circuit
@@ -34,213 +36,25 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
+  string s_path_stru;
+  string s_path_stimuli;
+  cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
+  cin >> s_path_stru;
+  cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom)"<<endl;
+  cin >> s_path_stimuli;
   //Appel du parser gate
-  char path_stru[] = "test1.dot";
+  char path_stru[s_path_stru.length()+1];
+  strcpy(path_stru,s_path_stru.c_str());
   if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output, path_stru)){
     return 1;
   }
 
   //Appel du parser simu
-  char path_stimuli[] = "test1_stimulis.json";
+  char path_stimuli[s_path_stimuli.length()+1];
+  strcpy(path_stimuli,s_path_stimuli.c_str());
   if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, path_stimuli)){
     return 1;
   }
-
-  //Variable de test
-  // v_input.push_back("A");
-  // v_input.push_back("B");
-  // v_input.push_back("C");
-  // v_input.push_back("D");
-  //
-  // v_output.push_back("S");
-  // v_output.push_back("Q");
-  //
-  // Xor X1("Xor1_2", 2);
-  // And A1("And1_3", 3);
-  // Or O1("Or1_2", 2);
-  // Gate_out S("S", 1);
-  // Gate_out Q("Q", 1);
-  //
-  // X1.add_input(0);
-  // X1.add_input(0);
-  //
-  // A1.add_input(0);
-  // A1.add_input(0);
-  // A1.add_input(0);
-  //
-  // O1.add_input(0);
-  // O1.add_input(0);
-  //
-  // S.add_input(0);
-  //
-  // Q.add_input(0);
-  //
-  // X1.add_output(&S);
-  // X1.add_output(&O1);
-  //
-  // A1.add_output(&O1);
-  //
-  // O1.add_output(&Q);
-  //
-  // v_output_tampon.push_back(&S);
-  // v_output_tampon.push_back(&Q);
-  // v_gate_all.push_back(&A1);
-  // v_gate_all.push_back(&O1);
-  // v_gate_all.push_back(&X1);
-  //
-  //
-  // vector<Gate *>* v_a = new vector<Gate *>();
-  // v_a->push_back(&X1);
-  // m_input.insert(pair<string,vector<Gate *>* >("A",v_a) );
-  //
-  // vector<Gate *>* v_b = new vector<Gate *>();
-  // v_b->push_back(&X1);
-  // v_b->push_back(&A1);
-  // m_input.insert(pair<string,vector<Gate *>* >("B",v_b) );
-  //
-  // vector<Gate *>* v_c = new vector<Gate *>();
-  // v_c->push_back(&A1);
-  // m_input.insert(pair<string,vector<Gate *>* >("C",v_c) );
-  //
-  // vector<Gate *>* v_d = new vector<Gate *>();
-  // v_d->push_back(&A1);
-  // m_input.insert(pair<string,vector<Gate *>* >("D",v_d) );
-  //
-  // vector<int>* v_s = new vector<int>();
-  // v_s->push_back(0);
-  // v_s->push_back(7);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(7);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(7);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  // v_s->push_back(7);
-  // v_s->push_back(0);
-  // v_s->push_back(0);
-  //
-  // vector<int>* v_q = new vector<int>();
-  // v_q->push_back(0);
-  // v_q->push_back(7);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(7);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(7);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  // v_q->push_back(7);
-  // v_q->push_back(0);
-  // v_q->push_back(0);
-  //
-  // m_output.insert(pair<string,vector<int>* >("S",v_s) );
-  // m_output.insert(pair<string,vector<int>* >("Q",v_q) );
-  //
-  // vector<int>* v_stimulisA = new vector<int>();
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(0);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  // v_stimulisA->push_back(1);
-  //
-  // m_stimulis.insert(pair<string,vector<int>* >("A",v_stimulisA) );
-  //
-  // vector<int>* v_stimulisB = new vector<int>();
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(0);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  // v_stimulisB->push_back(1);
-  //
-  // m_stimulis.insert(pair<string,vector<int>* >("B",v_stimulisB) );
-  //
-  // vector<int>* v_stimulisC =new vector<int>();
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(0);
-  // v_stimulisC->push_back(1);
-  // v_stimulisC->push_back(1);
-  //
-  // m_stimulis.insert(pair<string,vector<int>* >("C",v_stimulisC) );
-  //
-  // vector<int>* v_stimulisD = new vector<int>();
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  // v_stimulisD->push_back(0);
-  // v_stimulisD->push_back(1);
-  //
-  // m_stimulis.insert(pair<string,vector<int>* >("D",v_stimulisD) );
-  //
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
-  // v_duree_delta.push_back(2);
 
   for(unsigned i = 0; i < v_output.size(); i++){
     for(unsigned j = 0; j < v_duree_delta.size(); j++){
@@ -324,11 +138,8 @@ int main(){
 
     //Simu des portes à faire.
     for(unsigned i = 0; i<v_gate_all.size();i++){
-      cout << "calc_and_affect" << endl;
-      cout << "v_gate_all.size() " << v_gate_all.size() << endl;
       v_gate_all.at(i)->calc_and_affect();
     }
-
   }
 
   //Appel du parser de sortie

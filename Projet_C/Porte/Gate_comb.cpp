@@ -4,6 +4,7 @@
 
 #include "Gate.h"
 #include "Gate_comb.h"
+//#include "Gate_mux.h"
 
 using namespace std;
 
@@ -27,9 +28,12 @@ void Gate_comb::calc_and_affect(){
     for(unsigned i = 0; i < this->output.size(); i++){
       // cout << "res " << res << endl << endl;
       // cout << "output.at(i).getName() " << output.at(i)->getName() << endl << endl;
-      /*if(this->output.at(i)->get_is_a_mux()){ //cas special des mux
-        if (this->getName() == this->output.at(i)->get
-      }*/
+      // if( (this->output.at(i)->get_is_a_mux()) && (this->getName() == this->output.at(i)->get_sel_gate_name()) ){ //cas special des mux
+      //   this->output.at(i)->set_sel(res);
+      // }
+      // else{
+      //   this->output.at(i)->update_input(res);
+      // }
       this->output.at(i)->update_input(res);
     }
     this->nb_entry_rdy = 0; //Reset du nombre d'entrée actualisé
