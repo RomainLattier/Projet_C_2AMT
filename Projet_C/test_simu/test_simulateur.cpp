@@ -242,7 +242,11 @@ int main(){
   // v_duree_delta.push_back(2);
   // v_duree_delta.push_back(2);
 
-  cout << v_output.size() << endl;
+  for(unsigned i = 0; i < v_output.size(); i++){
+    for(unsigned j = 0; j < v_duree_delta.size(); j++){
+      m_output[v_output.at(i)]->push_back(0);
+    }
+  }
 
   for (unsigned i = 0; i < v_output.size();i++){
     cout << v_output.at(i) << endl;
@@ -257,13 +261,13 @@ int main(){
   unsigned it_delta_cycle = 0; //indice du delta_cycle
   for(unsigned i = 0; i<v_input.size(); i++){ //on parcourt la liste v_input pour recuper les clés d'input
     for(unsigned j = 0; j<m_input[v_input.at(i)]->size(); j++){ //on parcourt le vecteur correspondant à la clé
-       // cout << "i " << i << endl;
-       // cout << "j " << j << endl;
-       // cout << v_input.at(i) << endl;
-       // cout << m_input[v_input.at(i)].at(j)->getName() << endl;
-       // cout << it_delta_cycle << endl;
-       // cout << "size stimulis " << m_stimulis[v_input.at(i)].size() << endl;
-       // cout << "valeur stimulis" << m_stimulis[v_input.at(i)].at(it_delta_cycle) << endl;
+       cout << "i " << i << endl;
+       cout << "j " << j << endl;
+       cout << v_input.at(i) << endl;
+       cout << m_input[v_input.at(i)]->at(j)->getName() << endl;
+       cout << it_delta_cycle << endl;
+       cout << "size stimulis " << m_stimulis[v_input.at(i)]->size() << endl;
+       cout << "valeur stimulis" << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
        m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
        cout << endl <<endl;
     }
@@ -320,6 +324,8 @@ int main(){
 
     //Simu des portes à faire.
     for(unsigned i = 0; i<v_gate_all.size();i++){
+      cout << "calc_and_affect" << endl;
+      cout << "v_gate_all.size() " << v_gate_all.size() << endl;
       v_gate_all.at(i)->calc_and_affect();
     }
 

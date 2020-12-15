@@ -13,9 +13,9 @@ OR_out = [label = "OR2" ];
 
 A -> XOR_in -> OR_out -> Q;
 B -> XOR_in;
-B -> AND3 -> OR_out;
-C -> AND3;
-D -> AND3;
+B -> AND_in -> OR_out;
+C -> AND_in;
+D -> AND_in;
 
 XOR_in -> S;
 
