@@ -35,7 +35,7 @@ public:
     sel_name.push_back(s);
   }
 
-  void add_sel_name(string s){
+  void add_gate_input(string s){
     gate_input.push_back(s);
   }
 
