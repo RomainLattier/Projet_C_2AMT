@@ -1,0 +1,22 @@
+digraph test1 {
+
+A [label = "INPUT"];
+B [label = "INPUT"];
+C [label = "INPUT"];
+D [label = "INPUT"];
+S [label = "OUTPUT"];
+Q [label = "OUTPUT"];
+
+XOR_in = [label = "XOR2" ];
+AND_in = [label = "AND3" ];
+OR_out = [label = "OR2" ];
+
+A -> XOR_in -> OR_out -> Q;
+B -> XOR_in;
+B -> AND3 -> OR_out;
+C -> AND3;
+D -> AND3;
+
+XOR_in -> S;
+
+}
