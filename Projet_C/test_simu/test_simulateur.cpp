@@ -4,6 +4,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <math.h>
 
 //include des Parser
 #include "../Parser_gate/Parser_gate.h"
@@ -24,7 +25,7 @@
 
 #include "../Porte/Gate_out.h"
 
-//#include "../Porte/Gate_mux.h"
+#include "../Porte/Gate_mux.h"
 
 int main(){
   map<string,vector<Gate *>* > m_input; //map des entres du circuit

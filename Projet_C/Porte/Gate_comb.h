@@ -22,6 +22,8 @@ public:
 
   void calc_and_affect();
 
+  void update_mux(int n, string s);
+
   virtual int operation(const int & a, const int & b) = 0;
 
 };

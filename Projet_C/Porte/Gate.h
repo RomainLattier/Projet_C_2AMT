@@ -76,6 +76,8 @@ public:
 
   virtual void calc_and_affect() = 0;
 
+  virtual void update_mux(int n, string s) = 0;
+
 };
 
 #endif
