@@ -1,0 +1,12 @@
+I1 [label = "INPUT"];
+I2 [label = "INPUT"];
+GATE1 [label = "AND2"];
+GATE2 [label = "OR2"];
+GATE3 [label = "AND2"];
+O [label = "OUTPUT"];
+
+I1 -> GATE1 -> GATE2;
+I2 -> GATE2;
+GATE2 -> GATE3;
+GATE2 -> GATE1;
+I1 -> GATE3 -> O;
