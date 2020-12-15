@@ -8,6 +8,7 @@
 //include des Parser
 #include "../Parser_gate/Parser_gate.h"
 #include "../Parser_stimuli/Parser_stimuli.h"
+#include "../wavedrom_sorti/wavedrom.h"
 
 //include des gate
 #include "../Porte/Gate.h"
@@ -150,6 +151,11 @@ int main(){
     for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
       cout << m_output[v_output.at(i)]->at(j) << endl;
     }
+  }
+
+  char path_output_file[] = "test_output.json";
+  if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,path_output_file)){
+    return 1;
   }
 
   //Liberation de la memoire
