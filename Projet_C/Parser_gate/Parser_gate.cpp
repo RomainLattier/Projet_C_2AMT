@@ -18,6 +18,14 @@
 
 using namespace std;
 
+//initialisation des valeurs des input
+
+bool fill_gate_input(Gate * gate){
+  for(int i = 0; i<gate->get_nb_of_entry();i++){
+    gate->add_input(0);
+  }
+}
+
 //Recherche d'une valeur dans un vecteur
 bool recherche_v(const string *nom_r,const vector<string> *v_base){
 
@@ -133,6 +141,11 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
   if(m_tamp_output->count(*nom_r_2) == 0){//Verification pas deja cree
     Gate_out * ptr_gate_tamp = new Gate_out(*nom_r_2,1);
+    if(fill_gate_input(ptr_gate_tamp)!=0){
+      cout<<"Erreur de l'initialisation des input de la porte "<<
+      ptr_gate_tamp->getName()<<endl;
+      return 1;
+    }
 
     for(int i = 0;i<v_gate->size();i++){ //Recherche du pointeur de la gate a gauche
       if(v_gate->at(i)->getName() == *nom_r_1){
@@ -152,15 +165,11 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
   return 1;
 }
 
+//Conversion de la map tampon en un vector
+
 bool change_map_to_vector(map<string,Gate*>* m_gate,vector<Gate*>* v_gate){
   for(map<string, Gate*>::iterator itr = m_gate->begin(); itr != m_gate->end(); itr++){
     v_gate->push_back(itr->second);
-  }
-}
-
-bool fill_gate_input(Gate * gate){
-  for(int i = 0; i<gate->get_nb_of_entry();i++){
-    gate->add_input(0);
   }
 }
 
@@ -304,7 +313,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
       int type_1 = 0; //init du type du nom avant la fleche
       int type_2 = 0; //init a 0 pour le deuxieme
       if(recherche_type(&type_1,&nom_r_1,v_in,v_out,&v_name_gate)!=0){
-        cout<<"Erreur de lecture du fichier .dot, nom non reconnu ligne "<<
+        cout<<"Erreur, nom "<< nom_r_1 <<"non reconnu ligne "<<
          nb_ligne<< endl;
         return 1;
       }
@@ -319,8 +328,8 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
         }
 
         if(recherche_type(&type_2,&nom_r_2,v_in,v_out,&v_name_gate)!=0){
-          cout<<"Erreur de lecture du fichier .dot, nom non reconnu ligne "<<
-           nb_ligne << endl;
+          cout<<"Erreur, nom "<< nom_r_1 <<"non reconnu ligne "<<
+           nb_ligne<< endl;
           return 1;
         }
 
