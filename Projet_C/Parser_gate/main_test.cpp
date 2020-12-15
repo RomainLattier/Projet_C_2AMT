@@ -91,7 +91,7 @@ int main(int argc, char const *argv[]) {
 
   //test creation map output
   cout<<"\n------------------------------------"<<endl;
-  cout <<"Test de la création de la map input"<<endl;
+  cout <<"Test de la création de la map output"<<endl;
   for(int i = 0;i<v_out.size();i++){
     cout << "\nLa sortie " << v_out.at(i)<< " a un vecteur avec les valeurs :"<<endl;
     for(int j = 0; j<m_output.at(v_out.at(i))->size();j++){

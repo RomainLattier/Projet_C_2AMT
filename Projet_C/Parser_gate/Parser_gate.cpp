@@ -158,6 +158,13 @@ bool change_map_to_vector(map<string,Gate*>* m_gate,vector<Gate*>* v_gate){
   }
 }
 
+bool fill_gate_input(Gate * gate){
+  for(int i = 0; i<gate->get_nb_of_entry();i++){
+    gate->add_input(0);
+  }
+}
+
+
 //Parser main
 
 int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > *m_output,
@@ -170,6 +177,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
   vector<string> v_name_gate;
   map<string, Gate*> m_tamp_output;
+  int nb_ligne = 0;
   string ligne;
   ifstream infile;
   infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
@@ -201,49 +209,86 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
     else if(ligne.find("\"AND") != string::npos){
       And * ptr_obj = new And(nom,(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"INV") != string::npos){
       Inv * ptr_obj = new Inv(nom,1);
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"NAND") != string::npos){
       Nand * ptr_obj = new Nand(nom,(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"NOR") != string::npos){
       Nor * ptr_obj = new Nor(nom,(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"OR") != string::npos){
       Or * ptr_obj = new Or(nom,(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"XNOR") != string::npos){
       Xnor * ptr_obj = new Xnor(nom,(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"XOR") != string::npos){
       Xor * ptr_obj = new Xor(nom,(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
+      if(fill_gate_input(ptr_obj)!=0){
+        cout<<"Erreur de l'initialisation des input de la porte "<<
+        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
+        return 1;
+      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
+    nb_ligne++;
   }
 
   infile.clear();
   infile.seekg(0);
+  nb_ligne = 0;
 
   ////////////////////////////////////////////////////////////////////////////////
   //CREATION DES ENTRES SORTIE DES GATES
@@ -259,8 +304,8 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
       int type_1 = 0; //init du type du nom avant la fleche
       int type_2 = 0; //init a 0 pour le deuxieme
       if(recherche_type(&type_1,&nom_r_1,v_in,v_out,&v_name_gate)!=0){
-        cout<<"Erreur de lecture du fichier .dot, nom non reconnu caractère : "<<
-         infile.tellg() << endl;
+        cout<<"Erreur de lecture du fichier .dot, nom non reconnu ligne "<<
+         nb_ligne<< endl;
         return 1;
       }
 
@@ -269,13 +314,13 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         index_min += nom_r_1.size() + 4;
         if(recherche_nom_suivant(&eol,&ligne,&index_min,&nom_r_2)!=0){
-          cout<<"Erreur de lecture du fichier .dot, caractère : "<< infile.tellg() << endl;
+          cout<<"Erreur de lecture du fichier .dot, ligne "<< nb_ligne << endl;
           return 1;
         }
 
         if(recherche_type(&type_2,&nom_r_2,v_in,v_out,&v_name_gate)!=0){
-          cout<<"Erreur de lecture du fichier .dot, nom non reconnu caractère : "<<
-           infile.tellg() << endl;
+          cout<<"Erreur de lecture du fichier .dot, nom non reconnu ligne "<<
+           nb_ligne << endl;
           return 1;
         }
 
@@ -296,8 +341,8 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
         else if(type_1 == 1 && type_2 == 3){
           if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
-             nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
-              infile.tellg() << endl;
+             nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, ligne " <<
+              nb_ligne << endl;
             return 1;
           }
         }
@@ -306,8 +351,8 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
         else if(type_1 == 3 && type_2 == 2){
           if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
-             nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
-              infile.tellg() << endl;
+             nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, ligne " <<
+              nb_ligne << endl;
             return 1;
           }
         }
@@ -315,19 +360,19 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
         //Cas ou element de gauche est une entre et element de droite une sortie
         else if(type_1 == 1 && type_2 == 2){
           cout<<"Attention, l'entrée " << nom_r_1 <<
-          " est directement connecté à la sortie "<< nom_r_2 <<endl;
+          " est directement connecté à la sortie "<< nom_r_2 <<", ligne "<<nb_ligne<<endl;
 
           if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
-             nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
-              infile.tellg() << endl;
+             nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, ligne " <<
+              nb_ligne << endl;
             return 1;
           }
 
           if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
-             nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
-              infile.tellg() << endl;
+             nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, ligne : " <<
+              nb_ligne << endl;
             return 1;
           }
         }
@@ -335,7 +380,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
         //Detection erreur si sortie sur une entre ou porte sur entre
         else if(type_2 == 1){
           cout << "Erreur de d'interconnexion dans la structure du circuit: une sorti est connecté à un INPUT."<<endl;
-          cout << "Voir caractère : " << infile.tellg() << endl;
+          cout << "Voir ligne " << nb_ligne << endl;
           return 1;
         }
 
@@ -344,6 +389,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
       }
     }
+    nb_ligne++;
   }
 
   //Conversion de la map tampon en un vector
