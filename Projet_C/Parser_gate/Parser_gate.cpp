@@ -36,12 +36,6 @@ bool check_open_file(const ifstream * infile){
   return 1;
 }
 
-bool fill_gate_input(Gate * gate){
-  for(int i = 0; i<gate->get_nb_of_entry();i++){
-    gate->add_input(0);
-  }
-}
-
 //Recherche d'une valeur dans un vecteur
 bool recherche_v(const string *nom_r,const vector<string> *v_base){
 
@@ -157,11 +151,6 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
   if(m_tamp_output->count(*nom_r_2) == 0){//Verification pas deja cree
     Gate_out * ptr_gate_tamp = new Gate_out(*nom_r_2,1);
-    if(fill_gate_input(ptr_gate_tamp)!=0){
-      cout<<"Erreur de l'initialisation des input de la porte "<<
-      ptr_gate_tamp->getName()<<endl;
-      return 1;
-    }
 
     for(int i = 0;i<v_gate->size();i++){ //Recherche du pointeur de la gate a gauche
       if(v_gate->at(i)->getName() == *nom_r_1){
@@ -248,77 +237,42 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
     else if(ligne.find("\"AND") != string::npos){
       And * ptr_obj = new And(nom,(int)ligne.substr(ligne.find("\"AND") + 4,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"INV") != string::npos){
       Inv * ptr_obj = new Inv(nom,1);
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"NAND") != string::npos){
       Nand * ptr_obj = new Nand(nom,(int)ligne.substr(ligne.find("\"NAND") + 5,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"NOR") != string::npos){
       Nor * ptr_obj = new Nor(nom,(int)ligne.substr(ligne.find("\"NOR") + 4,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"OR") != string::npos){
       Or * ptr_obj = new Or(nom,(int)ligne.substr(ligne.find("\"OR") + 3,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"XNOR") != string::npos){
       Xnor * ptr_obj = new Xnor(nom,(int)ligne.substr(ligne.find("\"XNOR") + 5,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }
 
     else if(ligne.find("\"XOR") != string::npos){
       Xor * ptr_obj = new Xor(nom,(int)ligne.substr(ligne.find("\"XOR") + 4,1).at(0)-'0');
-      if(fill_gate_input(ptr_obj)!=0){
-        cout<<"Erreur de l'initialisation des input de la porte "<<
-        ptr_obj->getName()<< "ligne "<<nb_ligne<<endl;
-        return 1;
-      }
       v_gate->push_back(ptr_obj);
       v_name_gate.push_back(nom);
     }

@@ -21,7 +21,6 @@ using namespace std;
 
 bool check_open_file(const ifstream * infile);
 bool check_ext_path_dot(const string * s_path);
-bool fill_gate_input(Gate * gate);
 bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);
 bool recherche_v(const string *nom_r,const vector<string> *v_base);
 bool recherche_nom_suivant(bool * eol,const string * ligne,int * index_min, string *nom);
