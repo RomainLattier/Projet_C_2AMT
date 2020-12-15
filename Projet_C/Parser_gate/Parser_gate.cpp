@@ -152,11 +152,16 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
   return 1;
 }
 
+bool change_map_to_vector(map<string,Gate*>* m_gate,vector<Gate*>* v_gate){
+  for(map<string, Gate*>::iterator itr = m_gate->begin(); itr != m_gate->end(); itr++){
+    v_gate->push_back(itr->second);
+  }
+}
 
 //Parser main
 
 int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > *m_output,
-  vector<Gate *> *v_gate, map<string, Gate*> *m_tamp_output,vector<string> *v_in,
+  vector<Gate *> *v_gate, vector<Gate*> *v_tamp_output,vector<string> *v_in,
   vector<string> *v_out, char * path) {
 
   /////////////////////////////////////////////////////////////////////////////
@@ -164,6 +169,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
   /////////////////////////////////////////////////////////////////////////////
 
   vector<string> v_name_gate;
+  map<string, Gate*> m_tamp_output;
   string ligne;
   ifstream infile;
   infile.open(path, fstream::in); //ouverture du fichier .dot en mode lecture
@@ -288,7 +294,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //Cas element de gauche est une entre et element de droite une porte
         else if(type_1 == 1 && type_2 == 3){
-          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,m_tamp_output)!=0){
+          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
@@ -298,7 +304,7 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
 
         //cas ou element de gauche est une porte et element de droite est une sortie
         else if(type_1 == 3 && type_2 == 2){
-          if(link_m_tamp_output(m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
+          if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
@@ -311,14 +317,14 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
           cout<<"Attention, l'entrée " << nom_r_1 <<
           " est directement connecté à la sortie "<< nom_r_2 <<endl;
 
-          if(link_m_tamp_output(m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
+          if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
             return 1;
           }
 
-          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,m_tamp_output)!=0){
+          if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
              nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, voir caractère : " <<
               infile.tellg() << endl;
@@ -339,6 +345,13 @@ int parser_gate(map<string,vector<Gate *>* > *m_input,map<string,vector<int>* > 
       }
     }
   }
+
+  //Conversion de la map tampon en un vector
+
+  if(change_map_to_vector(&m_tamp_output,v_tamp_output)!=0){
+    cout<<"Erreur de conversion de map à vector pour le vector tampon de sortie "<<endl;
+    return 1;
+}
 
   ////////////////////////////////////////////////////////////////////////////////
   //FIN PROGRAMME
