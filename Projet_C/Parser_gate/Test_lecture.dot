@@ -3,10 +3,10 @@ digraph test {
 A [label = "INPUT"];
 B [label = "INPUT"];
 C_in [label = "INPUT"];
+
 SUM [label = "OUTPUT"];
 C_out [label = "OUTPUT"];
-TEST_in [label = "INPUT"];
-Test_out [label = "OUTPUT"];
+
 
 XOR_in [label = "XOR2" ];
 XOR_out [label = "XOR2" ];
@@ -28,6 +28,13 @@ B -> AND_AB;
 AND_C_in -> OR_C_out -> C_out;
 AND_AB -> OR_C_out;
 
-TEST_in -> Test_out;
+I1 [label = "INPUT"];
+I2 [label = "INPUT"];
+I3 [label = "INPUT"];
+
+M [label = "MUX2" sel = "I3"];
+O [label = "OUTPUT"];
+I1 -> M -> O;
+I2 -> M;
 
 }

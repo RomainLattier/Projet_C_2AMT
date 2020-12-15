@@ -7,6 +7,8 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <stdlib.h>
+#include <math.h>
 
 #include "../Porte/Combinatoire/And.h"
 #include "../Porte/Combinatoire/Inv.h"
@@ -16,6 +18,7 @@
 #include "../Porte/Combinatoire/Xnor.h"
 #include "../Porte/Combinatoire/Xor.h"
 #include "../Porte/Gate_out.h"
+#include "../Porte/Gate_mux.h"
 
 using namespace std;
 

@@ -4,11 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <string.h>
 #include <map>
 #include <list>
 #include <vector>
-
+#include <string.h>
 #include "../Parser_stimuli/Parser_stimuli.h"
 
 using namespace std;

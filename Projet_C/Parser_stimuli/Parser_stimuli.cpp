@@ -21,12 +21,20 @@ bool check_ext_path_json(const string * s_path){
 }
 
 //Vérification de la syntaxe du fichier
-// bool verif_syntaxe(ifstream * infile){
-//
-//
-//
-//   return 0;
-// }
+bool verif_syntaxe(ifstream * infile){
+  // unsigned n = 0;
+  // while(getline(*infile, ligne)){
+  //   switch (n) {
+  //     case /* value */:
+  //   }
+  //
+  //
+  //
+  //
+  //
+  // }
+  return 0;
+}
 
 //Recherche si un string est présent dans un vector de string
 //return 0 si trouvé, 1 si pas trouvé
@@ -125,10 +133,10 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   /////////////////////////////////////////////////////////////////////////////
 
   //Verification de la syntaxe du fichier
-  // if(verif_syntaxe(&infile)==1){
-  //   cout<<"Erreur de syntaxe du fichier."<<endl;
-  //   return 1;
-  // }
+  if(verif_syntaxe(&infile)==1){
+    cout<<"Erreur de syntaxe du fichier."<<endl;
+    return 1;
+  }
 
   //Verification des nom des entrees
   if(verif_nom_input(&infile,v_in)==1){

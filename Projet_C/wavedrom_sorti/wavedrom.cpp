@@ -1,13 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <map>
-#include <list>
-#include <vector>
-#include <string.h>
-
 #include "wavedrom.h"
-#include "../Parser_stimuli/Parser_stimuli.h"
 
 using namespace std;
 
