@@ -24,6 +24,8 @@ public:
     cout << "Destruction de la porte tampon de sort " << nom << endl;
   }
 
+  void update_mux(int n, string s);
+
   void calc_and_affect();
 
 };

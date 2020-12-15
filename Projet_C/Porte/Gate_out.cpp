@@ -13,3 +13,7 @@ void Gate_out::calc_and_affect(){
     cout << "Sortie" << this->nom << "stable";
   }
 }
+
+void Gate_out::update_mux(int n, string s){
+  cout << "Fonction vide update_mux de out" << endl;
+}

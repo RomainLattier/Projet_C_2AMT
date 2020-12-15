@@ -12,8 +12,9 @@ using namespace std;
 class Gate_mux : public virtual Gate {
 
 private:
-  Gate* sel_gate;
-  int sel;
+  vector<string> sel_name;
+  vector<string> gate_input;
+  vector<int> sel_value;
 
 public:
 
@@ -25,15 +26,9 @@ public:
     cout << "Destruction de la porte mux " << nom << endl;
   }
 
-  string get_sel_gate_name(){
-    return sel_gate->getName();
-  }
-
-  void set_sel(int n){
-    sel = n;
-  }
-
   void calc_and_affect();
+
+  void update_mux(int n, string s);
 
 };
 
