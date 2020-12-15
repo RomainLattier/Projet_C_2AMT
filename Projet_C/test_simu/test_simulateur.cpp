@@ -36,11 +36,15 @@ int main(){
 
   //Appel du parser gate
   char path_stru[] = "test1.dot";
-  int x = parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output, path_stru);
+  if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output, path_stru)){
+    return 1;
+  }
 
   //Appel du parser simu
-  char path_stimuli[] = "Test_delta_cycle.json";
-  int y = parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, path_stimuli);
+  char path_stimuli[] = "test1_stimulis.json";
+  if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, path_stimuli)){
+    return 1;
+  }
 
   //Variable de test
   // v_input.push_back("A");
@@ -237,6 +241,8 @@ int main(){
   // v_duree_delta.push_back(2);
   // v_duree_delta.push_back(2);
   // v_duree_delta.push_back(2);
+
+  cout << v_output.size() << endl;
 
   for (unsigned i = 0; i < v_output.size();i++){
     cout << v_output.at(i) << endl;
