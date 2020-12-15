@@ -15,7 +15,11 @@ protected:
   int nb_entry_rdy;
   vector<int> input;
   vector<Gate*> output;
+  //Attribut special mux;
   int is_a_mux;
+  vector<string> sel_name; //Nom des entre de sel le 1er dans le vector est le 1er à gauche sur la ligne
+  vector<string> gate_input; //Nom des entre de gate le 1er dans le vector est le 1er recontrer dans le fichier
+  vector<int> sel_value; //Stocke les valeurs des sel
 
 public:
 
@@ -76,6 +80,14 @@ public:
   int getValueAndReset();
 
   int getValueOutput();
+
+  void add_sel_name(string s){
+    sel_name.push_back(s);
+  }
+
+  void add_gate_input(string s){
+    gate_input.push_back(s);
+  }
 
   virtual void calc_and_affect() = 0;
 

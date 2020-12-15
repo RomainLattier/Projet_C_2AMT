@@ -12,9 +12,7 @@ using namespace std;
 class Gate_mux : public virtual Gate {
 
 private:
-  vector<string> sel_name; //Nom des entre de sel le 1er dans le vector est le 1er à gauche sur la ligne
-  vector<string> gate_input; //Nom des entre de gate le 1er dans le vector est le 1er recontrer dans le fichier
-  vector<int> sel_value; //Stocke les valeurs des sel
+  
 
 public:
 
