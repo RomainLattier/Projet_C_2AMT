@@ -31,6 +31,14 @@ public:
 
   void calc_and_affect();
 
+  void add_sel_name(string s){
+    sel_name.push_back(s);
+  }
+
+  void add_sel_name(string s){
+    gate_input.push_back(s);
+  }
+
   void update_mux(int n, string s);
 
 };
