@@ -21,7 +21,7 @@ public:
   Gate_mux(string name, int nb_entry, int nb_sel):Gate(name,nb_entry){
     cout << "Creation d'une porte mux " << nom << endl;
     for(int i = 0; i<nb_sel;i++){
-      set_value.push_back(0);
+      sel_value.push_back(0);
     }
   }
 
