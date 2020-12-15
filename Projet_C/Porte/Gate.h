@@ -22,6 +22,9 @@ public:
   Gate(string G_name, int G_nb_of_entry):nom(G_name),nb_of_entry(G_nb_of_entry){
     nb_entry_rdy = 0;
     is_a_mux = 0;
+    for(i = 0; i<nb_of_entry;i++){
+      input.push_back(0);
+    }
   };
 
   virtual ~Gate(){};

@@ -12,14 +12,17 @@ using namespace std;
 class Gate_mux : public virtual Gate {
 
 private:
-  vector<string> sel_name;
-  vector<string> gate_input;
-  vector<int> sel_value;
+  vector<string> sel_name; //Nom des entre de sel le 1er dans le vector est le 1er à gauche sur la ligne
+  vector<string> gate_input; //Nom des entre de gate le 1er dans le vector est le 1er recontrer dans le fichier
+  vector<int> sel_value; //Stocke les valeurs des sel
 
 public:
 
-  Gate_mux(string name, int nb_entry):Gate(name,nb_entry){
+  Gate_mux(string name, int nb_entry, int nb_sel):Gate(name,nb_entry){
     cout << "Creation d'une porte mux " << nom << endl;
+    for(i = 0; i<nb_sel;i++){
+      set_value.push_back(0);
+    }
   }
 
   virtual ~Gate_mux(){

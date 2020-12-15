@@ -33,14 +33,14 @@ void Gate_mux::calc_and_affect(){
 void Gate_mux::update_mux(int n, string s){
   int hit = 0;
   int index;
-  for (unsigned i = 0; i<this->gate_input.size(); i++){
+  for (unsigned i = 0; i<this->gate_input.size(); i++){ //On cherchie si c'est une entre
     if(this->gate_input.at(i) == s){
       hit = 1;
       index = i;
     }
   }
   if(!hit){
-    for(unsigned i = 0; i<this->sel_name.size(); i++){
+    for(unsigned i = 0; i<this->sel_name.size(); i++){ //On cherche si c'est une sel
       if(this->sel_name.at(i) == s){
         hit = 2;
         index = i;
@@ -50,10 +50,10 @@ void Gate_mux::update_mux(int n, string s){
   switch (hit) {
     case 0: cout << "Erreur hit Mux" << endl;
             break;
-    case 1: this->input.at(index) = n;
+    case 1: this->input.at(index) = n; //attribution a la bonne entre
             this->add_nb_entry_rdy();
             break;
-    case 2: this->sel_value.at(index) = n;
+    case 2: this->sel_value.at(index) = n; //attribution au bon sel
             this->add_nb_entry_rdy();
             break;
     default: cout << "Default de Mux" << endl;
