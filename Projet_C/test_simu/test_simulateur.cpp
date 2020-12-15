@@ -38,15 +38,20 @@ int main(){
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
   string s_path_stru;
+  string s_path_file_out;
   string s_path_stimuli;
   cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   cin >> s_path_stru;
-  cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom)"<<endl;
+  cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
   cin >> s_path_stimuli;
+  cout <<" Donnez le chemin avec le nom du fichier stimulis de sortie (fichier wavedrom avec extansion .json)"<<endl;
+  cin >> s_path_file_out;
+
   //Appel du parser gate
   char path_stru[s_path_stru.length()+1];
   strcpy(path_stru,s_path_stru.c_str());
   if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output, path_stru)){
+    cout << "Erreur de la lecture du fichier structure du circuit."<<endl;
     return 1;
   }
 
@@ -54,6 +59,7 @@ int main(){
   char path_stimuli[s_path_stimuli.length()+1];
   strcpy(path_stimuli,s_path_stimuli.c_str());
   if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis, path_stimuli)){
+    cout << "Erreur de la lecture du fichier stimulis du circuit."<<endl;
     return 1;
   }
 
@@ -146,15 +152,17 @@ int main(){
   //Appel du parser de sortie
 
 
-  for (unsigned i = 0; i < v_output.size();i++){
-    cout << v_output.at(i) << endl;
-    for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
-      cout << m_output[v_output.at(i)]->at(j) << endl;
-    }
-  }
+  // for (unsigned i = 0; i < v_output.size();i++){
+  //   cout << v_output.at(i) << endl;
+  //   for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
+  //     cout << m_output[v_output.at(i)]->at(j) << endl;
+  //   }
+  // }
 
-  char path_output_file[] = "test_output.json";
-  if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,path_output_file)){
+  char path_file_out[s_path_file_out.length()+1];
+  strcpy(path_file_out,s_path_file_out.c_str());
+  if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,path_file_out)){
+    cout <<"Erreur de l'écriture du fichier de sortie."<<endl;
     return 1;
   }
 

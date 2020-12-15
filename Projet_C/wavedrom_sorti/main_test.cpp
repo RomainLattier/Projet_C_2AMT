@@ -136,7 +136,6 @@ int main(){
 
   }
 
-
   cout<<"fin simu"<<endl;
 
   //Controle vector des durée de delta cycle
