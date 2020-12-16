@@ -15,6 +15,7 @@ protected:
   int nb_entry_rdy;
   vector<int> input;
   vector<Gate*> output;
+  vector<string> antescedant;
   //Attribut special mux;
   int is_a_mux;
   vector<string> sel_name; //Nom des entre de sel le 1er dans le vector est le 1er à gauche sur la ligne
@@ -101,7 +102,11 @@ public:
     gate_input.push_back(s);
   }
 
-  virtual void calc_and_affect() = 0;
+  bool rebouclage(string ante);
+
+  void add_antescedant(string ante);
+
+  virtual bool calc_and_affect() = 0;
 
   virtual void update_mux(int n, string s) = 0;
 

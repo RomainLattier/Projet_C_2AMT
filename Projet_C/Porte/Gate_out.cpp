@@ -8,10 +8,11 @@
 using namespace std;
 
 
-void Gate_out::calc_and_affect(){
+bool Gate_out::calc_and_affect(){
   if (this->nb_entry_rdy >= this->nb_of_entry){     //la porte est à calculer?
     cout << "Sortie" << this->nom << "stable";
   }
+  return 0;
 }
 
 void Gate_out::update_mux(int n, string s){

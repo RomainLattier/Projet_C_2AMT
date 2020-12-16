@@ -26,7 +26,7 @@ public:
 
   void update_mux(int n, string s);
 
-  void calc_and_affect();
+  bool calc_and_affect();
 
 };
 

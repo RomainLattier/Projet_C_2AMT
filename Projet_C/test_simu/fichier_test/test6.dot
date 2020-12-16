@@ -28,9 +28,9 @@ Z [label = "INPUT"];
 
 Mega_XOR [label = "XOR26" ];
 
-S [label = "OUTPUT"];
+SXORtie [label = "OUTPUT"];
 
-A -> Mega_XOR -> S;
+A -> Mega_XOR -> SXORtie;
 B -> Mega_XOR;
 C -> Mega_XOR;
 D -> Mega_XOR;

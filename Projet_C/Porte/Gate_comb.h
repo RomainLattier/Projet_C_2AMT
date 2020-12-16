@@ -20,7 +20,7 @@ public:
 
   virtual ~Gate_comb(){}
 
-  void calc_and_affect();
+  bool calc_and_affect();
 
   void update_mux(int n, string s);
 

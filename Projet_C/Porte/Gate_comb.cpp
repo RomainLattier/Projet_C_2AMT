@@ -9,11 +9,19 @@
 using namespace std;
 
 
-void Gate_comb::calc_and_affect(){
-  cout << "gate_comb" << endl;
-  cout << "this->getName() " << this->getName() << endl;
-  cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
-  cout << "this->nb_of_entry " << this->nb_of_entry << endl;
+bool Gate_comb::calc_and_affect(){
+  // cout << "this->getName()" << this->getName()<< endl;
+  for(unsigned i = 0; i < this->output.size(); i++){
+    this->output.at(i)->add_antescedant(this->getName());
+    if(this->rebouclage(output.at(i)->getName())){
+      cout << "erreur de rebouclage" << endl;
+      return 1;
+    }
+  }
+  // cout << "gate_comb" << endl;
+  // cout << "this->getName() " << this->getName() << endl;
+  // cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
+  // cout << "this->nb_of_entry " << this->nb_of_entry << endl;
   if (this->nb_entry_rdy == this->nb_of_entry){     //la porte est à calculer?
     // cout << "calcul de gate_comb " << endl;
     int res;
@@ -29,22 +37,23 @@ void Gate_comb::calc_and_affect(){
         res = this->operation(this->input.at(i), res);
       }
     }
-    cout << "gate_comb calculer " << endl;
-    cout << "this->output.size() " << this->output.size() << endl;
+    // cout << "gate_comb calculer " << endl;
+    // cout << "this->output.size() " << this->output.size() << endl;
     //Affectation du resulat aux portes suivantes
     for(unsigned i = 0; i < this->output.size(); i++){
       if(this->output.at(i)->get_is_a_mux()){
-        cout << "le prochain est un mux" << endl;
+        // cout << "le prochain est un mux" << endl;
         this->output.at(i)->update_mux(res, this->getName()) ;
       }
       else{
-        cout << "le suivant c'est pas un mux" << endl;
+        // cout << "le suivant c'est pas un mux" << endl;
         this->output.at(i)->update_input(res);
       }
       // this->output.at(i)->update_input(res);
     }
     this->nb_entry_rdy = 0; //Reset du nombre d'entrée actualisé
   }
+  return 0;
 }
 
 void Gate_comb::update_mux(int n, string s){
