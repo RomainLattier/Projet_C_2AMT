@@ -1,0 +1,7 @@
+{signal: [
+  {name: 'A', wave: '0011'},
+  {name: 'B', wave: '0101'},
+  {name: 'C', wave: '1111'},
+  {name: 'D', wave: '0000'},
+  {name: 'E', wave: '1001'},
+]}

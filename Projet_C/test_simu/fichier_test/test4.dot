@@ -1,0 +1,22 @@
+digraph test {
+A [label = "INPUT"];
+B [label = "INPUT"];
+C [label = "INPUT"];
+D [label = "INPUT"];
+E [label = "INPUT"];
+
+Mux [label = "MUX2" sel = "AND_in"];
+AND_in [label = "AND2" ];
+XOR_q [label = "XOR2" ];
+
+S [label = "OUTPUT"];
+Q [label = "OUTPUT"];
+
+A -> AND_in;
+B -> AND_in;
+C -> Mux -> S;
+D -> Mux;
+E -> XOR_q -> Q;
+Mux -> XOR_q;
+
+}
