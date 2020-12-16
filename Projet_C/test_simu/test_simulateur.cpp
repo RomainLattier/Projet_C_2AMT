@@ -38,9 +38,9 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "./fichier_test/test1.dot";
-  string path_stimuli = "./fichier_test/test1_stimulis.json";
-  string path_file_out = "./fichier_test/test1_result.json";
+  string path_stru = "./fichier_test/test_rebouclage2.dot";
+  string path_stimuli = "./fichier_test/test_rebouclage_stimulis.json";
+  string path_file_out = "./fichier_test/test_rebouclage_result.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;

@@ -5,12 +5,15 @@ I2 [label = "INPUT"];
 GATE1 [label = "AND2"];
 GATE2 [label = "OR2"];
 GATE3 [label = "AND2"];
+GATE4 [label = "OR2"];
+GATE5 [label = "AND2"];
 O [label = "OUTPUT"];
 
-I1 -> GATE1 -> GATE2;
+I1 -> GATE1 -> GATE5 -> O;
+I1 -> GATE2 -> GATE3 -> GATE4 -> GATE5;
+I2 -> GATE1;
 I2 -> GATE2;
-GATE2 -> GATE3;
-GATE2 -> GATE1;
-I1 -> GATE3 -> O;
+GATE1 -> GATE4;
+GATE4 -> GATE3;
 
 }
