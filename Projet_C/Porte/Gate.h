@@ -69,6 +69,14 @@ public:
     nb_entry_rdy = n;
   }
 
+  int get_output_size(){
+    return output.size();
+  }
+
+  int get_input_size(){
+    return input.size();
+  }
+
   void print_output_name();
 
   void print_input_value();

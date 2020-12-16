@@ -66,6 +66,20 @@ int main(){
     }
   }
 
+  for(unsigned i = 0; i < v_gate_all.size(); i++){
+    if(v_gate_all.at(i)->get_output_size() == 0){
+      cout << "La porte " << v_gate_all.at(i)->getName() << " n'a pas de sortie défini" << endl;
+      return 1;
+    }
+  }
+
+  for(unsigned i = 0; i<v_gate_all.size(); i++){
+    if(v_gate_all.at(i)->get_input_size() != v_gate_all.at(i)->get_nb_of_entry()){
+      cout << "La porte " << v_gate_all.at(i)->getName() << " n'a pas nb_of_entry = input size" << endl;
+      return 1;
+    }
+  }
+
   // for (unsigned i = 0; i < v_output.size();i++){
   //   cout << v_output.at(i) << endl;
   //   for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
@@ -103,6 +117,7 @@ int main(){
 
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
+    cout << endl << "debut boucle simu" << endl;
     // cout << "v_output_tampon.size()" << v_output_tampon.size() <<endl;
     for(unsigned i = 0; i<v_output_tampon.size(); i++){ //recherche si la simu pour ce delta est fini
       // cout << "i " << i << endl;
@@ -158,7 +173,7 @@ int main(){
       v_gate_all.at(i)->calc_and_affect();
     }
 
-    // if(debug == 10){
+    // if(debug == 3){
     //   return 0;
     // }
     // debug ++;
