@@ -179,10 +179,12 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
               v_gate->at(j)->add_gate_input(*nom_r_1);
             }
             v_gate->at(i)->add_output(v_gate->at(j)); //Affectation de la porte droite dans la porte gauche
+            return 0;
           }
         }
       }
     }
+    return 1;
   }
 
   //Conversion de la map tampon en un vector
@@ -434,7 +436,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             return 1;
           }
         }
-        if(type_1 == 2){
+        if(type_1 == 3){
           if(link_double_gate(v_gate,&nom_r_1,&nom_r_2)!=0){
             cout<<"Erreur de lecture du fichier .dot, connection entre la porte "<<
             nom_r_1 <<" et la sélection du mux "<< nom_r_2 << " impossible, ligne : " <<
