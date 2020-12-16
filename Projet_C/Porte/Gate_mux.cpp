@@ -10,11 +10,11 @@ using namespace std;
 
 
 void Gate_mux::calc_and_affect(){
-  // cout << "gate_mux" << endl;
-  // cout << "this->getName() " << this->getName() << endl;
-  // cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
-  // cout << "this->nb_of_entry " << this->nb_of_entry << endl;
-  // cout << "this->sel_name.size() " << this->sel_name.size() << endl;
+  cout << "gate_mux" << endl;
+  cout << "this->getName() " << this->getName() << endl;
+  cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
+  cout << "this->nb_of_entry " << this->nb_of_entry << endl;
+  cout << "this->sel_name.size() " << this->sel_name.size() << endl;
   if (this->nb_entry_rdy == this->nb_of_entry + this->sel_name.size()){     //la porte est à calculer?
     // cout << "calcul de gate_mux" << endl;
     int entry_nb = 0;
@@ -40,12 +40,12 @@ void Gate_mux::calc_and_affect(){
 }
 
 void Gate_mux::update_mux(int n, string s){
-  // cout << "dans lupdate mux" << endl;
+  cout << "dans lupdate mux" << endl;
   int hit = 0;
   int index = 0;
-  // cout << "nom de l'entre dans update mux " << s << endl;
+  cout << "nom de l'entre recherche dans mux " << s << endl;
   for (unsigned i = 0; i<this->gate_input.size(); i++){ //On cherchie si c'est une entre
-    // cout << "Nom des entre dans mux " << this->gate_input.at(i) << endl;
+     cout << "Nom des entre du mux " << this->gate_input.at(i) << endl;
     if(this->gate_input.at(i) == s){
       cout << "valeur dans gate_input" << gate_input.at(i) << endl;
       hit = 1;
@@ -54,7 +54,9 @@ void Gate_mux::update_mux(int n, string s){
   }
   if(!hit){
     for(unsigned i = 0; i<this->sel_name.size(); i++){ //On cherche si c'est une sel
+      cout << "Nom des entre dans sel du mux " << this->sel_name.at(i) << endl;
       if(this->sel_name.at(i) == s){
+        cout << "valeur dans sel_name" << sel_name.at(i) << endl;
         hit = 2;
         index = i;
       }
@@ -62,8 +64,8 @@ void Gate_mux::update_mux(int n, string s){
   }
   cout << "valeur de hit " << hit << endl;
   cout << "valeur de index " << index << endl;
-  cout << "this->input.size() " << this->input.size() << endl;
-  cout << "sel_value.size() " << sel_value.size() << endl;
+  // cout << "this->input.size() " << this->input.size() << endl;
+  // cout << "sel_value.size() " << sel_value.size() << endl;
   switch (hit) {
     case 0: cout << "Erreur hit Mux" << endl;
             break;
