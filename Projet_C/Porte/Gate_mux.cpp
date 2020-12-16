@@ -13,8 +13,11 @@ void Gate_mux::calc_and_affect(){
   if (this->nb_entry_rdy == this->nb_of_entry + this->sel_name.size()){     //la porte est à calculer?
     int entry_nb = 0;
     for(unsigned i = 0; i < this->sel_value.size(); i++){
-      entry_nb = entry_nb + pow(2,i);
+      if(sel_value.at(i)){
+        entry_nb = entry_nb + pow(2,i);
+      }
     }
+    // cout << "calcul de l'entre via sel " << entry_nb << endl;
     int res = this->input.at(entry_nb);
 
     //Affectation du resulat aux portes suivantes
@@ -33,7 +36,9 @@ void Gate_mux::calc_and_affect(){
 void Gate_mux::update_mux(int n, string s){
   int hit = 0;
   int index;
+  // cout << "nom de l'entre dans update mux " << s << endl;
   for (unsigned i = 0; i<this->gate_input.size(); i++){ //On cherchie si c'est une entre
+    // cout << "Nom des entre dans mux " << this->gate_input.at(i) << endl;
     if(this->gate_input.at(i) == s){
       hit = 1;
       index = i;
@@ -47,6 +52,8 @@ void Gate_mux::update_mux(int n, string s){
       }
     }
   }
+  // cout << "valeur de hit " << hit << endl;
+  // cout << "valeur de index " << index << endl;
   switch (hit) {
     case 0: cout << "Erreur hit Mux" << endl;
             break;

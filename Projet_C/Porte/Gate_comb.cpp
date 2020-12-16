@@ -10,6 +10,9 @@ using namespace std;
 
 
 void Gate_comb::calc_and_affect(){
+  cout << "this->getName() " << this->getName() << endl;
+  cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
+  cout << "this->nb_of_entry " << this->nb_of_entry << endl;
   if (this->nb_entry_rdy == this->nb_of_entry){     //la porte est à calculer?
     int res;
     if(this->nb_of_entry == 1){

@@ -38,15 +38,15 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru;
-  string path_file_out;
-  string path_stimuli;
-  cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
-  cin >> path_stru;
-  cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
-  cin >> path_stimuli;
-  cout <<" Donnez le chemin avec le nom du fichier stimulis de sortie (fichier wavedrom avec extansion .json)"<<endl;
-  cin >> path_file_out;
+  string path_stru = "test1.dot";
+  string path_stimuli = "test1_stimulis.json";
+  string path_file_out = "test1.json";
+  // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
+  // cin >> path_stru;
+  // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
+  // cin >> path_stimuli;
+  // cout <<" Donnez le chemin avec le nom du fichier stimulis de sortie (fichier wavedrom avec extansion .json)"<<endl;
+  // cin >> path_file_out;
 
   //Appel du parser gate
   if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output,&path_stru)){
@@ -66,12 +66,12 @@ int main(){
     }
   }
 
-  for (unsigned i = 0; i < v_output.size();i++){
-    cout << v_output.at(i) << endl;
-    for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
-      cout << m_output[v_output.at(i)]->at(j) << endl;
-    }
-  }
+  // for (unsigned i = 0; i < v_output.size();i++){
+  //   cout << v_output.at(i) << endl;
+  //   for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
+  //     cout << m_output[v_output.at(i)]->at(j) << endl;
+  //   }
+  // }
 
   //Simulation
   //Premiere update des entree
@@ -79,21 +79,26 @@ int main(){
   unsigned it_delta_cycle = 0; //indice du delta_cycle
   for(unsigned i = 0; i<v_input.size(); i++){ //on parcourt la liste v_input pour recuper les clés d'input
     for(unsigned j = 0; j<m_input[v_input.at(i)]->size(); j++){ //on parcourt le vecteur correspondant à la clé
-       cout << "i " << i << endl;
-       cout << "j " << j << endl;
-       cout << v_input.at(i) << endl;
-       cout << m_input[v_input.at(i)]->at(j)->getName() << endl;
-       cout << it_delta_cycle << endl;
-       cout << "size stimulis " << m_stimulis[v_input.at(i)]->size() << endl;
-       cout << "valeur stimulis" << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
-       m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
-       cout << endl <<endl;
+       // cout << "i " << i << endl;
+       // cout << "j " << j << endl;
+       // cout << v_input.at(i) << endl;
+       // cout << m_input[v_input.at(i)]->at(j)->getName() << endl;
+       // cout << it_delta_cycle << endl;
+       // cout << "size stimulis " << m_stimulis[v_input.at(i)]->size() << endl;
+       // cout << "valeur stimulis" << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
+       if(m_input[v_input.at(i)]->at(j)->get_is_a_mux()){
+         m_input[v_input.at(i)]->at(j)->update_mux(m_stimulis[v_input.at(i)]->at(it_delta_cycle), v_input.at(i));
+         // cout << "valeur ajouté dans mux " <<  m_stimulis[v_input.at(i)]->at(it_delta_cycle) << " dans " << v_input.at(i) << endl;
+       }
+       else{
+         m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
+       }
     }
   }
   cout << "apres 1er update" << endl;
 
   //Boucle de simu
-
+int debug =0;
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
     // cout << "v_output_tampon.size()" << v_output_tampon.size() <<endl;
@@ -108,8 +113,8 @@ int main(){
       }
     }
 
-    cout << "stab apres check update " << stab <<endl;
-    cout << "it_delta_cycle " << it_delta_cycle << endl;
+    // cout << "stab apres check update " << stab <<endl;
+    // cout << "it_delta_cycle " << it_delta_cycle << endl;
     if(stab){
       cout << "recup des sorties" << endl;
       // cout << "v_output_tampon.size() " << v_output_tampon.size() << endl;
@@ -133,7 +138,13 @@ int main(){
             // cout << m_input[v_input.at(i)].at(j)->getName() << endl;
             // cout << "it_delta_cycle " << it_delta_cycle << endl;
             // cout << "valeur stimulis" << m_stimulis[v_input.at(i)].at(it_delta_cycle) << endl;
-            m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle));
+            if(m_input[v_input.at(i)]->at(j)->get_is_a_mux()){
+              m_input[v_input.at(i)]->at(j)->update_mux(m_stimulis[v_input.at(i)]->at(it_delta_cycle), v_input.at(i));
+            }
+            else{
+              m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
+            }
+            // m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle));
           }
         }
       }
@@ -144,6 +155,11 @@ int main(){
     for(unsigned i = 0; i<v_gate_all.size();i++){
       v_gate_all.at(i)->calc_and_affect();
     }
+
+    if(debug == 2){
+      return 0;
+    }
+    debug++;
   }
 
   //Appel du parser de sortie
