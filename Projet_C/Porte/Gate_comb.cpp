@@ -10,6 +10,7 @@ using namespace std;
 
 
 void Gate_comb::calc_and_affect(){
+  cout << "gate_comb" << endl;
   cout << "this->getName() " << this->getName() << endl;
   cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
   cout << "this->nb_of_entry " << this->nb_of_entry << endl;

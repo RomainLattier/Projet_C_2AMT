@@ -10,6 +10,11 @@ using namespace std;
 
 
 void Gate_mux::calc_and_affect(){
+  cout << "gate_mux" << endl;
+  cout << "this->getName() " << this->getName() << endl;
+  cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
+  cout << "this->nb_of_entry " << this->nb_of_entry << endl;
+  cout << "this->sel_name.size() " << this->sel_name.size() << endl;
   if (this->nb_entry_rdy == this->nb_of_entry + this->sel_name.size()){     //la porte est à calculer?
     int entry_nb = 0;
     for(unsigned i = 0; i < this->sel_value.size(); i++){

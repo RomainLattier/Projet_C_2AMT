@@ -38,9 +38,9 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "test1.dot";
-  string path_stimuli = "test1_stimulis.json";
-  string path_file_out = "test1.json";
+  string path_stru = "test3.dot";
+  string path_stimuli = "test3_stimulis.json";
+  string path_file_out = "test3.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
@@ -98,7 +98,9 @@ int main(){
   cout << "apres 1er update" << endl;
 
   //Boucle de simu
-int debug =0;
+
+  int debug = 0;
+
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
     // cout << "v_output_tampon.size()" << v_output_tampon.size() <<endl;
@@ -159,7 +161,8 @@ int debug =0;
     if(debug == 2){
       return 0;
     }
-    debug++;
+    debug ++;
+
   }
 
   //Appel du parser de sortie

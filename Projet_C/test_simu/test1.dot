@@ -7,9 +7,9 @@ D [label = "INPUT"];
 S [label = "OUTPUT"];
 Q [label = "OUTPUT"];
 
-XOR_in = [label = "XOR2" ];
-AND_in = [label = "AND3" ];
-OR_out = [label = "OR2" ];
+XOR_in [label = "XOR2" ];
+AND_in [label = "AND3" ];
+OR_out [label = "OR2" ];
 
 A -> XOR_in -> OR_out -> Q;
 B -> XOR_in;
