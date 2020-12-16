@@ -11,8 +11,8 @@ I9 [label = "INPUT"];
 I10 [label = "INPUT"];
 
 
-M [label = "XNOR10"];
-O [label = "OUTPUT"];
+M [label = "AND10" ];
+O [label = "OUTPUT" ];
 I1 -> M -> O;
 I2 -> M;
 I3 -> M;
@@ -23,5 +23,15 @@ I7 -> M;
 I8 -> M;
 I9 -> M;
 I10 -> M;
+
+M1 [label = "INPUT"];
+M2 [label = "INPUT"];
+M3 [label = "INPUT"];
+
+Mi [label = "OR3" ];
+Oi [label = "OUTPUT"];
+M1 -> Mi -> Oi;
+M2 -> Mi;
+M3 -> Mi;
 
 }

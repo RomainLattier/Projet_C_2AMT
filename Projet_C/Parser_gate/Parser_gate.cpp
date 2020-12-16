@@ -192,7 +192,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
 
         vector<string> v_name_gate;
         map<string, Gate*> m_tamp_output;
-        int nb_ligne = 0;
+        int nb_ligne = 1;
         string ligne;
         ifstream infile;
 
@@ -237,7 +237,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
           // ou X est le nombre de caractere da,s la recherche find()
 
           else if(ligne.find("\"AND") != string::npos){
-            And * ptr_obj = new And(nom,conv_int(ligne.substr(ligne.find("\"AND") + 4,ligne.find("\"];")-ligne.find("\"AND")-4)));
+            And * ptr_obj = new And(nom,conv_int(ligne.substr(ligne.find("\"AND") + 4,ligne.find("\" ];")-ligne.find("\"AND")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
@@ -249,31 +249,31 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
           }
 
           else if(ligne.find("\"NAND") != string::npos){
-            Nand * ptr_obj = new Nand(nom,conv_int(ligne.substr(ligne.find("\"NAND") + 5,ligne.find("\"];")-ligne.find("\"NAND")-5)));
+            Nand * ptr_obj = new Nand(nom,conv_int(ligne.substr(ligne.find("\"NAND") + 5,ligne.find("\" ];")-ligne.find("\"NAND")-5)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"NOR") != string::npos){
-            Nor * ptr_obj = new Nor(nom,conv_int(ligne.substr(ligne.find("\"NOR") + 4,ligne.find("\"];")-ligne.find("\"NOR")-4)));
+            Nor * ptr_obj = new Nor(nom,conv_int(ligne.substr(ligne.find("\"NOR") + 4,ligne.find("\" ];")-ligne.find("\"NOR")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"OR") != string::npos){
-            Or * ptr_obj = new Or(nom,conv_int(ligne.substr(ligne.find("\"OR") + 3,ligne.find("\"];")-ligne.find("\"OR")-3)));
+            Or * ptr_obj = new Or(nom,conv_int(ligne.substr(ligne.find("\"OR") + 3,ligne.find("\" ];")-ligne.find("\"OR")-3)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"XNOR") != string::npos){
-            Xnor * ptr_obj = new Xnor(nom,conv_int(ligne.substr(ligne.find("\"XNOR") + 5,ligne.find("\"];")-ligne.find("\"XNOR")-5)));
+            Xnor * ptr_obj = new Xnor(nom,conv_int(ligne.substr(ligne.find("\"XNOR") + 5,ligne.find("\" ];")-ligne.find("\"XNOR")-5)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
 
           else if(ligne.find("\"XOR") != string::npos){
-            Xor * ptr_obj = new Xor(nom,conv_int(ligne.substr(ligne.find("\"XOR") + 4,ligne.find("\"];")-ligne.find("\"XOR")-4)));
+            Xor * ptr_obj = new Xor(nom,conv_int(ligne.substr(ligne.find("\"XOR") + 4,ligne.find("\" ];")-ligne.find("\"XOR")-4)));
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }
@@ -305,7 +305,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
 
         infile.clear();
         infile.seekg(0);
-        nb_ligne = 0;
+        nb_ligne = 1;
 
         ////////////////////////////////////////////////////////////////////////////////
         //CREATION DES ENTRES SORTIE DES GATES
