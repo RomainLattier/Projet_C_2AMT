@@ -10,11 +10,12 @@ using namespace std;
 
 
 void Gate_comb::calc_and_affect(){
-  cout << "gate_comb" << endl;
-  cout << "this->getName() " << this->getName() << endl;
-  cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
-  cout << "this->nb_of_entry " << this->nb_of_entry << endl;
+  // cout << "gate_comb" << endl;
+  // cout << "this->getName() " << this->getName() << endl;
+  // cout << "this->nb_entry_rdy " << this->nb_entry_rdy << endl;
+  // cout << "this->nb_of_entry " << this->nb_of_entry << endl;
   if (this->nb_entry_rdy == this->nb_of_entry){     //la porte est à calculer?
+    // cout << "calcul de gate_comb " << endl;
     int res;
     if(this->nb_of_entry == 1){
       res = this->operation(this->input.at(0),0); //Cas particulier des inverseurs
@@ -28,12 +29,16 @@ void Gate_comb::calc_and_affect(){
         res = this->operation(this->input.at(i), res);
       }
     }
+    // cout << "gate_comb calculer " << endl;
+    // cout << "this->output.size() " << this->output.size() << endl;
     //Affectation du resulat aux portes suivantes
     for(unsigned i = 0; i < this->output.size(); i++){
       if(this->output.at(i)->get_is_a_mux()){
+        // cout << "le prochain est un mux" << endl;
         this->output.at(i)->update_mux(res, this->output.at(i)->getName()) ;
       }
       else{
+        // cout << "le suivant c'est pas un mux" << endl;
         this->output.at(i)->update_input(res);
       }
       // this->output.at(i)->update_input(res);

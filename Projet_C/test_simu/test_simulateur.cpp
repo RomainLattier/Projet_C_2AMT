@@ -38,9 +38,9 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "test3.dot";
-  string path_stimuli = "test3_stimulis.json";
-  string path_file_out = "test3.json";
+  string path_stru = "test2_mux.dot";
+  string path_stimuli = "test2_stimulis.json";
+  string path_file_out = "test2.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
@@ -88,7 +88,7 @@ int main(){
        // cout << "valeur stimulis" << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
        if(m_input[v_input.at(i)]->at(j)->get_is_a_mux()){
          m_input[v_input.at(i)]->at(j)->update_mux(m_stimulis[v_input.at(i)]->at(it_delta_cycle), v_input.at(i));
-         // cout << "valeur ajouté dans mux " <<  m_stimulis[v_input.at(i)]->at(it_delta_cycle) << " dans " << v_input.at(i) << endl;
+         cout << "valeur ajouté dans mux " <<  m_stimulis[v_input.at(i)]->at(it_delta_cycle) << " dans " << v_input.at(i) << endl;
        }
        else{
          m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
@@ -99,7 +99,7 @@ int main(){
 
   //Boucle de simu
 
-  int debug = 0;
+  // int debug = 0;
 
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
@@ -158,10 +158,10 @@ int main(){
       v_gate_all.at(i)->calc_and_affect();
     }
 
-    if(debug == 2){
-      return 0;
-    }
-    debug ++;
+    // if(debug == 10){
+    //   return 0;
+    // }
+    // debug ++;
 
   }
 

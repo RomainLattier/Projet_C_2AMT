@@ -85,6 +85,10 @@ public:
     sel_name.push_back(s);
   }
 
+  string get_sel_name(int i){
+    return sel_name.at(i);
+  }
+
   void add_gate_input(string s){
     gate_input.push_back(s);
   }
