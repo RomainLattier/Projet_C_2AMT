@@ -112,7 +112,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
     if(m_input->count(*nom_r_1) != 0){ //Si entree deja dans la map, cas input sur plusieur portes
       for(int i = 0;i<v_gate->size();i++){
         if(v_gate->at(i)->getName() == *nom_r_2){
-          if(v_gate->at(i)->get_is_a_mux()){
+          if(v_gate->at(i)->get_is_a_mux()){ //si c'est un mux
             v_gate->at(i)->add_gate_input(*nom_r_1);
           }
           m_input->find(*nom_r_1)->second->push_back(v_gate->at(i));
@@ -129,7 +129,9 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
       cout << "Création de l'entrée "<< *nom_r_1 << endl;
       for(int i = 0;i<v_gate->size();i++){
         if(v_gate->at(i)->getName() == *nom_r_2){
-
+          if(v_gate->at(i)->get_is_a_mux()){ //si c'est un mux
+            v_gate->at(i)->add_gate_input(*nom_r_1);
+          }
           ptr_v_in->push_back(v_gate->at(i));
           m_input->insert(pair<string,vector<Gate*>* >(*nom_r_1,ptr_v_in) );
           return 0;
@@ -138,7 +140,6 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
       ptr_v_in->push_back(m_tamp_output->at(*nom_r_2));
       m_input->insert(pair<string,vector<Gate*>* >(*nom_r_1,ptr_v_in) );
       return 0;
-
     }
     return 1;
   }
@@ -278,7 +279,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
           }
 
           else if(ligne.find("\"MUX") != string::npos){
-            int nb_entry = conv_int(ligne.substr(ligne.find("\"MUX") + 4,ligne.find("\"];")-ligne.find("\"MUX")-4));
+            int nb_entry = (int)ligne.substr(ligne.find("\"MUX") + 4,1).at(0)-'0';
             int nb_sel = ceil(log2(nb_entry));
             ligne = ligne.substr(ligne.find("sel = \"")+7,string::npos);
             string sel_name = ligne.substr(0,ligne.find("\""));
