@@ -111,7 +111,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
     if(m_input->count(*nom_r_1) != 0){ //Si entree deja dans la map, cas input sur plusieur portes
       for(int i = 0;i<v_gate->size();i++){
         if(v_gate->at(i)->getName() == *nom_r_2){
-          if(v_gate->at(i)->get_is_a_mux() && v_gate->at(i)->get_sel_name(0) != *nom_r_2){ //si c'est un mux
+          if(v_gate->at(i)->get_is_a_mux() && v_gate->at(i)->get_sel_name(0) != *nom_r_1){ //si c'est un mux
           v_gate->at(i)->add_gate_input(*nom_r_1);
         }
         m_input->find(*nom_r_1)->second->push_back(v_gate->at(i));
@@ -127,7 +127,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
     cout << "Création de l'entrée "<< *nom_r_1 << endl;
     for(int i = 0;i<v_gate->size();i++){
       if(v_gate->at(i)->getName() == *nom_r_2){
-        if(v_gate->at(i)->get_is_a_mux() && v_gate->at(i)->get_sel_name(0) != *nom_r_2){ //si c'est un mux
+        if(v_gate->at(i)->get_is_a_mux() && v_gate->at(i)->get_sel_name(0) != *nom_r_1){ //si c'est un mux
           v_gate->at(i)->add_gate_input(*nom_r_1);
       }
       ptr_v_in->push_back(v_gate->at(i));
@@ -175,7 +175,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
       if(v_gate->at(i)->getName() == *nom_r_1){
         for(int j = 0;j<v_gate->size();j++){ // Recherche du pointeur de la gate a droite
           if(v_gate->at(j)->getName() == *nom_r_2){
-            if(v_gate->at(j)->get_is_a_mux() && v_gate->at(j)->get_sel_name(0) != *nom_r_2){
+            if(v_gate->at(j)->get_is_a_mux() && v_gate->at(j)->get_sel_name(0) != *nom_r_1){
               v_gate->at(j)->add_gate_input(*nom_r_1);
             }
             v_gate->at(i)->add_output(v_gate->at(j)); //Affectation de la porte droite dans la porte gauche
