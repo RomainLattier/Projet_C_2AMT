@@ -128,7 +128,7 @@ bool link_m_input( map<string, vector<Gate*>* > *m_input, vector<Gate*> *v_gate,
     for(int i = 0;i<v_gate->size();i++){
       if(v_gate->at(i)->getName() == *nom_r_2){
         if(v_gate->at(i)->get_is_a_mux() && v_gate->at(i)->get_sel_name(0) != *nom_r_1){ //si c'est un mux
-          v_gate->at(i)->add_gate_input(*nom_r_1);
+        v_gate->at(i)->add_gate_input(*nom_r_1);
       }
       ptr_v_in->push_back(v_gate->at(i));
       m_input->insert(pair<string,vector<Gate*>* >(*nom_r_1,ptr_v_in) );
@@ -234,6 +234,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
       while(getline(infile, ligne)){
         //    cout << ligne << endl;
+        nb_ligne++;
         string nom = ligne.substr(0,ligne.find(" "));
         if(ligne.find("\"INPUT\"") != string::npos){
           v_in->push_back(nom);
@@ -309,8 +310,6 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           v_gate->push_back(ptr_obj);
           v_name_gate.push_back(nom);
         }
-
-        nb_ligne++;
       }
 
       infile.clear();
@@ -323,6 +322,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
       while(getline(infile, ligne)){
         //    cout << ligne << endl;
+        nb_ligne++;
         if(ligne.find("->") != string::npos){
           bool eol = 0; //Flag fin de la ligne
           int index_min = 0; //init index sur le premier nom
@@ -413,7 +413,6 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
           }
         }
-        nb_ligne++;
       }
 
       //Conversion de la map tampon en un vector

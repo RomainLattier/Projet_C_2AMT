@@ -13,6 +13,11 @@
 
 using namespace std;
 
+/////////////////////////////////////////////////////////////////////////////
+//Fonction du parser stimuli
+/////////////////////////////////////////////////////////////////////////////
+
+//Vérification de l'extansion du fichier
 bool check_ext_path_json(const string * s_path){
   if(s_path->find(".json") == string::npos){
     return 1;
@@ -22,18 +27,78 @@ bool check_ext_path_json(const string * s_path){
 
 //Vérification de la syntaxe du fichier
 bool verif_syntaxe(ifstream * infile){
-  // unsigned n = 0;
-  // while(getline(*infile, ligne)){
-  //   switch (n) {
-  //     case /* value */:
-  //   }
-  //
-  //
-  //
-  //
-  //
-  // }
-  return 0;
+  int n = 0;
+  int nb_ligne = 1;
+  int nb_ligne_tot = 0;
+  string ligne;
+
+  infile->clear();
+  infile->seekg(0);
+
+  while(getline(*infile, ligne)){ // Mesure du nombre de ligne total
+    nb_ligne_tot ++;
+  }
+  infile->clear();
+  infile->seekg(0);
+
+  while(getline(*infile, ligne)){
+    nb_ligne ++;
+
+    switch (n) {
+      case 0 : //Début du fichier
+      if(ligne.find("{signal: [") == string::npos){
+        cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal: ["<<endl;
+        return 1;
+      }
+      n =1;
+      break;
+
+      case 1 : //Chaque ligne de signaux
+      if(nb_ligne -1 == nb_ligne_tot){ //Cas dernière ligne
+        if(ligne.find("]}") == string::npos){
+          cout<<"Erreur de syntaxe à la fin du fichier, ligne "<<nb_ligne<<". Format attendu : ]}"<<endl;
+          return 1;
+        }
+        infile->clear();
+        infile->seekg(0);
+        return 0;
+        break;
+      }
+      if(ligne.find("{name: '") == string::npos){
+        cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
+        ". Format attendu : {name: '"<<endl;
+        return 1;
+      }
+      if(ligne.find(", wave: '") == string::npos){
+        cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
+        ". Format attendu : , wave: '"<<endl;
+        return 1;
+      }
+      if(ligne.find("'},") == string::npos){
+        cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
+        ". Format attendu : '},"<<endl;
+        return 1;
+      }
+      ligne = ligne.substr(ligne.find(", wave: '") + 9,ligne.find("'},")-ligne.find(", wave: '") - 9);
+      for(int i = 0; i<ligne.size();i++){
+        if(ligne.at(i) == '0'){
+        }
+        else if(ligne.at(i) == '1'){
+        }
+        else if(ligne.at(i) == '.'){
+        }
+        else {
+          cout<<"Errer de syntaxe dans les valeurs du stimuli ligne "
+          <<nb_ligne<<" valeur "<<i+1<<", valeur "<<ligne.at(i)<<
+          " non reconnu."<<endl;
+          return 1;
+        }
+      }
+      break;
+    }
+  }
+  cout<<"Erreur de sortie de la vérification de la syntaxe."<<endl;
+  return 1;
 }
 
 //Recherche si un string est présent dans un vector de string
@@ -58,7 +123,7 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
 
   //remplissage vector name avec les nom de chaque entrée trouvé dans le fichier
   while(getline(*infile, ligne)){
-//    cout<<ligne<<endl;
+    //    cout<<ligne<<endl;
     if(ligne.find("name:") != string::npos){
 
       //Recherche du nom
@@ -96,7 +161,10 @@ bool verif_delta(const vector<string> *v_in, const map<string,vector<int>*> *m_t
   return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////
 //Parser main
+/////////////////////////////////////////////////////////////////////////////
+
 int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,vector<int> *> *m_stimuli,const string * s_path){
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +172,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   ////////////////////////////////////////////////////////////////////////////////
 
   map<string,vector<int>*> m_tamp; //map tampon pour les valeurs des signaux avant delta_cycle
-  int nb_ligne = 0; //Compteur de ligne
+  int nb_ligne = 1; //Compteur de ligne
   string nom; //nom de l'entrée
   string wave; //valeurs du signal
 
@@ -134,7 +202,6 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
 
   //Verification de la syntaxe du fichier
   if(verif_syntaxe(&infile)==1){
-    cout<<"Erreur de syntaxe du fichier."<<endl;
     return 1;
   }
 
@@ -146,6 +213,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   //Extraction des entrées et de leurs valeurs
   while(getline(infile, ligne)){
     //    cout << ligne << endl;
+        nb_ligne ++;
     if(ligne.find("name:") != string::npos){
 
       //Recherche du nom
@@ -187,7 +255,6 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
         return 1;
       }
     }
-    nb_ligne ++;
   }
 
   //Vérification si tout les signaux font la mêmes durée (nombre de stimulis)
@@ -227,19 +294,6 @@ v_delta->push_back(cpt);
 for(int j = 0;j<v_in->size();j++){
   m_stimuli->at(v_in->at(j))->push_back(m_tamp.at(v_in->at(j))->at(m_tamp.at(v_in->at(0))->size()-1));
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-//CONTROLE des structures de données
-/////////////////////////////////////////////////////////////////////////////
-
-//Affichage de la map tampon
-// for(int i = 0;i<v_in->size();i++){
-//   cout <<"l'entrée "<< v_in->at(i) <<" a pour valeur :"<<endl;
-//   for(int j = 0; j<m_tamp.at(v_in->at(i))->size();j++){
-//     cout << m_tamp.at(v_in->at(i))->at(j) <<endl;
-//   }
-// }
 
 /////////////////////////////////////////////////////////////////////////////
 //FIN PROGRAMME et delete des tampons dynamiques

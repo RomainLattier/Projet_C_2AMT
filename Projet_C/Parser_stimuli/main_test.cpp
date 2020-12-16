@@ -7,6 +7,16 @@
 #include <stdlib.h>
 
 #include "Parser_stimuli.h"
+#include "../Porte/Combinatoire/And.h"
+#include "../Porte/Combinatoire/Inv.h"
+#include "../Porte/Combinatoire/Nand.h"
+#include "../Porte/Combinatoire/Nor.h"
+#include "../Porte/Combinatoire/Or.h"
+#include "../Porte/Combinatoire/Xnor.h"
+#include "../Porte/Combinatoire/Xor.h"
+#include "../Porte/Gate_out.h"
+#include "../Porte/Gate_mux.h"
+#include "../Parser_gate/Parser_gate.h"
 
 
 using namespace std;
