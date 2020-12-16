@@ -1,0 +1,60 @@
+digraph test {
+A [label = "INPUT"];
+B [label = "INPUT"];
+C [label = "INPUT"];
+D [label = "INPUT"];
+E [label = "INPUT"];
+F [label = "INPUT"];
+G [label = "INPUT"];
+H [label = "INPUT"];
+I [label = "INPUT"];
+J [label = "INPUT"];
+K [label = "INPUT"];
+L [label = "INPUT"];
+M [label = "INPUT"];
+N [label = "INPUT"];
+O [label = "INPUT"];
+P [label = "INPUT"];
+Q [label = "INPUT"];
+R [label = "INPUT"];
+S [label = "INPUT"];
+T [label = "INPUT"];
+U [label = "INPUT"];
+V [label = "INPUT"];
+W [label = "INPUT"];
+X [label = "INPUT"];
+Y [label = "INPUT"];
+Z [label = "INPUT"];
+
+Mega_XOR [label = "XOR26" ];
+
+S [label = "OUTPUT"];
+
+A -> Mega_XOR -> S;
+B -> Mega_XOR;
+C -> Mega_XOR;
+D -> Mega_XOR;
+E -> Mega_XOR;
+F -> Mega_XOR;
+G -> Mega_XOR;
+H -> Mega_XOR;
+I -> Mega_XOR;
+J -> Mega_XOR;
+K -> Mega_XOR;
+L -> Mega_XOR;
+M -> Mega_XOR;
+N -> Mega_XOR;
+O -> Mega_XOR;
+P -> Mega_XOR;
+Q -> Mega_XOR;
+R -> Mega_XOR;
+S -> Mega_XOR;
+T -> Mega_XOR;
+U -> Mega_XOR;
+V -> Mega_XOR;
+W -> Mega_XOR;
+X -> Mega_XOR;
+Y -> Mega_XOR;
+Z -> Mega_XOR;
+
+}

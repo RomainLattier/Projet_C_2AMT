@@ -1,0 +1,25 @@
+digraph test {
+A [label = "INPUT"];
+B [label = "INPUT"];
+C [label = "INPUT"];
+D [label = "INPUT"];
+E [label = "INPUT"];
+F [label = "INPUT"];
+
+Mux [label = "MUX2" sel = "XOR_in"];
+AND_in [label = "AND2" ];
+XOR_in [label = "XOR2" ];
+NAND_in [label = "NAND2" ];
+OR_out [label = "OR2" ];
+
+S [label = "OUTPUT"];
+Q [label = "OUTPUT"];
+
+A -> XOR_in;
+B -> XOR_in;
+C -> AND_in -> Mux -> S;
+D -> AND_in -> OR_out -> Q;
+E -> NAND_in -> Mux;
+F -> NAND_in -> OR_out;
+
+}
