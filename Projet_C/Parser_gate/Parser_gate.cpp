@@ -213,6 +213,11 @@ bool check_syntaxe(ifstream * infile){
                 return 1;
               }
             }
+            if(ligne.find("\"];") == string::npos){
+              cout<<"\nErreur de syntaxe à la fin de la ligne "<<nb_ligne
+              <<", format attendu: \"];"<<endl;
+              return 1;
+            }
             m = 3;
             break;
 
@@ -616,6 +621,16 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
       infile.clear();
       infile.seekg(0);
       nb_ligne = 1;
+
+      //Check si au moins 1 entrée, 1 sortie
+      if(v_in->size()<1){
+        cout<<"\nErreur de déclaration, il n'y a pas d'entrée au circuit."<<endl;
+        return 1;
+      }
+      if(v_out->size()<1){
+        cout<<"\nErreur de déclaration, il n'y a pas de sortie au circuit."<<endl;
+        return 1;
+      }
 
       ////////////////////////////////////////////////////////////////////////////////
       //CREATION DES ENTRES SORTIE DES GATES

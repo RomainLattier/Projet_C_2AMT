@@ -167,7 +167,7 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
 
       //Vérification si l'entrée du stimuli est une entrée du circuits
       if(find_vector(v_in,&v_name.back())==1){
-        cout << "L'entrée " << v_name.back() << " n'est pas présente dans le circuit, ligne "<<nb_ligne<<endl;
+        cout << "\nErreur, l'entrée " << v_name.back() << " n'est pas présente dans le circuit, ligne "<<nb_ligne<<endl;
         return 1;
       }
     }
@@ -177,7 +177,7 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
   //Vérification si toutes les entrées du circuits sont adressé
   for(int i = 0; i<v_in->size();i++){
     if(find_vector(&v_name,&(v_in->at(i)))==1){
-      cout << "L'entrée " << v_in->at(i) << " du circuit n'a pas de valeur affecté."<< endl;
+      cout << "\nErreur, l'entrée " << v_in->at(i) << " du circuit n'a pas de valeur affecté."<< endl;
       return 1;
     }
   }
