@@ -228,6 +228,7 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
 
   //Check de la bonne ouverture du fichier
   if(check_open_file(&infile)){
+    cout<<"stimulis."<<endl;
     return 1;
   }
 

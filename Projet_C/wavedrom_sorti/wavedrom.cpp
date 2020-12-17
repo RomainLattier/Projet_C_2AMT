@@ -5,7 +5,7 @@ using namespace std;
 //Vérifie si le fichier de sortie est bien créé et que l'on peut l'utiliser
 //return 0 si pas de problème sinon 1
 bool check_open_file(const ofstream * infile){
-  if(infile){  //On teste si tout est OK après création du fichier
+  if(infile->is_open()){  //On teste si tout est OK après création du fichier
     return 0;
   }
   return 1;
@@ -81,7 +81,7 @@ int wavedrom_output(const vector<string> *v_input,const vector<string> * v_outpu
 
     //check ouverture fichier
     if(check_open_file(&infile)){
-      cout << "Erreur: Impossible d'ouvrir le fichier de sortie "<< endl;
+      cout << "Erreur: Impossible d'ouvrir le fichier de sortie."<< endl;
       return 1;
     }
 

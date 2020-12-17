@@ -12,11 +12,10 @@ bool check_ext_path_dot(const string * s_path){
 }
 
 bool check_open_file(const ifstream * infile){
-  cout<<infile<<endl;
-  if(infile){  //On teste si tout est OK après création du fichier
+  if(infile->is_open()){  //On teste si tout est OK après création du fichier
     return 0;
   }
-  else cout << "\nErreur, impossible d'ouvrir le fichier structure."<< endl;
+  else cout << "\nErreur, impossible d'ouvrir le fichier ";
   return 1;
 }
 
@@ -463,7 +462,10 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
       //RECHERCHE DES NOMS ET CREATION DES OBJETS
       /////////////////////////////////////////////////////////////////////////////
 
-      if(check_open_file(&infile)){return 1;}
+      if(check_open_file(&infile)){
+        cout<<"structure."<<endl;
+        return 1;
+      }
 
       if(check_syntaxe(&infile)){return 1;}
 

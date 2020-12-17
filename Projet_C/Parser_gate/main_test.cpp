@@ -37,7 +37,7 @@ int main(int argc, char const *argv[]) {
   /////////////////////////////////////////////////////////////////////////////
 
 //  string path_stru = "../test_simu/fichier_test/test6.dot";
-  string path_stru = "Test_lecture.dot";
+  string path_stru = "Test_lectupre.dot";
 //  string path_stru = "test_MUX.dot";
   // char path_stru[];
   // char path_stimu[];
