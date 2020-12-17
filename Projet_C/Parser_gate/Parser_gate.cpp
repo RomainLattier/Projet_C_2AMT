@@ -86,8 +86,6 @@ bool check_syntaxe(ifstream * infile){
 
   infile->clear();
   infile->seekg(0);
-  // cout<<nb_ligne_tot<<endl;
-  // cout<<infile->eof()<<endl;
   while(getline(*infile, ligne)){
     nb_ligne ++;
     if(remove_space(&ligne,&nb_ligne)){return 1;}
@@ -620,7 +618,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             ptr_obj->set_is_a_mux(1);
 
             m_tamp_mux.insert(pair<string,Gate_mux *>(sel_name,ptr_obj));
-            //Ajout dans la liste
+
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
           }

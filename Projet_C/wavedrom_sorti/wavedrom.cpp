@@ -102,5 +102,6 @@ int wavedrom_output(const vector<string> *v_input,const vector<string> * v_outpu
     }
 
     infile<<"  ],\n]}"<<endl; //Fin de fichier
+    infile.close();
     return 0;
   }
