@@ -55,6 +55,7 @@ bool check_syntaxe(ifstream * infile){
   int m = 0;
   int nb_ligne = 0;
   int nb_ligne_tot = 0;
+  int nb_saut = 0; //Compteur pour détecter fichier vide
   string ligne;
   vector<string> v_gate_name;
   v_gate_name.push_back("\"INPUT\"");
@@ -74,14 +75,25 @@ bool check_syntaxe(ifstream * infile){
   while(getline(*infile, ligne)){ // Mesure du nombre de ligne total
     nb_ligne_tot ++;
   }
+  if(nb_ligne_tot == 0){
+    cout<<"\nErreur, le fichier de structure du circuit est vide."<<endl;
+    return 1;
+  }
+
   infile->clear();
   infile->seekg(0);
-
+  // cout<<nb_ligne_tot<<endl;
+  // cout<<infile->eof()<<endl;
   while(getline(*infile, ligne)){
     nb_ligne ++;
     if(remove_space(&ligne,&nb_ligne)){return 1;}
     //Si la ligne est un saut de ligne alors passe directement à la ligne suivante
     if(ligne.size() == 0 || ligne.find("//") == 0){
+      nb_saut++;
+      if(nb_ligne_tot == nb_saut){
+        cout<<"\nErreur, le fichier de structure du circuit est vide."<<endl;
+        return 1;
+      }
     }
     else{
 
