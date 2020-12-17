@@ -108,8 +108,13 @@ bool check_syntaxe(ifstream * infile){
 
       switch (n) {
         case 0 : //Début du fichier
-        if(ligne.find("digraphtest{") == string::npos){
-          cout<<"\nErreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : digraph test{"<<endl;
+        if(ligne.find("digraph") == string::npos){
+          cout<<"\nErreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : digraph nom_circuit {"<<endl;
+          return 1;
+        }
+        if(ligne.find("{") != ligne.size()-1){
+          cout<<"\nErreur de syntaxe, le séparateur ({) de fin de la ligne "
+          <<nb_ligne<<". Format attendu : digraph nom_circuit {"<<endl;
           return 1;
         }
         n =1;
