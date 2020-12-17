@@ -38,9 +38,9 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "../Examen/grammar_check/empty.dot";
-  string path_stimuli = "../Examen/stimuli/two_inputs.json";
-  string path_file_out = "./test_exam/fan_out_resutl.json";
+  string path_stru = "../Examen/circuits/full_adder.dot";
+  string path_stimuli = "../Examen/stimuli/full_adder.json";
+  string path_file_out = "./test_exam/full_adder_result.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
@@ -117,12 +117,15 @@ int main(){
        // cout << m_input[v_input.at(i)]->at(j)->getName() << endl;
        // cout << it_delta_cycle << endl;
        // cout << "size stimulis " << m_stimulis[v_input.at(i)]->size() << endl;
-       // cout << "valeur stimulis" << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
+       // cout << "valeur stimulis " << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
+       // cout << "m_input[v_input.at(i)]->at(j)->get_is_a_mux() " << m_input[v_input.at(i)]->at(j)->get_is_a_mux() << endl;
        if(m_input[v_input.at(i)]->at(j)->get_is_a_mux()){
          m_input[v_input.at(i)]->at(j)->update_mux(m_stimulis[v_input.at(i)]->at(it_delta_cycle), v_input.at(i));
          // cout << "valeur ajouté dans mux " <<  m_stimulis[v_input.at(i)]->at(it_delta_cycle) << " dans " << v_input.at(i) << endl;
        }
        else{
+         // cout << "m_stimulis[v_input.at(i)]->at(it_delta_cycle) " << m_stimulis[v_input.at(i)]->at(it_delta_cycle) << endl;
+         // cout << "m_input[v_input.at(i)]->at(j)->get_input_size() " << m_input[v_input.at(i)]->at(j)->get_input_size() << endl;
          m_input[v_input.at(i)]->at(j)->update_input(m_stimulis[v_input.at(i)]->at(it_delta_cycle)); //on update chaque gate avec la nouvelle valeur de stimulis
        }
     }

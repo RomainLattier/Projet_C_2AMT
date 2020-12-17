@@ -44,6 +44,7 @@ int Gate::getValueOutput(){
 bool Gate::rebouclage(string ante){
   bool rebouclage = 0;
   for(unsigned i = 0; i<this->antescedant.size(); i++){
+    // cout << "this->antescedant.at(i) " << this->antescedant.at(i) << endl;
     if(this->antescedant.at(i) == ante){
       rebouclage = 1;
     }
@@ -51,8 +52,19 @@ bool Gate::rebouclage(string ante){
   return rebouclage;
 }
 
-void Gate::add_antescedant(string ante){
+void Gate::add_antescedant(string ante, const vector<string> & ante_gate_precedent){
   // cout <<"add_antescedant" << endl;
+  for (unsigned i = 0; i< ante_gate_precedent.size(); i++){
+    bool ante_gate_precedent_existe = 0;
+    for(unsigned j = 0; j < this->antescedant.size(); j++){
+        if(this->antescedant.at(j) == ante_gate_precedent.at(i)){
+          ante_gate_precedent_existe = 1;
+        }
+    }
+    if(!ante_gate_precedent_existe){
+      this->antescedant.push_back(ante_gate_precedent.at(i));
+    }
+  }
   bool ante_existe = 0;
   if(this->antescedant.size() == 0){
     this->antescedant.push_back(ante);

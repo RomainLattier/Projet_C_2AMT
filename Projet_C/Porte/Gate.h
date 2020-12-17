@@ -104,7 +104,7 @@ public:
 
   bool rebouclage(string ante);
 
-  void add_antescedant(string ante);
+  void add_antescedant(string ante, const vector<string> & ante_gate_precedent);
 
   virtual bool calc_and_affect() = 0;
 

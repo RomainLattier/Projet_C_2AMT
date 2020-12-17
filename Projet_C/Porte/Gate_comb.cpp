@@ -12,7 +12,7 @@ using namespace std;
 bool Gate_comb::calc_and_affect(){
   // cout << "this->getName()" << this->getName()<< endl;
   for(unsigned i = 0; i < this->output.size(); i++){
-    this->output.at(i)->add_antescedant(this->getName());
+    this->output.at(i)->add_antescedant(this->getName(), this->antescedant);
     if(this->rebouclage(output.at(i)->getName())){
       cout << "erreur de rebouclage" << endl;
       return 1;

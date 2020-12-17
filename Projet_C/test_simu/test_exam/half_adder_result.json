@@ -1,0 +1,11 @@
+{signal: [
+  ['Entrées',
+  {name: 'A', wave: '0.1.'},
+  {name: 'B', wave: '0101'},
+  ],
+  {},
+  ['Sorties',
+  {name: 'SUM', wave: '01.0'},
+  {name: 'CARRY', wave: '0..1'},
+  ],
+]}
