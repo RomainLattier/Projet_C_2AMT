@@ -30,7 +30,7 @@ bool remove_space(string * str, const int * nb_ligne){
 }
 
 //converti un nombre au format string en int
-int conv_int(const string a,int * b){
+bool conv_int(const string a,int * b){
   for(int i = a.size(); i > 0;i--){
     if((a.at(i-1) - '0') > 9 || (a.at(i-1) - '0') < 0){
       return 1;
@@ -60,7 +60,7 @@ bool check_syntaxe(ifstream * infile){
   v_gate_name.push_back("\"INPUT\"");
   v_gate_name.push_back("\"OUTPUT\"");
   v_gate_name.push_back("\"AND");
-  v_gate_name.push_back("\"INV");
+  v_gate_name.push_back("\"NOT");
   v_gate_name.push_back("\"NAND");
   v_gate_name.push_back("\"NOR");
   v_gate_name.push_back("\"OR");
@@ -242,6 +242,22 @@ bool check_syntaxe(ifstream * infile){
   return 1;
 }
 
+
+//Check si le nom pas trop long et pas interdit
+bool check_name(const string * nom, const vector<string> * vector){
+  if(nom->size()>32){
+    cout<<"\nErreur le nom :\n"<<*nom<<"\nest trop long, taille maximum autorisé de 32 caractères."<<endl;
+    return 1;
+  }
+  for(int i =0;i<vector->size();i++){
+    if(*nom == vector->at(i)){
+      cout<<"\nErreur le nom "<<*nom<<"est un nom réservé."<<endl;
+      return 1;
+    }
+  }
+  return 0;
+}
+
 //Recherche d'une valeur dans un vecteur
 bool recherche_v(const string *nom_r,const vector<string> *v_base){
   for(int i = 0;i<v_base->size();i++){
@@ -411,6 +427,18 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
       string ligne;
       ifstream infile;
 
+      vector<string> v_name_ban;
+      v_name_ban.push_back("INPUT");
+      v_name_ban.push_back("OUTPUT");
+      v_name_ban.push_back("AND");
+      v_name_ban.push_back("NOT");
+      v_name_ban.push_back("NAND");
+      v_name_ban.push_back("NOR");
+      v_name_ban.push_back("OR");
+      v_name_ban.push_back("XNOR");
+      v_name_ban.push_back("XOR");
+      v_name_ban.push_back("MUX");
+
       if(check_ext_path_dot(s_path)){
         cout <<"\nErreur, le fichier structure n'as pas l'extansion .dot"<<endl;
         return 1;
@@ -440,6 +468,11 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
         if(ligne.size() == 0){}
         else{
           string nom = ligne.substr(0,ligne.find("["));
+          if(check_name(&nom,&v_name_ban)){
+            cout<<"Ligne "<<nb_ligne<<endl;
+            return 1;
+          }
+
           if(ligne.find("=\"INPUT\"];") != string::npos){
             v_in->push_back(nom);
           }
@@ -470,7 +503,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             v_name_gate.push_back(nom);
           }
 
-          else if(ligne.find("[label=\"INV") != string::npos){
+          else if(ligne.find("[label=\"NOT") != string::npos){
             Inv * ptr_obj = new Inv(nom,1);
             v_gate->push_back(ptr_obj);
             v_name_gate.push_back(nom);
@@ -539,6 +572,10 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"MUX") != string::npos){
             ligne = ligne.substr(ligne.find("sel=\"")+5,string::npos);
             string sel_name = ligne.substr(0,ligne.find("\""));
+            if(check_name(&sel_name,&v_name_ban)){
+              cout<<"Ligne "<<nb_ligne<<endl;
+              return 1;
+            }
 
             Gate_mux * ptr_obj = new Gate_mux(nom,2,1);
 
@@ -579,6 +616,10 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             bool eol = 0; //Flag fin de la ligne
             int index_min = 0; //init index sur le premier nom
             string nom_r_1 = ligne.substr(index_min,ligne.find("->")); //extraction du premier nom a gauche de la fleche
+            if(check_name(&nom_r_1,&v_name_ban)){
+              cout<<"Ligne "<<nb_ligne<<endl;
+              return 1;
+            }
             string nom_r_2;
             int type_1 = 0; //init du type du nom avant la fleche
             int type_2 = 0; //init a 0 pour le deuxieme
@@ -595,6 +636,10 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
                 return 1;
               }
 
+              if(check_name(&nom_r_2,&v_name_ban)){
+                cout<<"Ligne "<<nb_ligne<<endl;
+                return 1;
+              }
               if(recherche_type(&type_2,&nom_r_2,v_in,v_out,&v_name_gate)!=0){
                 cout<<"\nErreur, nom "<< nom_r_1 <<" non reconnu ligne "<<
                 nb_ligne<< endl;
