@@ -5,6 +5,7 @@
 #include <list>
 #include <vector>
 #include <stdlib.h>
+#include <algorithm>
 
 #include "Parser_gate.h"
 #include "../Porte/Combinatoire/And.h"
@@ -35,8 +36,8 @@ int main(int argc, char const *argv[]) {
   //Demande des path des deux fichiers
   /////////////////////////////////////////////////////////////////////////////
 
-  string path_stru = "../test_simu/test3.dot";
-//  string path_stru = "Test_lecture.dot";
+//  string path_stru = "../test_simu/fichier_test/test6.dot";
+  string path_stru = "Test_lecture.dot";
 //  string path_stru = "test_MUX.dot";
   // char path_stru[];
   // char path_stimu[];
@@ -122,12 +123,12 @@ int main(int argc, char const *argv[]) {
   }
 
   for(map<string, vector<Gate*>*>::iterator itr = m_input.begin(); itr != m_input.end(); itr++){
-    cout << "Destruction de l'entrée  " << itr->first << endl;
+    //cout << "Destruction de l'entrée  " << itr->first << endl;
     delete itr->second;
   }
 
   for(map<string, vector<int>* >::iterator itr = m_output.begin(); itr != m_output.end(); itr++){
-    cout << "Destruction de la sortie  " << itr->first <<endl;
+    //cout << "Destruction de la sortie  " << itr->first <<endl;
     delete itr->second;
   }
 

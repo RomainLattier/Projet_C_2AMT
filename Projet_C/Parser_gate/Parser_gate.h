@@ -9,6 +9,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <math.h>
+#include <algorithm>
 
 #include "../Porte/Combinatoire/And.h"
 #include "../Porte/Combinatoire/Inv.h"
@@ -24,7 +25,10 @@ using namespace std;
 
 bool check_open_file(const ifstream * infile);
 bool check_ext_path_dot(const string * s_path);
-int conv_int(string a);
+bool remove_space(string * str,const int * nb_ligne);
+int conv_int(string a,int * b);
+bool find_name_in_vector(const string * name,const vector<string> * vector);
+bool check_syntaxe(ifstream * infile);
 bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);
 bool recherche_v(const string *nom_r,const vector<string> *v_base);
 bool recherche_nom_suivant(bool * eol,const string * ligne,int * index_min, string *nom);

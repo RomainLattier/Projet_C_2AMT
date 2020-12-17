@@ -28,7 +28,7 @@ bool check_ext_path_json(const string * s_path){
 //Vérification de la syntaxe du fichier
 bool verif_syntaxe(ifstream * infile){
   int n = 0;
-  int nb_ligne = 1;
+  int nb_ligne = 0;
   int nb_ligne_tot = 0;
   string ligne;
 
@@ -43,58 +43,61 @@ bool verif_syntaxe(ifstream * infile){
 
   while(getline(*infile, ligne)){
     nb_ligne ++;
-
-    switch (n) {
-      case 0 : //Début du fichier
-      if(ligne.find("{signal: [") == string::npos){
-        cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal: ["<<endl;
-        return 1;
-      }
-      n =1;
-      break;
-
-      case 1 : //Chaque ligne de signaux
-      if(nb_ligne -1 == nb_ligne_tot){ //Cas dernière ligne
-        if(ligne.find("]}") == string::npos){
-          cout<<"Erreur de syntaxe à la fin du fichier, ligne "<<nb_ligne<<". Format attendu : ]}"<<endl;
+    if(ligne.size() == 0){
+    }
+    else{
+      switch (n) {
+        case 0 : //Début du fichier
+        if(ligne.find("{signal: [") == string::npos){
+          cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal: ["<<endl;
           return 1;
         }
-        infile->clear();
-        infile->seekg(0);
-        return 0;
+        n =1;
+        break;
+
+        case 1 : //Chaque ligne de signaux
+        if(nb_ligne == nb_ligne_tot){ //Cas dernière ligne
+          if(ligne.find("]}") == string::npos){
+            cout<<"Erreur de syntaxe à la fin du fichier, ligne "<<nb_ligne<<". Format attendu : ]}"<<endl;
+            return 1;
+          }
+          infile->clear();
+          infile->seekg(0);
+          return 0;
+          break;
+        }
+        if(ligne.find("{name: '") == string::npos){
+          cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
+          ". Format attendu : {name: '"<<endl;
+          return 1;
+        }
+        if(ligne.find(", wave: '") == string::npos){
+          cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
+          ". Format attendu : , wave: '"<<endl;
+          return 1;
+        }
+        if(ligne.find("'},") == string::npos){
+          cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
+          ". Format attendu : '},"<<endl;
+          return 1;
+        }
+        ligne = ligne.substr(ligne.find(", wave: '") + 9,ligne.find("'},")-ligne.find(", wave: '") - 9);
+        for(int i = 0; i<ligne.size();i++){
+          if(ligne.at(i) == '0'){
+          }
+          else if(ligne.at(i) == '1'){
+          }
+          else if(ligne.at(i) == '.'){
+          }
+          else {
+            cout<<"Errer de syntaxe dans les valeurs du stimuli ligne "
+            <<nb_ligne<<" valeur "<<i+1<<", valeur "<<ligne.at(i)<<
+            " non reconnu."<<endl;
+            return 1;
+          }
+        }
         break;
       }
-      if(ligne.find("{name: '") == string::npos){
-        cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
-        ". Format attendu : {name: '"<<endl;
-        return 1;
-      }
-      if(ligne.find(", wave: '") == string::npos){
-        cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
-        ". Format attendu : , wave: '"<<endl;
-        return 1;
-      }
-      if(ligne.find("'},") == string::npos){
-        cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
-        ". Format attendu : '},"<<endl;
-        return 1;
-      }
-      ligne = ligne.substr(ligne.find(", wave: '") + 9,ligne.find("'},")-ligne.find(", wave: '") - 9);
-      for(int i = 0; i<ligne.size();i++){
-        if(ligne.at(i) == '0'){
-        }
-        else if(ligne.at(i) == '1'){
-        }
-        else if(ligne.at(i) == '.'){
-        }
-        else {
-          cout<<"Errer de syntaxe dans les valeurs du stimuli ligne "
-          <<nb_ligne<<" valeur "<<i+1<<", valeur "<<ligne.at(i)<<
-          " non reconnu."<<endl;
-          return 1;
-        }
-      }
-      break;
     }
   }
   cout<<"Erreur de sortie de la vérification de la syntaxe."<<endl;
@@ -213,46 +216,50 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
   //Extraction des entrées et de leurs valeurs
   while(getline(infile, ligne)){
     //    cout << ligne << endl;
-        nb_ligne ++;
-    if(ligne.find("name:") != string::npos){
+    nb_ligne ++;
+    if(ligne.size() == 0){
+    }
+    else{
+      if(ligne.find("name:") != string::npos){
 
-      //Recherche du nom
-      ligne = ligne.substr(ligne.find("'")+1,string::npos);
-      nom = ligne.substr(0,ligne.find("'")); //Extraction du nom de l'entrée
-      ligne = ligne.substr(ligne.find(",")+1,string::npos);
-
-      /////////////////////////////////////////////////////////////////////////////
-      //Recherche des valeurs des signaux
-      /////////////////////////////////////////////////////////////////////////////
-
-      if(ligne.find("wave:") != string::npos){
+        //Recherche du nom
         ligne = ligne.substr(ligne.find("'")+1,string::npos);
-        wave = ligne.substr(0,ligne.find("'"));//Extraction du signal
-        vector<int> *v_wave = new vector<int>; // Vector tampon
-        vector<int> *v_w = new vector<int>; //vector de la map stimulis, vide
-        char point = '.';
-        if(wave.at(0) == point){//remplace le point par 0 si première valeur, par défaut
-          cout<<"Attention la première valeur de l'entrée "<<nom<<
-          " n'est pas défini et elle a été remplacé par un 0, ligne "<<nb_ligne
-          <<endl;
-          wave.at(0) = '0';
-        }
-        for(int i = 0;i<wave.size();i++){
-          if(i==0){ // Initialisation de la map stimuli avec un vector vide
-            m_stimuli->insert(pair<string,vector<int>*>(nom,v_w));
-          }
+        nom = ligne.substr(0,ligne.find("'")); //Extraction du nom de l'entrée
+        ligne = ligne.substr(ligne.find(",")+1,string::npos);
 
-          if(wave.at(i) == point){ //remplace les point par la valeur précédente
-            wave.at(i) = wave.at(i-1);
+        /////////////////////////////////////////////////////////////////////////////
+        //Recherche des valeurs des signaux
+        /////////////////////////////////////////////////////////////////////////////
+
+        if(ligne.find("wave:") != string::npos){
+          ligne = ligne.substr(ligne.find("'")+1,string::npos);
+          wave = ligne.substr(0,ligne.find("'"));//Extraction du signal
+          vector<int> *v_wave = new vector<int>; // Vector tampon
+          vector<int> *v_w = new vector<int>; //vector de la map stimulis, vide
+          char point = '.';
+          if(wave.at(0) == point){//remplace le point par 0 si première valeur, par défaut
+            cout<<"Attention la première valeur de l'entrée "<<nom<<
+            " n'est pas défini et elle a été remplacé par un 0, ligne "<<nb_ligne
+            <<endl;
+            wave.at(0) = '0';
           }
-          v_wave->push_back(wave.at(i) - '0'); //remplissage du vector tampon avec toutes les valeurs
+          for(int i = 0;i<wave.size();i++){
+            if(i==0){ // Initialisation de la map stimuli avec un vector vide
+              m_stimuli->insert(pair<string,vector<int>*>(nom,v_w));
+            }
+
+            if(wave.at(i) == point){ //remplace les point par la valeur précédente
+              wave.at(i) = wave.at(i-1);
+            }
+            v_wave->push_back(wave.at(i) - '0'); //remplissage du vector tampon avec toutes les valeurs
+          }
+          m_tamp.insert(pair<string,vector<int>*>(nom,v_wave));//Remplissage de la map tampon avec le vector
         }
-        m_tamp.insert(pair<string,vector<int>*>(nom,v_wave));//Remplissage de la map tampon avec le vector
-      }
-      else{ //Si pas de wave avec erreur
-        cout<<"Erreur, l'entrée "<<nom<<" n'a pas de valeur attribué, ligne "<<
-        nb_ligne<<endl;
-        return 1;
+        else{ //Si pas de wave avec erreur
+          cout<<"Erreur, l'entrée "<<nom<<" n'a pas de valeur attribué, ligne "<<
+          nb_ligne<<endl;
+          return 1;
+        }
       }
     }
   }

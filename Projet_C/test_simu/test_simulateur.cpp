@@ -50,13 +50,13 @@ int main(){
 
   //Appel du parser gate
   if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output,&path_stru)){
-    cout << "Erreur de la lecture du fichier structure du circuit."<<endl;
+    cout << "\nErreur de la lecture du fichier structure du circuit."<<endl;
     return 1;
   }
 
   //Appel du parser simu
   if (parser_stimuli(&v_input, &v_duree_delta, &m_stimulis,&path_stimuli)){
-    cout << "Erreur de la lecture du fichier stimulis du circuit."<<endl;
+    cout << "\nErreur de la lecture du fichier stimulis du circuit."<<endl;
     return 1;
   }
 
@@ -68,14 +68,14 @@ int main(){
 
   for(unsigned i = 0; i < v_gate_all.size(); i++){
     if(v_gate_all.at(i)->get_output_size() == 0){
-      cout << "La porte " << v_gate_all.at(i)->getName() << " n'a pas de sortie défini" << endl;
+      cout << "\nLa porte " << v_gate_all.at(i)->getName() << " n'a pas de sortie défini" << endl;
       return 1;
     }
   }
 
   for(unsigned i = 0; i<v_gate_all.size(); i++){
     if(v_gate_all.at(i)->get_input_size() != v_gate_all.at(i)->get_nb_of_entry()){
-      cout << "La porte " << v_gate_all.at(i)->getName() << " n'a pas nb_of_entry = input size" << endl;
+      cout << "\nLa porte " << v_gate_all.at(i)->getName() << " n'a pas nb_of_entry = input size" << endl;
       return 1;
     }
   }
@@ -89,7 +89,7 @@ int main(){
 
   //Simulation
   //Premiere update des entree
-  cout << "avant 1er update" << endl;
+  cout << "\navant 1er update" << endl;
   unsigned it_delta_cycle = 0; //indice du delta_cycle
   for(unsigned i = 0; i<v_input.size(); i++){ //on parcourt la liste v_input pour recuper les clés d'input
     for(unsigned j = 0; j<m_input[v_input.at(i)]->size(); j++){ //on parcourt le vecteur correspondant à la clé
@@ -109,7 +109,7 @@ int main(){
        }
     }
   }
-  cout << "apres 1er update" << endl;
+  cout << "\napres 1er update" << endl;
 
   //Boucle de simu
 
@@ -117,7 +117,7 @@ int main(){
 
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
-    cout << endl << "debut boucle simu" << endl;
+    cout << endl << "\ndebut boucle simu" << endl;
     // cout << "v_output_tampon.size()" << v_output_tampon.size() <<endl;
     for(unsigned i = 0; i<v_output_tampon.size(); i++){ //recherche si la simu pour ce delta est fini
       // cout << "i " << i << endl;
@@ -133,7 +133,7 @@ int main(){
     // cout << "stab apres check update " << stab <<endl;
     // cout << "it_delta_cycle " << it_delta_cycle << endl;
     if(stab){
-      cout << "recup des sorties" << endl;
+      cout << "\nrecup des sorties" << endl;
       // cout << "v_output_tampon.size() " << v_output_tampon.size() << endl;
       //Recuperation des valeurs de sortie
       for(unsigned i = 0; i<v_output_tampon.size(); i++){
@@ -142,10 +142,10 @@ int main(){
         // cout << "v_output_tampon.at(i)->getName() " << v_output_tampon.at(i)->getName() << endl;
         m_output[v_output_tampon.at(i)->getName()]->at(it_delta_cycle) = v_output_tampon.at(i)->getValueAndReset();
       }
-      cout << "sortie recupere " << endl;
+      cout << "\nsortie recupere " << endl;
       it_delta_cycle++;
       //Mise à jour des nouvelle valeur d'entrée
-      cout << "nouvelle update " << endl;
+      cout << "\nnouvelle update " << endl;
       if(it_delta_cycle < v_duree_delta.size()){
         for(unsigned i = 0; i<v_input.size(); i++){
           for(unsigned j = 0; j<m_input[v_input.at(i)]->size(); j++){
@@ -165,7 +165,7 @@ int main(){
           }
         }
       }
-      cout << "fin update " << endl << endl;
+      cout << "\nfin update " << endl << endl;
     }
 
     //Simu des portes à faire.
@@ -193,23 +193,23 @@ int main(){
   // }
 
   if (wavedrom_output(&v_input,&v_output,&v_duree_delta,&m_stimulis,&m_output,&path_file_out)){
-    cout <<"Erreur de l'écriture du fichier de sortie."<<endl;
+    cout <<"\nErreur de l'écriture du fichier de sortie."<<endl;
     return 1;
   }
 
   //Liberation de la memoire
   for(map<string, vector<Gate*>*>::iterator itr = m_input.begin(); itr != m_input.end(); itr++){
-    cout << "Destruction de l'entrée  " << itr->first << endl;
+//    cout << "Destruction de l'entrée  " << itr->first << endl;
     delete itr->second;
   }
 
   for(map<string, vector<int>* >::iterator itr = m_output.begin(); itr != m_output.end(); itr++){
-    cout << "Destruction de la sortie  " << itr->first <<endl;
+//    cout << "Destruction de la sortie  " << itr->first <<endl;
     delete itr->second;
   }
 
   for(int i = 0;i<v_input.size();i++){
-    cout << "Destruction du stimuli d'entrée "<<v_input.at(i)<<endl;
+//    cout << "Destruction du stimuli d'entrée "<<v_input.at(i)<<endl;
     delete m_stimulis.at(v_input.at(i));
   }
 
