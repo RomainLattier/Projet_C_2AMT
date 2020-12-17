@@ -38,15 +38,19 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "../Examen/circuits/full_adder.dot";
-  string path_stimuli = "../Examen/stimuli/full_adder.json";
-  string path_file_out = "./test_exam/full_adder_result.json";
-  // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
-  // cin >> path_stru;
-  // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
-  // cin >> path_stimuli;
-  // cout <<" Donnez le chemin avec le nom du fichier stimulis de sortie (fichier wavedrom avec extansion .json)"<<endl;
-  // cin >> path_file_out;
+  // string path_stru = "../Examen/circuits/full_adder.dot";
+  // string path_stimuli = "../Examen/stimuli/full_adder.json";
+  // string path_file_out = "./test_exam/full_adder_result.json";
+
+  string path_stru ;
+  string path_stimuli ;
+  string path_file_out;
+  cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
+  cin >> path_stru;
+  cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
+  cin >> path_stimuli;
+  cout <<" Donnez le chemin avec le nom du fichier stimulis de sortie (fichier wavedrom avec extansion .json)"<<endl;
+  cin >> path_file_out;
 
   //Appel du parser gate
   if (parser_gate(&m_input, &m_output, &v_gate_all, &v_output_tampon, &v_input, &v_output,&path_stru)){

@@ -1,0 +1,15 @@
+{signal: [
+  ['Entrées',
+  {name: 'A', wave: '0101'},
+  {name: 'B', wave: '0.1.'},
+  {name: 'C', wave: '0101'},
+  {name: 'D', wave: '0.1.'},
+  {name: 'E', wave: '0101'},
+  {name: 'F', wave: '0.1.'},
+  ],
+  {},
+  ['Sorties',
+  {name: 'S', wave: '01..'},
+  {name: 'Q', wave: '1...'},
+  ],
+]}

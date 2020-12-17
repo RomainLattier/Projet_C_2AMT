@@ -1,0 +1,16 @@
+digraph FA_std_cell {
+
+A [label = "INPUT"];
+B [label = "INPUT"];
+C_in [label = "INPUT"];
+
+C_out [label = "OUTPUT"];
+Sum [label = "OUTPUT"];
+
+FA_test [label = "FA" carry = "C_out"]
+
+A -> FA_test -> Sum;
+B -> FA_test;
+C_in -> FA_test;
+
+}
