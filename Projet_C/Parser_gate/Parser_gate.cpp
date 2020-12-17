@@ -727,10 +727,16 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
                   return 1;
                 }
               }
+              else if(type_2 == 2 && type_1 == 2){
+                cout << "\nErreur d'interconnexion dans la structure du circuit: la sortie "<<
+                nom_r_1 <<" est connecté à la sortie "<< nom_r_2<<endl;
+                cout << "Voir ligne " << nb_ligne << endl;
+                return 1;
+              }
 
               //Detection \nErreur si sortie sur une entre ou porte sur entre
               else if(type_2 == 1){
-                cout << "\nErreur de d'interconnexion dans la structure du circuit: la sortie "<<
+                cout << "\nErreur d'interconnexion dans la structure du circuit: la sortie "<<
                 nom_r_1 <<" est connecté à l'INPUT"<< nom_r_2<<endl;
                 cout << "Voir ligne " << nb_ligne << endl;
                 return 1;
