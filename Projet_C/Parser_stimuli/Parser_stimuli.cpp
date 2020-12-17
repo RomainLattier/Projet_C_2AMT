@@ -97,12 +97,22 @@ bool verif_syntaxe(ifstream * infile){
             ". Format attendu : ,wave:'"<<endl;
             return 1;
           }
-          if(ligne.find("'},") == string::npos){
+          if(nb_ligne  == nb_ligne_tot -1 ){
+            if(ligne.find("'}") == string::npos){
+              cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
+              ". Format attendu : '}"<<endl;
+              return 1;
+            }
+            ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'}")-ligne.find(",wave:'") - 9);
+          }
+          else if(ligne.find("'},") == string::npos){
             cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
             ". Format attendu : '},"<<endl;
             return 1;
           }
-          ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'},")-ligne.find(",wave:'") - 9);
+          if(nb_ligne  < nb_ligne_tot -1 ){
+            ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'},")-ligne.find(",wave:'") - 9);
+          }
           for(int i = 0; i<ligne.size();i++){
             if(ligne.at(i) == '0'){
             }
