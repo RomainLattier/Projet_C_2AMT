@@ -43,13 +43,13 @@ bool verif_syntaxe(ifstream * infile){
 
   while(getline(*infile, ligne)){
     nb_ligne ++;
-    if(ligne.size() == 0){
-    }
+    remove_space(&ligne,&nb_ligne);
+    if(ligne.size() == 0 || ligne.find("//") == 0 || ligne.find("{},") == 0){}
     else{
       switch (n) {
         case 0 : //Début du fichier
-        if(ligne.find("{signal: [") == string::npos){
-          cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal: ["<<endl;
+        if(ligne.find("{signal:[") == string::npos){
+          cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal:["<<endl;
           return 1;
         }
         n =1;
@@ -66,14 +66,14 @@ bool verif_syntaxe(ifstream * infile){
           return 0;
           break;
         }
-        if(ligne.find("{name: '") == string::npos){
+        if(ligne.find("{name:'") == string::npos){
           cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
-          ". Format attendu : {name: '"<<endl;
+          ". Format attendu : {name:'"<<endl;
           return 1;
         }
-        if(ligne.find(", wave: '") == string::npos){
+        if(ligne.find(",wave:'") == string::npos){
           cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
-          ". Format attendu : , wave: '"<<endl;
+          ". Format attendu : ,wave:'"<<endl;
           return 1;
         }
         if(ligne.find("'},") == string::npos){
@@ -81,7 +81,7 @@ bool verif_syntaxe(ifstream * infile){
           ". Format attendu : '},"<<endl;
           return 1;
         }
-        ligne = ligne.substr(ligne.find(", wave: '") + 9,ligne.find("'},")-ligne.find(", wave: '") - 9);
+        ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'},")-ligne.find(",wave:'") - 9);
         for(int i = 0; i<ligne.size();i++){
           if(ligne.at(i) == '0'){
           }
@@ -142,8 +142,6 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
     nb_ligne ++;
 
   }
-  infile->clear();
-  infile->seekg(0);
   //Vérification si toutes les entrées du circuits sont adressé
   for(int i = 0; i<v_in->size();i++){
     if(find_vector(&v_name,&(v_in->at(i)))==1){
@@ -151,6 +149,8 @@ bool verif_nom_input(ifstream * infile,const vector<string> *v_in){
       return 1;
     }
   }
+  infile->clear();
+  infile->seekg(0);
   return 0;
 }
 
@@ -171,11 +171,11 @@ bool verif_delta(const vector<string> *v_in, const map<string,vector<int>*> *m_t
 int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,vector<int> *> *m_stimuli,const string * s_path){
 
   ////////////////////////////////////////////////////////////////////////////////
-  //OUVERTURE FICHIER et définition variable
+  //OUVERTURE FICHIER, définition variable et check de l'ouverture, du path et syntaxe
   ////////////////////////////////////////////////////////////////////////////////
 
   map<string,vector<int>*> m_tamp; //map tampon pour les valeurs des signaux avant delta_cycle
-  int nb_ligne = 1; //Compteur de ligne
+  int nb_ligne = 0; //Compteur de ligne
   string nom; //nom de l'entrée
   string wave; //valeurs du signal
 
@@ -199,14 +199,16 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
     return 1;
   }
 
+  //Verification de la syntaxe du fichier
+  if(verif_syntaxe(&infile)==1){return 1;
+  }
+
+  infile.clear();
+  infile.seekg(0);
+
   /////////////////////////////////////////////////////////////////////////////
   //RECHERCHE DES NOMS ENTREES
   /////////////////////////////////////////////////////////////////////////////
-
-  //Verification de la syntaxe du fichier
-  if(verif_syntaxe(&infile)==1){
-    return 1;
-  }
 
   //Verification des nom des entrees
   if(verif_nom_input(&infile,v_in)==1){
@@ -215,10 +217,9 @@ int parser_stimuli(const vector<string> *v_in,vector<int> *v_delta,map<string,ve
 
   //Extraction des entrées et de leurs valeurs
   while(getline(infile, ligne)){
-    //    cout << ligne << endl;
     nb_ligne ++;
-    if(ligne.size() == 0){
-    }
+    remove_space(&ligne,&nb_ligne);
+    if(ligne.size() == 0 || ligne.find("//") == 0 || ligne.find("{},") == 0){}
     else{
       if(ligne.find("name:") != string::npos){
 
