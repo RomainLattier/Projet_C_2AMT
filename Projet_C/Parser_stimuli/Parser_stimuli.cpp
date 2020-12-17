@@ -46,57 +46,79 @@ bool verif_syntaxe(ifstream * infile){
     remove_space(&ligne,&nb_ligne);
     if(ligne.size() == 0 || ligne.find("//") == 0 || ligne.find("{},") == 0){}
     else{
-      switch (n) {
-        case 0 : //Début du fichier
-        if(ligne.find("{signal:[") == string::npos){
-          cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal:["<<endl;
-          return 1;
-        }
-        n =1;
-        break;
-
-        case 1 : //Chaque ligne de signaux
-        if(nb_ligne == nb_ligne_tot){ //Cas dernière ligne
-          if(ligne.find("]}") == string::npos){
-            cout<<"Erreur de syntaxe à la fin du fichier, ligne "<<nb_ligne<<". Format attendu : ]}"<<endl;
+      if(ligne.find("(") != string::npos || ligne.find(")") != string::npos
+      || ligne.find("#") != string::npos
+      || ligne.find("~") != string::npos || ligne.find("&") != string::npos
+      || ligne.find("¬") != string::npos || ligne.find("²") != string::npos
+      || ligne.find("é") != string::npos || ligne.find("è") != string::npos
+      || ligne.find("`") != string::npos || ligne.find("|") != string::npos
+      || ligne.find("ç") != string::npos || ligne.find("^") != string::npos
+      || ligne.find("@") != string::npos || ligne.find("à") != string::npos
+      || ligne.find("°") != string::npos || ligne.find("+") != string::npos
+      || ligne.find("$") != string::npos || ligne.find("£") != string::npos
+      || ligne.find("¤") != string::npos || ligne.find("*") != string::npos
+      || ligne.find("µ") != string::npos || ligne.find("%") != string::npos
+      || ligne.find("ù") != string::npos || ligne.find("§") != string::npos
+      || ligne.find("!") != string::npos || ligne.find(">") != string::npos
+      || ligne.find("-") != string::npos || ligne.find("<") != string::npos
+      || ligne.find("?") != string::npos){
+        cout<<"\nErreur de syntaxe, caractère interdit ligne "<<nb_ligne<<endl;
+        cout<<"Caractère interdit: ( ) ' # ~ & ¬ ² é è ç ` | ^ @ à ° + $ £ ¤ * µ % ù § ! ? < > -"<<endl;
+        return 1;
+      }
+      else{
+        switch (n) {
+          case 0 : //Début du fichier
+          if(ligne.find("{signal:[") == string::npos){
+            cout<<"Erreur de syntaxe, ligne "<<nb_ligne<<". Format attendu : {signal:["<<endl;
             return 1;
           }
-          infile->clear();
-          infile->seekg(0);
-          return 0;
+          n =1;
+          break;
+
+          case 1 : //Chaque ligne de signaux
+          if(nb_ligne == nb_ligne_tot){ //Cas dernière ligne
+            if(ligne.find("]}") == string::npos){
+              cout<<"Erreur de syntaxe à la fin du fichier, ligne "<<nb_ligne<<". Format attendu : ]}"<<endl;
+              return 1;
+            }
+            infile->clear();
+            infile->seekg(0);
+            return 0;
+            break;
+          }
+          if(ligne.find("{name:'") == string::npos){
+            cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
+            ". Format attendu : {name:'"<<endl;
+            return 1;
+          }
+          if(ligne.find(",wave:'") == string::npos){
+            cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
+            ". Format attendu : ,wave:'"<<endl;
+            return 1;
+          }
+          if(ligne.find("'},") == string::npos){
+            cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
+            ". Format attendu : '},"<<endl;
+            return 1;
+          }
+          ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'},")-ligne.find(",wave:'") - 9);
+          for(int i = 0; i<ligne.size();i++){
+            if(ligne.at(i) == '0'){
+            }
+            else if(ligne.at(i) == '1'){
+            }
+            else if(ligne.at(i) == '.'){
+            }
+            else {
+              cout<<"Errer de syntaxe dans les valeurs du stimuli ligne "
+              <<nb_ligne<<" valeur "<<i+1<<", valeur "<<ligne.at(i)<<
+              " non reconnu."<<endl;
+              return 1;
+            }
+          }
           break;
         }
-        if(ligne.find("{name:'") == string::npos){
-          cout<<"Erreur de syntaxe au début de la ligne "<<nb_ligne<<
-          ". Format attendu : {name:'"<<endl;
-          return 1;
-        }
-        if(ligne.find(",wave:'") == string::npos){
-          cout<<"Erreur de syntaxe au milieu de la ligne "<<nb_ligne<<
-          ". Format attendu : ,wave:'"<<endl;
-          return 1;
-        }
-        if(ligne.find("'},") == string::npos){
-          cout<<"Erreur de syntaxe à la fin de la ligne "<<nb_ligne<<
-          ". Format attendu : '},"<<endl;
-          return 1;
-        }
-        ligne = ligne.substr(ligne.find(",wave:'") + 9,ligne.find("'},")-ligne.find(",wave:'") - 9);
-        for(int i = 0; i<ligne.size();i++){
-          if(ligne.at(i) == '0'){
-          }
-          else if(ligne.at(i) == '1'){
-          }
-          else if(ligne.at(i) == '.'){
-          }
-          else {
-            cout<<"Errer de syntaxe dans les valeurs du stimuli ligne "
-            <<nb_ligne<<" valeur "<<i+1<<", valeur "<<ligne.at(i)<<
-            " non reconnu."<<endl;
-            return 1;
-          }
-        }
-        break;
       }
     }
   }
