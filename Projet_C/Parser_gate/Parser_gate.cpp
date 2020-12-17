@@ -31,6 +31,10 @@ bool remove_space(string * str, const int * nb_ligne){
 
 //converti un nombre au format string en int
 bool conv_int(const string a,int * b){
+  if(a.size() == 0){
+    return 1;
+  }
+
   for(int i = a.size(); i > 0;i--){
     if((a.at(i-1) - '0') > 9 || (a.at(i-1) - '0') < 0){
       return 1;
@@ -448,7 +452,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
       vector<string> v_name_gate;
       map<string, Gate*> m_tamp_output;
       map<string, Gate_mux *> m_tamp_mux;
-      int nb_ligne = 1;
+      int nb_ligne = 0;
       bool flag_seq = 0; //flag si porte séquentiel créé
       string ligne;
       ifstream infile;
@@ -528,7 +532,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"AND") + 11,ligne.find("\"];")-ligne.find("[label=\"AND")-11),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             And * ptr_obj = new And(nom,nb_entry);
@@ -546,7 +550,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"NAND") + 12,ligne.find("\"];")-ligne.find("[label=\"NAND")-12),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             Nand * ptr_obj = new Nand(nom,nb_entry);
@@ -558,7 +562,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"NOR") + 11,ligne.find("\"];")-ligne.find("[label=\"NOR")-11),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             Nor * ptr_obj = new Nor(nom,nb_entry);
@@ -570,7 +574,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"OR") + 10,ligne.find("\"];")-ligne.find("[label=\"OR")-10),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             Or * ptr_obj = new Or(nom,nb_entry);
@@ -582,7 +586,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"XNOR") + 12,ligne.find("\"];")-ligne.find("[label=\"XNOR")-12),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             Xnor * ptr_obj = new Xnor(nom,nb_entry);
@@ -594,7 +598,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"XOR") + 11,ligne.find("\"];")-ligne.find("[label=\"XOR")-11),&nb_entry)){
               cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
-              nom<<" contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
+              nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
             Xor * ptr_obj = new Xor(nom,nb_entry);
@@ -632,7 +636,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
       infile.clear();
       infile.seekg(0);
-      nb_ligne = 1;
+      nb_ligne = 0;
 
       //Check si au moins 1 entrée, 1 sortie
       if(v_in->size()<1){
@@ -693,7 +697,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
               //Cas ou les deux elements sont des portes
               if(type_1 == 3 && type_2 == 3){
                 if(link_double_gate(v_gate,&nom_r_1,&nom_r_2)!=0){
-                  cout<<"\nErreur de lecture du fichier .dot, connection entre la porte "<<
+                  cout<<"\nErreur, connection entre la porte "<<
                   nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, ligne " <<
                   nb_ligne << endl;
                   return 1;
@@ -703,9 +707,8 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
               //Cas element de gauche est une entre et element de droite une porte
               else if(type_1 == 1 && type_2 == 3){
                 if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
-                  cout<<"\nErreur de lecture du fichier .dot, connection entre l'entrée "<<
-                  nom_r_1 <<" et la porte "<< nom_r_2 << " impossible, ligne " <<
-                  nb_ligne << endl;
+                  cout<<"\nErreur, connection entre l'entrée "<< nom_r_1 <<" et la porte "
+                  << nom_r_2 << " impossible, ligne " <<nb_ligne << endl;
                   return 1;
                 }
               }
@@ -713,9 +716,8 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
               //cas ou element de gauche est une porte et element de droite est une sortie
               else if(type_1 == 3 && type_2 == 2){
                 if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
-                  cout<<"\nErreur de lecture du fichier .dot, connection entre la porte "<<
-                  nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, ligne " <<
-                  nb_ligne << endl;
+                  cout<<"\nErreur, connection entre la porte "<<nom_r_1 <<" et la sortie "
+                  << nom_r_2 << " impossible, ligne " <<nb_ligne << endl;
                   return 1;
                 }
               }
@@ -726,16 +728,14 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
                 " est directement connecté à la sortie "<< nom_r_2 <<", ligne "<<nb_ligne<<endl;
 
                 if(link_m_tamp_output(&m_tamp_output,v_gate,&nom_r_1,&nom_r_2,v_in)!=0){
-                  cout<<"\nErreur de lecture du fichier .dot, connection entre l'entrée "<<
-                  nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, ligne " <<
-                  nb_ligne << endl;
+                  cout<<"\nErreur, connection entre l'entrée "<<nom_r_1 <<" et la sortie "
+                  << nom_r_2 << " impossible, ligne " << nb_ligne << endl;
                   return 1;
                 }
 
                 if(link_m_input(m_input,v_gate,&nom_r_1,&nom_r_2,&m_tamp_output)!=0){
-                  cout<<"\nErreur de lecture du fichier .dot, connection entre l'entrée "<<
-                  nom_r_1 <<" et la sortie "<< nom_r_2 << " impossible, ligne : " <<
-                  nb_ligne << endl;
+                  cout<<"\nErreur, connection entre l'entrée "<<nom_r_1 <<
+                  " et la sortie "<<nom_r_2<<" impossible, ligne : "<<nb_ligne<<endl;
                   return 1;
                 }
               }
