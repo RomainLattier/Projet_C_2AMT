@@ -1,0 +1,9 @@
+{signal: [
+  ['Entrées',
+  {name: 'I', wave: '0.1..0.1.'},
+  ],
+  {},
+  ['Sorties',
+  {name: 'O', wave: '0.1..0.1.'},
+  ],
+]}

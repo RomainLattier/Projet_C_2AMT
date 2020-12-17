@@ -38,9 +38,9 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "../Examen/portes_elementaires/and2.dot";
+  string path_stru = "../Examen/structure_ok/fan_out.dot";
   string path_stimuli = "../Examen/stimuli/two_inputs.json";
-  string path_file_out = "./test_exam/and2_result.json";
+  string path_file_out = "./test_exam/fan_out_resutl.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;
   // cin >> path_stru;
   // cout <<" Donnez le chemin du fichier stimulis en entrée du circuit (fichier wavedrom avec extansion .json)"<<endl;
@@ -80,6 +80,24 @@ int main(){
     }
   }
 
+  cout<<"\n------------------------------------"<<endl;
+  cout << "Test de la création des portes et du vector de gate"<<endl;
+  for(int i = 0; i<v_gate_all.size();i++){
+    cout <<"\nLa porte "<< v_gate_all.at(i)->getName()<< " a pour sorties :"<<endl;
+    v_gate_all.at(i)->print_output_name();
+    cout << "et a "<<v_gate_all.at(i)->get_nb_of_entry()<<" entrées"<<endl;
+  }
+
+  //test creation map INPUT
+  cout<<"\n------------------------------------"<<endl;
+  cout <<"Test de la création de la map input"<<endl;
+  for(int i = 0;i<v_input.size();i++){
+    cout << "\nL'entrée " << v_input.at(i)<< " est relié à la porte "<<endl;
+    for(int j = 0; j<m_input.at(v_input.at(i))->size();j++){
+      cout << m_input.at(v_input.at(i))->at(j)->getName()<<endl;
+    }
+  }
+
   // for (unsigned i = 0; i < v_output.size();i++){
   //   cout << v_output.at(i) << endl;
   //   for(unsigned j = 0; j<m_output[v_output.at(i)]->size();j++){
@@ -114,10 +132,10 @@ int main(){
   //Boucle de simu
 
   // int debug = 0;
+  cout << endl << "\ndebut boucle simu" << endl;
 
   while (it_delta_cycle < v_duree_delta.size()) {
     int stab = 1;
-    cout << endl << "\ndebut boucle simu" << endl;
     // cout << "v_output_tampon.size()" << v_output_tampon.size() <<endl;
     for(unsigned i = 0; i<v_output_tampon.size(); i++){ //recherche si la simu pour ce delta est fini
       // cout << "i " << i << endl;
@@ -133,7 +151,7 @@ int main(){
     // cout << "stab apres check update " << stab <<endl;
     // cout << "it_delta_cycle " << it_delta_cycle << endl;
     if(stab){
-      cout << "\nrecup des sorties" << endl;
+      // cout << "\nrecup des sorties" << endl;
       // cout << "v_output_tampon.size() " << v_output_tampon.size() << endl;
       //Recuperation des valeurs de sortie
       for(unsigned i = 0; i<v_output_tampon.size(); i++){
@@ -142,10 +160,10 @@ int main(){
         // cout << "v_output_tampon.at(i)->getName() " << v_output_tampon.at(i)->getName() << endl;
         m_output[v_output_tampon.at(i)->getName()]->at(it_delta_cycle) = v_output_tampon.at(i)->getValueAndReset();
       }
-      cout << "\nsortie recupere " << endl;
+      // cout << "\nsortie recupere " << endl;
       it_delta_cycle++;
       //Mise à jour des nouvelle valeur d'entrée
-      cout << "\nnouvelle update " << endl;
+      // cout << "\nnouvelle update " << endl;
       if(it_delta_cycle < v_duree_delta.size()){
         for(unsigned i = 0; i<v_input.size(); i++){
           for(unsigned j = 0; j<m_input[v_input.at(i)]->size(); j++){
@@ -165,7 +183,7 @@ int main(){
           }
         }
       }
-      cout << "\nfin update " << endl << endl;
+      // cout << "\nfin update " << endl << endl;
     }
 
     //Simu des portes à faire.
@@ -181,6 +199,8 @@ int main(){
     // debug ++;
 
   }
+
+  cout <<"Fin boucle de simu " << endl;
 
   //Appel du parser de sortie
 
