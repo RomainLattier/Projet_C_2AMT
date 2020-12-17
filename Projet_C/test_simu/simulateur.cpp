@@ -38,7 +38,7 @@ int main(){
   map<string,vector<int>* > m_stimulis; //map des différents stimuls clé = entrée vector = valeur
   vector<int> v_duree_delta; //vector de la duréee de chaque stimulis
 
-  string path_stru = "../Examen/portes_elementaires/and2.dot";
+  string path_stru = "../Examen/grammar_check/empty.dot";
   string path_stimuli = "../Examen/stimuli/two_inputs.json";
   string path_file_out = "./test_exam/and2_result.json";
   // cout <<" Donnez le chemin du fichier structure du circuit (fichier .dot)"<<endl;

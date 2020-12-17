@@ -30,6 +30,7 @@ bool verif_syntaxe(ifstream * infile){
   int n = 0;
   int nb_ligne = 0;
   int nb_ligne_tot = 0;
+  int nb_saut = 0; //Compteur pour détecter fichier vide
   string ligne;
 
   infile->clear();
@@ -38,13 +39,23 @@ bool verif_syntaxe(ifstream * infile){
   while(getline(*infile, ligne)){ // Mesure du nombre de ligne total
     nb_ligne_tot ++;
   }
+  if(nb_ligne_tot == 0){
+    cout<<"\nErreur, le fichier des stimulis est vide."<<endl;
+    return 1;
+  }
   infile->clear();
   infile->seekg(0);
 
   while(getline(*infile, ligne)){
     nb_ligne ++;
     remove_space(&ligne,&nb_ligne);
-    if(ligne.size() == 0 || ligne.find("//") == 0 || ligne.find("{},") == 0){}
+    if(ligne.size() == 0 || ligne.find("//") == 0 || ligne.find("{},") == 0){
+      nb_saut++;
+      if(nb_ligne_tot == nb_saut){
+        cout<<"\nErreur, le fichier de structure du circuit est vide."<<endl;
+        return 1;
+      }
+    }
     else{
       if(ligne.find("(") != string::npos || ligne.find(")") != string::npos
       || ligne.find("#") != string::npos
