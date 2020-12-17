@@ -37,4 +37,7 @@ O [label = "OUTPUT"];
 I1 -> M -> O;
 I2 -> M;
 
+A [label = "OUTPUT"];
+
+
 }

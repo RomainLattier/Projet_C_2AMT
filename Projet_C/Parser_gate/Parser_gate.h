@@ -30,6 +30,7 @@ bool conv_int(string a,int * b);
 bool find_name_in_vector(const string * name,const vector<string> * vector);
 bool check_syntaxe(ifstream * infile);
 bool check_name(const string * nom, const vector<string> * vector);
+bool check_name_exist(const string *nom_r,const vector<string> *v_in,const vector<string> *v_out,const vector<string> *v_gate);
 bool recherche_v(const string *nom_r,const vector<string> *v_base);
 bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in, const vector<string> *v_out, const vector<string> *v_gate);
 bool recherche_nom_suivant(bool * eol,const string * ligne,int * index_min, string *nom);

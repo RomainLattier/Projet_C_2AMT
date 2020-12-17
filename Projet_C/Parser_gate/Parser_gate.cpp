@@ -12,6 +12,7 @@ bool check_ext_path_dot(const string * s_path){
 }
 
 bool check_open_file(const ifstream * infile){
+  cout<<infile<<endl;
   if(infile){  //On teste si tout est OK après création du fichier
     return 0;
   }
@@ -242,7 +243,6 @@ bool check_syntaxe(ifstream * infile){
   return 1;
 }
 
-
 //Check si le nom pas trop long et pas interdit
 bool check_name(const string * nom, const vector<string> * vector){
   if(nom->size()>32){
@@ -258,37 +258,47 @@ bool check_name(const string * nom, const vector<string> * vector){
   return 0;
 }
 
-//Recherche d'une valeur dans un vecteur
-bool recherche_v(const string *nom_r,const vector<string> *v_base){
-  for(int i = 0;i<v_base->size();i++){
-    if(*nom_r == v_base->at(i)){
+bool check_name_exist(const string *nom_r,const vector<string> *v_in,
+  const vector<string> *v_out,const vector<string> *v_gate){
+    int i = 0;
+    if(recherche_type(&i,nom_r,v_in,v_out,v_gate) == 0){
       return 1;
     }
-  }
-  return 0;
-}
-
-//Identifie le type entre sortie ou Gate
-//entre type = 1;
-//sorti type = 2;
-//gate type = 3;
-//return 1 si pas trouvé et 0 si trouvé
-bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in,
-  const vector<string> *v_out, const vector<string> *v_gate){
-
-    if(recherche_v(nom_r,v_in) == 1){ //Recherche si l'element est une entree
-    *type = 1;
     return 0;
   }
 
-  else if(recherche_v(nom_r,v_out)==1){//Recherche si l'element est une sortie
-  *type = 2;
-  return 0;
-}
 
-else if(recherche_v(nom_r,v_gate)==1){//Recherche si l'element est une porte
-*type = 3;
-return 0;
+  //Recherche d'une valeur dans un vecteur
+  bool recherche_v(const string *nom_r,const vector<string> *v_base){
+    for(int i = 0;i<v_base->size();i++){
+      if(*nom_r == v_base->at(i)){
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  //Identifie le type entre sortie ou Gate
+  //entre type = 1;
+  //sorti type = 2;
+  //gate type = 3;
+  //return 1 si pas trouvé et 0 si trouvé
+  bool recherche_type(int *type,const string *nom_r,const vector<string> *v_in,
+    const vector<string> *v_out, const vector<string> *v_gate){
+
+      if(recherche_v(nom_r,v_in) == 1){ //Recherche si l'element est une entree
+      *type = 1;
+      return 0;
+    }
+
+    else if(recherche_v(nom_r,v_out)==1){//Recherche si l'element est une sortie
+    *type = 2;
+    return 0;
+  }
+
+  else if(recherche_v(nom_r,v_gate)==1){//Recherche si l'element est une porte
+  *type = 3;
+  return 0;
 }
 
 return 1;
@@ -472,6 +482,10 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             cout<<"Ligne "<<nb_ligne<<endl;
             return 1;
           }
+          if(check_name_exist(&nom,v_in,v_out,&v_name_gate)){
+            cout<<"\nErreur de sémentique, le nom "<<nom<<" est déjà utilisé, ligne "<<nb_ligne-1<<endl;
+            return 1;
+          }
 
           if(ligne.find("=\"INPUT\"];") != string::npos){
             v_in->push_back(nom);
@@ -620,6 +634,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
               cout<<"Ligne "<<nb_ligne<<endl;
               return 1;
             }
+
             string nom_r_2;
             int type_1 = 0; //init du type du nom avant la fleche
             int type_2 = 0; //init a 0 pour le deuxieme
