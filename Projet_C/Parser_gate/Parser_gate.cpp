@@ -185,13 +185,13 @@ bool check_syntaxe(ifstream * infile){
               break;
             }
             else if(ligne.find("[label") == string::npos && ligne.find("->") == string::npos){
-              cout<<"\nErreur de sémentique à la ligne "<<nb_ligne<<
+              cout<<"\nErreur de syntaxe à la ligne "<<nb_ligne<<
               ", il manque le séparateur -> (pour définir les connexions)"<<
               " ou le séparateur au format : [label (pour définir les I/O et les portes)."<<endl;
               return 1;
             }
             else if(ligne.find("[label") != string::npos && ligne.find("->") != string::npos){
-              cout<<"\nErreur de sémentique à la ligne "<<nb_ligne<<
+              cout<<"\nErreur de syntaxe à la ligne "<<nb_ligne<<
               ", contradiction, il y a le séparateur -> (pour définir les connexions)"<<
               " et le séparateur label au format : [label (pour définir les I/O et les portes)."<<endl;
               return 1;
@@ -220,7 +220,7 @@ bool check_syntaxe(ifstream * infile){
               if(ligne.find("[label=\"MUX2\"sel=\"") != string::npos){
                 int taille_sel = ligne.find("\"];")-ligne.find("[label=\"MUX2\"sel=\"") - 18;
                 if(taille_sel < 1){
-                  cout<<"\nErreur de sémentique, le nom de la sélection est incomplète, ligne "<<nb_ligne<<endl;
+                  cout<<"\nErreur de déclaration, le nom de la sélection est incomplète, ligne "<<nb_ligne<<endl;
                   return 1;
                 }
               }
@@ -271,7 +271,7 @@ bool check_name(const string * nom, const vector<string> * vector){
   }
   for(int i =0;i<vector->size();i++){
     if(*nom == vector->at(i)){
-      cout<<"\nErreur le nom "<<*nom<<"est un nom réservé."<<endl;
+      cout<<"\nErreur le nom "<<*nom<<" est un nom réservé."<<endl;
       return 1;
     }
   }
@@ -506,7 +506,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
             return 1;
           }
           if(check_name_exist(&nom,v_in,v_out,&v_name_gate)){
-            cout<<"\nErreur de sémentique, le nom "<<nom<<" est déjà utilisé, ligne "<<nb_ligne-1<<endl;
+            cout<<"\nErreur de déclaration, le nom "<<nom<<" est déjà utilisé, ligne "<<nb_ligne-1<<endl;
             return 1;
           }
 
@@ -531,7 +531,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"AND") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"AND") + 11,ligne.find("\"];")-ligne.find("[label=\"AND")-11),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -549,7 +549,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"NAND") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"NAND") + 12,ligne.find("\"];")-ligne.find("[label=\"NAND")-12),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -561,7 +561,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"NOR") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"NOR") + 11,ligne.find("\"];")-ligne.find("[label=\"NOR")-11),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -573,7 +573,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"OR") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"OR") + 10,ligne.find("\"];")-ligne.find("[label=\"OR")-10),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -585,7 +585,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"XNOR") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"XNOR") + 12,ligne.find("\"];")-ligne.find("[label=\"XNOR")-12),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -597,7 +597,7 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
           else if(ligne.find("[label=\"XOR") != string::npos){
             int nb_entry = 0;
             if(conv_int(ligne.substr(ligne.find("[label=\"XOR") + 11,ligne.find("\"];")-ligne.find("[label=\"XOR")-11),&nb_entry)){
-              cout<<"\nErreur de sémentique, le nombre d'entrée de la porte "<<
+              cout<<"\nErreur de déclaration, le nombre d'entrée de la porte "<<
               nom<<" est nul ou contient un caractère outre qu'un chiffre, ligne "<<nb_ligne<<endl;
               return 1;
             }
@@ -748,8 +748,8 @@ bool link_m_tamp_output(map<string, Gate*> *m_tamp_output,vector<Gate*> *v_gate,
 
               //Detection \nErreur si sortie sur une entre ou porte sur entre
               else if(type_2 == 1){
-                cout << "\nErreur d'interconnexion dans la structure du circuit: la sortie "<<
-                nom_r_1 <<" est connecté à l'INPUT"<< nom_r_2<<endl;
+                cout << "\nErreur d'interconnexion dans la structure du circuit: "<<
+                nom_r_1 <<" est connecté à l'INPUT "<< nom_r_2<<endl;
                 cout << "Voir ligne " << nb_ligne << endl;
                 return 1;
               }
